@@ -496,7 +496,7 @@ The interface-based design makes these variations trivial.
 
 ## 📄 License
 
-[Specify your license here]
+MIT License - see LICENSE file for details
 
 ---
 
@@ -505,19 +505,13 @@ The interface-based design makes these variations trivial.
 If you use PACING in research, please cite:
 
 ```bibtex
-@software{pacing2024,
+@software{pacing2026,
   title={PACING: Platform for Agentic Clinical Intelligence with Networked Graphs},
-  author={[Your Name]},
-  year={2024},
-  url={https://github.com/yourusername/pacing}
+  author={Thor Whalen},
+  year={2026},
+  url={https://github.com/thorwhalen/pacing}
 }
 ```
-
----
-
-## 📧 Contact
-
-For questions or collaboration: [your.email@example.com]
 
 ---
 
