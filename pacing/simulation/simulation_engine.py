@@ -324,7 +324,16 @@ class SimulationContext:
 # Convenience functions for common What-If scenarios
 
 def create_stable_housing_mutation() -> Mutation:
-    """Create a mutation representing stable housing."""
+    """Create a mutation representing stable housing.
+
+    >>> mutation = create_stable_housing_mutation()
+    >>> mutation.mutation_type
+    <MutationType.MODIFY_HOUSING: 'modify_housing'>
+    >>> mutation.description
+    'Stable Housing'
+    >>> mutation.parameters['status']
+    'stable'
+    """
     return Mutation(
         MutationType.MODIFY_HOUSING,
         {
@@ -337,7 +346,20 @@ def create_stable_housing_mutation() -> Mutation:
 
 
 def create_employment_mutation(employed: bool = True) -> Mutation:
-    """Create a mutation representing employment status change."""
+    """Create a mutation representing employment status change.
+
+    >>> mutation = create_employment_mutation(employed=True)
+    >>> mutation.parameters['status']
+    'employed'
+    >>> mutation.parameters['impact_score']
+    0.6
+
+    >>> mutation = create_employment_mutation(employed=False)
+    >>> mutation.parameters['status']
+    'unemployed'
+    >>> mutation.parameters['impact_score']
+    -0.6
+    """
     return Mutation(
         MutationType.MODIFY_EMPLOYMENT,
         {

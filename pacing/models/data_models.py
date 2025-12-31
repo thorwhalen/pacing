@@ -37,7 +37,21 @@ class TranscriptionResult(BaseModel):
 
     @property
     def confidence_level(self) -> ConfidenceLevel:
-        """Categorize confidence score into levels."""
+        """Categorize confidence score into levels.
+
+        >>> from datetime import datetime
+        >>> t1 = TranscriptionResult(text="hello", confidence_score=0.95)
+        >>> t1.confidence_level
+        <ConfidenceLevel.HIGH: 'high'>
+
+        >>> t2 = TranscriptionResult(text="world", confidence_score=0.75)
+        >>> t2.confidence_level
+        <ConfidenceLevel.MEDIUM: 'medium'>
+
+        >>> t3 = TranscriptionResult(text="test", confidence_score=0.5)
+        >>> t3.confidence_level
+        <ConfidenceLevel.LOW: 'low'>
+        """
         if self.confidence_score >= 0.85:
             return ConfidenceLevel.HIGH
         elif self.confidence_score >= 0.70:
@@ -150,7 +164,20 @@ class PatientGraph(BaseModel):
     metadata: Dict[str, Any] = Field(default_factory=dict)
 
     def get_all_node_ids(self) -> List[str]:
-        """Get all node IDs in the graph."""
+        """Get all node IDs in the graph.
+
+        >>> from datetime import datetime
+        >>> graph = PatientGraph(patient_id="p123")
+        >>> graph.get_all_node_ids()
+        []
+
+        >>> graph.events.append(Event(
+        ...     event_id="e1", event_type=EventType.JOB_CHANGE,
+        ...     description="test", date=datetime.now()
+        ... ))
+        >>> "e1" in graph.get_all_node_ids()
+        True
+        """
         return (
             [e.event_id for e in self.events] +
             [s.use_id for s in self.substance_use_records] +
@@ -163,8 +190,8 @@ class RiskFactor(BaseModel):
     A contributing factor to relapse risk.
     """
     factor_name: str
-    contribution: float = Field(ge=0.0, le=1.0,
-                               description="How much this factor contributes to overall risk")
+    contribution: float = Field(ge=-1.0, le=1.0,
+                               description="How much this factor contributes to overall risk (negative values = protective)")
     evidence: List[str] = Field(default_factory=list,
                                description="Supporting evidence from patient data")
 
