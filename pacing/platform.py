@@ -25,6 +25,7 @@ class OperatingMode(str, Enum):
     DEV_MODE: Persists raw data (audio, transcripts) for debugging and auditing
     PROD_MODE: Ephemeral raw data, only structured extractions are retained
     """
+
     DEV_MODE = "dev"
     PROD_MODE = "prod"
 
@@ -68,7 +69,7 @@ class BasicSessionStream(ISessionStream):
         self,
         session_metadata: SessionMetadata,
         audio_provider: IAudioProvider,
-        transcriber: ITranscriber
+        transcriber: ITranscriber,
     ) -> None:
         """
         Start a new clinical session.
@@ -79,7 +80,9 @@ class BasicSessionStream(ISessionStream):
             transcriber: Speech-to-text engine
         """
         if self._is_active:
-            raise RuntimeError("A session is already active. Stop it before starting a new one.")
+            raise RuntimeError(
+                "A session is already active. Stop it before starting a new one."
+            )
 
         self._current_session = session_metadata
         self._audio_provider = audio_provider
@@ -90,8 +93,7 @@ class BasicSessionStream(ISessionStream):
         # Notify all agents
         for agent in self._agents:
             agent.on_session_start(
-                session_metadata.session_id,
-                session_metadata.model_dump()
+                session_metadata.session_id, session_metadata.model_dump()
             )
 
         print(f"[SessionStream] Session started: {session_metadata.session_id}")
@@ -115,8 +117,7 @@ class BasicSessionStream(ISessionStream):
 
             # Transcribe the audio chunk
             transcription = await self._transcriber.transcribe_chunk(
-                audio_chunk,
-                sample_rate
+                audio_chunk, sample_rate
             )
 
             # Store in buffer (if DEV_MODE, otherwise ephemeral)
@@ -126,14 +127,16 @@ class BasicSessionStream(ISessionStream):
             # Distribute to all agents
             await self._broadcast_transcription(transcription)
 
-    async def _broadcast_transcription(self, transcription: TranscriptionResult) -> None:
+    async def _broadcast_transcription(
+        self, transcription: TranscriptionResult
+    ) -> None:
         """Broadcast a transcription to all registered agents."""
         context = None
         if self._current_session:
             context = {
                 "session_id": self._current_session.session_id,
                 "patient_id": self._current_session.patient_id,
-                "clinician_id": self._current_session.clinician_id
+                "clinician_id": self._current_session.clinician_id,
             }
 
         # Process agents in parallel
@@ -229,7 +232,7 @@ class PacingPlatform:
         self,
         operating_mode: OperatingMode = OperatingMode.PROD_MODE,
         transcriber: Optional[ITranscriber] = None,
-        risk_model: Optional[IRiskModel] = None
+        risk_model: Optional[IRiskModel] = None,
     ):
         """
         Initialize the PACING platform.
@@ -293,9 +296,7 @@ class PacingPlatform:
         self.session_stream.unregister_agent(agent)
 
     async def start_live_session(
-        self,
-        session_metadata: SessionMetadata,
-        audio_provider: IAudioProvider
+        self, session_metadata: SessionMetadata, audio_provider: IAudioProvider
     ) -> None:
         """
         Start a live clinical session.
@@ -310,13 +311,12 @@ class PacingPlatform:
         if not self._transcriber:
             # Use default mock transcriber
             from pacing.impl.defaults.mock_transcriber import MockTranscriber
+
             self._transcriber = MockTranscriber()
             print("[PacingPlatform] Using default MockTranscriber")
 
         await self.session_stream.start_session(
-            session_metadata,
-            audio_provider,
-            self._transcriber
+            session_metadata, audio_provider, self._transcriber
         )
 
     async def stop_live_session(self) -> None:
@@ -324,9 +324,7 @@ class PacingPlatform:
         await self.session_stream.stop_session()
 
     def calculate_risk(
-        self,
-        patient_graph: PatientGraph,
-        options: Optional[Dict[str, Any]] = None
+        self, patient_graph: PatientGraph, options: Optional[Dict[str, Any]] = None
     ):
         """
         Calculate relapse risk for a patient (Longitudinal Mode).
@@ -344,15 +342,13 @@ class PacingPlatform:
         if not self._risk_model:
             # Use default mock model
             from pacing.impl.defaults.mock_risk_model import MockBayesianModel
+
             self._risk_model = MockBayesianModel()
             print("[PacingPlatform] Using default MockBayesianModel")
 
         return self._risk_model.calculate_risk(patient_graph, options)
 
-    def get_simulation_context(
-        self,
-        patient_graph: PatientGraph
-    ):
+    def get_simulation_context(self, patient_graph: PatientGraph):
         """
         Create a simulation context for What-If analysis.
 
@@ -367,6 +363,7 @@ class PacingPlatform:
         """
         if not self._risk_model:
             from pacing.impl.defaults.mock_risk_model import MockSimulationModel
+
             self._risk_model = MockSimulationModel()
             print("[PacingPlatform] Using default MockSimulationModel")
 
@@ -377,6 +374,7 @@ class PacingPlatform:
             )
 
         from pacing.simulation.simulation_engine import SimulationContext
+
         return SimulationContext(patient_graph, self._risk_model)
 
     def get_platform_status(self) -> dict:
@@ -389,10 +387,14 @@ class PacingPlatform:
         return {
             "operating_mode": self.operating_mode.value,
             "session_active": self.session_stream.is_active,
-            "transcriber": self._transcriber.__class__.__name__ if self._transcriber else None,
-            "risk_model": self._risk_model.__class__.__name__ if self._risk_model else None,
+            "transcriber": self._transcriber.__class__.__name__
+            if self._transcriber
+            else None,
+            "risk_model": self._risk_model.__class__.__name__
+            if self._risk_model
+            else None,
             "registered_agents": [
                 agent.get_agent_name()
                 for agent in self.session_stream.registered_agents
-            ]
+            ],
         }

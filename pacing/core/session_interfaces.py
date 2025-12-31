@@ -60,7 +60,7 @@ class ISessionStream(ABC):
         self,
         session_metadata: SessionMetadata,
         audio_provider: IAudioProvider,
-        transcriber: ITranscriber
+        transcriber: ITranscriber,
     ) -> None:
         """
         Start a new clinical session.

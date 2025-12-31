@@ -36,7 +36,7 @@ class MockTranscriber(ITranscriber):
         script: Optional[List[str]] = None,
         latency_ms: float = 50.0,
         base_confidence: float = 0.85,
-        confidence_variance: float = 0.10
+        confidence_variance: float = 0.10,
     ):
         """
         Initialize the mock transcriber.
@@ -80,10 +80,7 @@ class MockTranscriber(ITranscriber):
         ]
 
     async def transcribe_chunk(
-        self,
-        audio_chunk: np.ndarray,
-        sample_rate: int,
-        is_final: bool = False
+        self, audio_chunk: np.ndarray, sample_rate: int, is_final: bool = False
     ) -> TranscriptionResult:
         """
         Simulate transcription of an audio chunk.
@@ -109,8 +106,7 @@ class MockTranscriber(ITranscriber):
 
         # Generate confidence score with variance
         confidence = self.base_confidence + random.uniform(
-            -self.confidence_variance,
-            self.confidence_variance
+            -self.confidence_variance, self.confidence_variance
         )
         confidence = max(0.0, min(1.0, confidence))  # Clamp to [0, 1]
 
@@ -122,7 +118,7 @@ class MockTranscriber(ITranscriber):
             text=text,
             timestamp=datetime.now(),
             confidence_score=confidence,
-            is_partial=not is_final
+            is_partial=not is_final,
         )
 
     def supports_speaker_diarization(self) -> bool:
@@ -135,7 +131,7 @@ class MockTranscriber(ITranscriber):
             "name": "MockTranscriber",
             "version": "1.0.0",
             "language": "en-US",
-            "type": "scripted"
+            "type": "scripted",
         }
 
     def reset_script(self) -> None:
@@ -154,15 +150,18 @@ class AdaptiveConfidenceTranscriber(MockTranscriber):
     """
 
     DIFFICULT_TERMS = {
-        "buprenorphine", "naloxone", "methadone", "suboxone",
-        "opioid", "benzodiazepine", "relapse", "withdrawal"
+        "buprenorphine",
+        "naloxone",
+        "methadone",
+        "suboxone",
+        "opioid",
+        "benzodiazepine",
+        "relapse",
+        "withdrawal",
     }
 
     async def transcribe_chunk(
-        self,
-        audio_chunk: np.ndarray,
-        sample_rate: int,
-        is_final: bool = False
+        self, audio_chunk: np.ndarray, sample_rate: int, is_final: bool = False
     ) -> TranscriptionResult:
         """Transcribe with adaptive confidence."""
         # Get base result
@@ -196,5 +195,5 @@ class AdaptiveConfidenceTranscriber(MockTranscriber):
             timestamp=result.timestamp,
             confidence_score=confidence,
             speaker_id=result.speaker_id,
-            is_partial=result.is_partial
+            is_partial=result.is_partial,
         )

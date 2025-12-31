@@ -41,7 +41,7 @@ class UncertaintyAuditor(ISidecarAgent):
         self,
         confidence_threshold: float = 0.70,
         max_queue_size: int = 100,
-        auto_flag_medical_terms: bool = True
+        auto_flag_medical_terms: bool = True,
     ):
         """
         Initialize the Uncertainty Auditor.
@@ -65,15 +65,23 @@ class UncertaintyAuditor(ISidecarAgent):
 
         # Medical terms that should be flagged even with decent confidence
         self.medical_terms = {
-            "buprenorphine", "naloxone", "methadone", "suboxone",
-            "opioid", "benzodiazepine", "fentanyl", "morphine",
-            "mg", "milligram", "dose", "dosage", "prescription"
+            "buprenorphine",
+            "naloxone",
+            "methadone",
+            "suboxone",
+            "opioid",
+            "benzodiazepine",
+            "fentanyl",
+            "morphine",
+            "mg",
+            "milligram",
+            "dose",
+            "dosage",
+            "prescription",
         }
 
     async def on_transcription_update(
-        self,
-        transcription: TranscriptionResult,
-        context: Optional[dict] = None
+        self, transcription: TranscriptionResult, context: Optional[dict] = None
     ) -> None:
         """
         Process a transcription and flag if confidence is low.
@@ -123,7 +131,7 @@ class UncertaintyAuditor(ISidecarAgent):
         transcription: TranscriptionResult,
         reason: str,
         priority: int,
-        context: Optional[dict] = None
+        context: Optional[dict] = None,
     ) -> None:
         """
         Add an item to the review queue.
@@ -138,7 +146,7 @@ class UncertaintyAuditor(ISidecarAgent):
             item_id=str(uuid.uuid4()),
             transcription=transcription,
             reason=reason,
-            priority=priority
+            priority=priority,
         )
 
         self.review_queue.append(item)
@@ -156,7 +164,7 @@ class UncertaintyAuditor(ISidecarAgent):
 
         # Log for demonstration
         print(
-            f"[UncertaintyAuditor] Flagged: \"{transcription.text}\" "
+            f'[UncertaintyAuditor] Flagged: "{transcription.text}" '
             f"[Priority: {priority}, Reason: {reason}]"
         )
 
@@ -183,7 +191,7 @@ class UncertaintyAuditor(ISidecarAgent):
         print(
             f"[UncertaintyAuditor] Session ended: {session_id}. "
             f"Processed {self.total_transcriptions_processed} transcriptions, "
-            f"flagged {self.total_flagged} ({self.total_flagged/max(1, self.total_transcriptions_processed)*100:.1f}%)."
+            f"flagged {self.total_flagged} ({self.total_flagged / max(1, self.total_transcriptions_processed) * 100:.1f}%)."
         )
 
         # Reset counters for next session
@@ -204,7 +212,7 @@ class UncertaintyAuditor(ISidecarAgent):
             "review_queue_size": len(self.review_queue),
             "total_processed": self.total_transcriptions_processed,
             "total_flagged": self.total_flagged,
-            "current_session": self.current_session_id
+            "current_session": self.current_session_id,
         }
 
     def get_review_queue(self) -> List[ReviewQueueItem]:
@@ -225,11 +233,7 @@ class UncertaintyAuditor(ISidecarAgent):
         """
         return [item for item in self.review_queue if not item.reviewed]
 
-    def mark_reviewed(
-        self,
-        item_id: str,
-        reviewer_notes: Optional[str] = None
-    ) -> bool:
+    def mark_reviewed(self, item_id: str, reviewer_notes: Optional[str] = None) -> bool:
         """
         Mark an item as reviewed.
 
@@ -288,6 +292,6 @@ class UncertaintyAuditor(ISidecarAgent):
                 "transcriptions_flagged": self.total_flagged,
                 "flagging_rate": (
                     self.total_flagged / max(1, self.total_transcriptions_processed)
-                )
-            }
+                ),
+            },
         }

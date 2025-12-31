@@ -33,10 +33,7 @@ class ITranscriber(ABC):
 
     @abstractmethod
     async def transcribe_chunk(
-        self,
-        audio_chunk: np.ndarray,
-        sample_rate: int,
-        is_final: bool = False
+        self, audio_chunk: np.ndarray, sample_rate: int, is_final: bool = False
     ) -> TranscriptionResult:
         """
         Transcribe a single audio chunk.
@@ -57,9 +54,7 @@ class ITranscriber(ABC):
         pass
 
     async def transcribe_stream(
-        self,
-        audio_stream: AsyncIterator[np.ndarray],
-        sample_rate: int
+        self, audio_stream: AsyncIterator[np.ndarray], sample_rate: int
     ) -> AsyncIterator[TranscriptionResult]:
         """
         Transcribe a stream of audio chunks.
@@ -104,5 +99,5 @@ class ITranscriber(ABC):
         return {
             "name": self.__class__.__name__,
             "version": "unknown",
-            "language": "en-US"
+            "language": "en-US",
         }

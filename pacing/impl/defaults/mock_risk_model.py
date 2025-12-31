@@ -10,8 +10,11 @@ from datetime import datetime, timedelta
 
 from pacing.core.model_interfaces import IRiskModel, ISimulationModel
 from pacing.models.data_models import (
-    PatientGraph, RiskReport, RiskFactor,
-    SubstanceUseStatus, EventType
+    PatientGraph,
+    RiskReport,
+    RiskFactor,
+    SubstanceUseStatus,
+    EventType,
 )
 
 
@@ -44,9 +47,7 @@ class MockBayesianModel(IRiskModel):
         self.base_risk = base_risk
 
     def calculate_risk(
-        self,
-        patient_data: PatientGraph,
-        options: Optional[Dict[str, Any]] = None
+        self, patient_data: PatientGraph, options: Optional[Dict[str, Any]] = None
     ) -> RiskReport:
         """
         Calculate risk using simple heuristics.
@@ -67,41 +68,51 @@ class MockBayesianModel(IRiskModel):
         recent_use = self._check_recent_substance_use(patient_data)
         if recent_use:
             risk_score += 0.25
-            factors.append(RiskFactor(
-                factor_name="Recent Substance Use",
-                contribution=0.25,
-                evidence=[f"Active use or relapse in past 30 days"]
-            ))
+            factors.append(
+                RiskFactor(
+                    factor_name="Recent Substance Use",
+                    contribution=0.25,
+                    evidence=[f"Active use or relapse in past 30 days"],
+                )
+            )
 
         # Factor 2: Negative life events
         negative_events = self._check_negative_events(patient_data)
         if negative_events:
             risk_score += 0.15
-            factors.append(RiskFactor(
-                factor_name="Recent Negative Life Events",
-                contribution=0.15,
-                evidence=[f"{len(negative_events)} stressful events in past 90 days"]
-            ))
+            factors.append(
+                RiskFactor(
+                    factor_name="Recent Negative Life Events",
+                    contribution=0.15,
+                    evidence=[
+                        f"{len(negative_events)} stressful events in past 90 days"
+                    ],
+                )
+            )
 
         # Factor 3: Active interventions (protective)
         active_interventions = self._check_active_interventions(patient_data)
         if active_interventions:
             risk_score -= 0.20
-            factors.append(RiskFactor(
-                factor_name="Active Treatment",
-                contribution=-0.20,  # Negative = protective
-                evidence=[f"{len(active_interventions)} active interventions"]
-            ))
+            factors.append(
+                RiskFactor(
+                    factor_name="Active Treatment",
+                    contribution=-0.20,  # Negative = protective
+                    evidence=[f"{len(active_interventions)} active interventions"],
+                )
+            )
 
         # Factor 4: Sobriety duration (protective)
         days_sober = self._calculate_sobriety_days(patient_data)
         if days_sober > 180:  # 6+ months
             risk_score -= 0.15
-            factors.append(RiskFactor(
-                factor_name="Extended Sobriety",
-                contribution=-0.15,
-                evidence=[f"{days_sober} days since last use"]
-            ))
+            factors.append(
+                RiskFactor(
+                    factor_name="Extended Sobriety",
+                    contribution=-0.15,
+                    evidence=[f"{days_sober} days since last use"],
+                )
+            )
 
         # Clamp risk to valid range
         risk_score = max(0.0, min(1.0, risk_score))
@@ -113,7 +124,7 @@ class MockBayesianModel(IRiskModel):
             patient_id=patient_data.patient_id,
             risk_score=risk_score,
             risk_factors=factors,
-            model_version=self.get_model_version()
+            model_version=self.get_model_version(),
         )
 
     def _check_recent_substance_use(self, patient_data: PatientGraph) -> bool:
@@ -121,7 +132,10 @@ class MockBayesianModel(IRiskModel):
         cutoff = datetime.now() - timedelta(days=30)
         for record in patient_data.substance_use_records:
             if record.date >= cutoff:
-                if record.status in [SubstanceUseStatus.ACTIVE_USE, SubstanceUseStatus.RELAPSE]:
+                if record.status in [
+                    SubstanceUseStatus.ACTIVE_USE,
+                    SubstanceUseStatus.RELAPSE,
+                ]:
                     return True
         return False
 
@@ -156,12 +170,12 @@ class MockBayesianModel(IRiskModel):
             return 999  # No record = assume long sobriety
 
         # Find most recent use
-        recent_use = max(
-            patient_data.substance_use_records,
-            key=lambda r: r.date
-        )
+        recent_use = max(patient_data.substance_use_records, key=lambda r: r.date)
 
-        if recent_use.status in [SubstanceUseStatus.RECOVERY, SubstanceUseStatus.REMISSION]:
+        if recent_use.status in [
+            SubstanceUseStatus.RECOVERY,
+            SubstanceUseStatus.REMISSION,
+        ]:
             return (datetime.now() - recent_use.date).days
         else:
             return 0  # Active use
@@ -180,8 +194,8 @@ class MockBayesianModel(IRiskModel):
                 "recent_substance_use",
                 "negative_life_events",
                 "active_interventions",
-                "sobriety_duration"
-            ]
+                "sobriety_duration",
+            ],
         }
 
 
@@ -196,7 +210,7 @@ class MockSimulationModel(MockBayesianModel, ISimulationModel):
         self,
         baseline: PatientGraph,
         modified: PatientGraph,
-        options: Optional[Dict[str, Any]] = None
+        options: Optional[Dict[str, Any]] = None,
     ) -> Dict[str, Any]:
         """
         Calculate risk change between baseline and modified scenarios.
@@ -234,8 +248,12 @@ class MockSimulationModel(MockBayesianModel, ISimulationModel):
             "delta_percent": delta * 100,
             "explanation": (
                 f"Risk {'increased' if delta > 0 else 'decreased'} by {abs(delta):.2%}. "
-                + (" ".join(changed_factors) if changed_factors else "Factor contributions changed.")
+                + (
+                    " ".join(changed_factors)
+                    if changed_factors
+                    else "Factor contributions changed."
+                )
             ),
             "baseline_report": baseline_report,
-            "modified_report": modified_report
+            "modified_report": modified_report,
         }

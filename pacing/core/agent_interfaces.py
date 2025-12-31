@@ -35,9 +35,7 @@ class ISidecarAgent(ABC):
 
     @abstractmethod
     async def on_transcription_update(
-        self,
-        transcription: TranscriptionResult,
-        context: Optional[dict] = None
+        self, transcription: TranscriptionResult, context: Optional[dict] = None
     ) -> None:
         """
         Process a new transcription update.
@@ -96,10 +94,7 @@ class ISidecarAgent(ABC):
         Returns:
             dict: Status information (e.g., items processed, errors, queue size)
         """
-        return {
-            "agent_name": self.get_agent_name(),
-            "status": "active"
-        }
+        return {"agent_name": self.get_agent_name(), "status": "active"}
 
 
 class IScribeAgent(ISidecarAgent):

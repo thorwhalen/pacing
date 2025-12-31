@@ -37,9 +37,7 @@ class IRiskModel(ABC):
 
     @abstractmethod
     def calculate_risk(
-        self,
-        patient_data: PatientGraph,
-        options: Optional[Dict[str, Any]] = None
+        self, patient_data: PatientGraph, options: Optional[Dict[str, Any]] = None
     ) -> RiskReport:
         """
         Calculate relapse risk for a patient.
@@ -83,7 +81,7 @@ class IRiskModel(ABC):
         return {
             "name": self.__class__.__name__,
             "version": self.get_model_version(),
-            "type": "unknown"
+            "type": "unknown",
         }
 
     def validate_input(self, patient_data: PatientGraph) -> bool:
@@ -117,7 +115,7 @@ class ISimulationModel(IRiskModel):
         self,
         baseline: PatientGraph,
         modified: PatientGraph,
-        options: Optional[Dict[str, Any]] = None
+        options: Optional[Dict[str, Any]] = None,
     ) -> Dict[str, Any]:
         """
         Calculate the change in risk between baseline and modified scenarios.

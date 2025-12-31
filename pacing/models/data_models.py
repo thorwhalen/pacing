@@ -13,6 +13,7 @@ from pydantic import BaseModel, Field, field_validator
 
 class ConfidenceLevel(str, Enum):
     """Transcription confidence levels."""
+
     HIGH = "high"
     MEDIUM = "medium"
     LOW = "low"
@@ -29,6 +30,7 @@ class TranscriptionResult(BaseModel):
         speaker_id: Optional speaker identification
         is_partial: Whether this is a partial (streaming) result
     """
+
     text: str
     timestamp: datetime = Field(default_factory=datetime.now)
     confidence_score: float = Field(ge=0.0, le=1.0)
@@ -62,6 +64,7 @@ class TranscriptionResult(BaseModel):
 
 class EventType(str, Enum):
     """Types of life events tracked in the patient graph."""
+
     JOB_CHANGE = "job_change"
     HOUSING_CHANGE = "housing_change"
     RELATIONSHIP_CHANGE = "relationship_change"
@@ -77,17 +80,23 @@ class Event(BaseModel):
 
     Events represent significant occurrences that may impact relapse risk.
     """
+
     event_id: str
     event_type: EventType
     description: str
     date: datetime
-    impact_score: Optional[float] = Field(None, ge=-1.0, le=1.0,
-                                          description="Estimated impact on recovery (-1=very negative, 1=very positive)")
+    impact_score: Optional[float] = Field(
+        None,
+        ge=-1.0,
+        le=1.0,
+        description="Estimated impact on recovery (-1=very negative, 1=very positive)",
+    )
     metadata: Dict[str, Any] = Field(default_factory=dict)
 
 
 class SubstanceType(str, Enum):
     """Types of substances tracked."""
+
     ALCOHOL = "alcohol"
     OPIOIDS = "opioids"
     STIMULANTS = "stimulants"
@@ -98,6 +107,7 @@ class SubstanceType(str, Enum):
 
 class SubstanceUseStatus(str, Enum):
     """Status of substance use."""
+
     ACTIVE_USE = "active_use"
     RELAPSE = "relapse"
     REMISSION = "remission"
@@ -108,6 +118,7 @@ class SubstanceUse(BaseModel):
     """
     A substance use event or status change.
     """
+
     use_id: str
     substance_type: SubstanceType
     status: SubstanceUseStatus
@@ -118,6 +129,7 @@ class SubstanceUse(BaseModel):
 
 class InterventionType(str, Enum):
     """Types of clinical interventions."""
+
     MEDICATION = "medication"
     THERAPY = "therapy"
     SUPPORT_GROUP = "support_group"
@@ -129,6 +141,7 @@ class Intervention(BaseModel):
     """
     A clinical intervention in the patient's treatment plan.
     """
+
     intervention_id: str
     intervention_type: InterventionType
     description: str
@@ -143,6 +156,7 @@ class GraphEdge(BaseModel):
 
     Edges can represent temporal or causal relationships.
     """
+
     source_id: str
     target_id: str
     relationship_type: str  # e.g., "leads_to", "causes", "precedes"
@@ -156,6 +170,7 @@ class PatientGraph(BaseModel):
     This graph contains nodes (events, substance use, interventions) and edges
     (temporal/causal relationships) that are used for longitudinal reasoning.
     """
+
     patient_id: str
     events: List[Event] = Field(default_factory=list)
     substance_use_records: List[SubstanceUse] = Field(default_factory=list)
@@ -179,9 +194,9 @@ class PatientGraph(BaseModel):
         True
         """
         return (
-            [e.event_id for e in self.events] +
-            [s.use_id for s in self.substance_use_records] +
-            [i.intervention_id for i in self.interventions]
+            [e.event_id for e in self.events]
+            + [s.use_id for s in self.substance_use_records]
+            + [i.intervention_id for i in self.interventions]
         )
 
 
@@ -189,11 +204,16 @@ class RiskFactor(BaseModel):
     """
     A contributing factor to relapse risk.
     """
+
     factor_name: str
-    contribution: float = Field(ge=-1.0, le=1.0,
-                               description="How much this factor contributes to overall risk (negative values = protective)")
-    evidence: List[str] = Field(default_factory=list,
-                               description="Supporting evidence from patient data")
+    contribution: float = Field(
+        ge=-1.0,
+        le=1.0,
+        description="How much this factor contributes to overall risk (negative values = protective)",
+    )
+    evidence: List[str] = Field(
+        default_factory=list, description="Supporting evidence from patient data"
+    )
 
 
 class RiskReport(BaseModel):
@@ -207,6 +227,7 @@ class RiskReport(BaseModel):
         timestamp: When this assessment was generated
         model_version: Identifier for the model that generated this report
     """
+
     patient_id: str
     risk_score: float = Field(ge=0.0, le=1.0)
     risk_factors: List[RiskFactor] = Field(default_factory=list)
@@ -222,6 +243,7 @@ class ReviewQueueItem(BaseModel):
     Used by the Auditor agent to track low-confidence transcription segments
     that require verification.
     """
+
     item_id: str
     transcription: TranscriptionResult
     flagged_at: datetime = Field(default_factory=datetime.now)
@@ -237,6 +259,7 @@ class ExtractedEntity(BaseModel):
 
     Examples: medications mentioned, life events discussed, substance use reported.
     """
+
     entity_type: str  # "medication", "life_event", "substance_use", etc.
     value: str
     confidence: float = Field(ge=0.0, le=1.0)
@@ -249,6 +272,7 @@ class SessionMetadata(BaseModel):
     """
     Metadata for a clinical session.
     """
+
     session_id: str
     patient_id: str
     clinician_id: str

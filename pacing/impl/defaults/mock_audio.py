@@ -32,7 +32,7 @@ class MockAudioProvider(IAudioProvider):
         self,
         sample_rate: int = 16000,
         chunk_duration_ms: int = 100,
-        total_duration_sec: float = 60.0
+        total_duration_sec: float = 60.0,
     ):
         """
         Initialize the mock audio provider.
@@ -136,7 +136,7 @@ class ScriptedAudioProvider(IAudioProvider):
         self,
         script: List[tuple[float, str]],
         sample_rate: int = 16000,
-        chunk_duration_ms: int = 100
+        chunk_duration_ms: int = 100,
     ):
         """
         Initialize with a script.

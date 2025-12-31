@@ -45,7 +45,10 @@ from pacing.simulation.simulation_engine import (
 )
 
 # Default implementations (useful for getting started)
-from pacing.impl.defaults.mock_transcriber import MockTranscriber, AdaptiveConfidenceTranscriber
+from pacing.impl.defaults.mock_transcriber import (
+    MockTranscriber,
+    AdaptiveConfidenceTranscriber,
+)
 from pacing.impl.defaults.mock_audio import MockAudioProvider
 from pacing.impl.defaults.mock_risk_model import MockBayesianModel, MockSimulationModel
 
