@@ -1,0 +1,4 @@
+pacing.impl.defaults.mock_transcriber
+=====================================
+.. automodule:: pacing.impl.defaults.mock_transcriber
+   :members:

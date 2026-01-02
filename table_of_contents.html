@@ -1,0 +1,226 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>&lt;no title&gt; &mdash; pacing 0.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=47de8214"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pacing
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/pacing.html">pacing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/pacing/core/agent_interfaces.html">pacing.core.agent_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/pacing/core/audio_interfaces.html">pacing.core.audio_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/pacing/core/model_interfaces.html">pacing.core.model_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/pacing/core/session_interfaces.html">pacing.core.session_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/pacing/core/transcription_interfaces.html">pacing.core.transcription_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/pacing/impl/agents/uncertainty_auditor.html">pacing.impl.agents.uncertainty_auditor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/pacing/impl/defaults/mock_audio.html">pacing.impl.defaults.mock_audio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/pacing/impl/defaults/mock_risk_model.html">pacing.impl.defaults.mock_risk_model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/pacing/impl/defaults/mock_transcriber.html">pacing.impl.defaults.mock_transcriber</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/pacing/models/data_models.html">pacing.models.data_models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/pacing/platform.html">pacing.platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/pacing/simulation/simulation_engine.html">pacing.simulation.simulation_engine</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pacing</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">&lt;no title&gt;</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/table_of_contents.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/pacing.html">pacing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing.html#pacing.AdaptiveConfidenceTranscriber"><code class="docutils literal notranslate"><span class="pre">AdaptiveConfidenceTranscriber</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing.html#pacing.Event"><code class="docutils literal notranslate"><span class="pre">Event</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing.html#pacing.EventType"><code class="docutils literal notranslate"><span class="pre">EventType</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing.html#pacing.Intervention"><code class="docutils literal notranslate"><span class="pre">Intervention</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing.html#pacing.InterventionType"><code class="docutils literal notranslate"><span class="pre">InterventionType</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing.html#pacing.MockAudioProvider"><code class="docutils literal notranslate"><span class="pre">MockAudioProvider</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing.html#pacing.MockBayesianModel"><code class="docutils literal notranslate"><span class="pre">MockBayesianModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing.html#pacing.MockSimulationModel"><code class="docutils literal notranslate"><span class="pre">MockSimulationModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing.html#pacing.MockTranscriber"><code class="docutils literal notranslate"><span class="pre">MockTranscriber</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing.html#pacing.Mutation"><code class="docutils literal notranslate"><span class="pre">Mutation</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing.html#pacing.MutationType"><code class="docutils literal notranslate"><span class="pre">MutationType</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing.html#pacing.OperatingMode"><code class="docutils literal notranslate"><span class="pre">OperatingMode</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing.html#pacing.PacingPlatform"><code class="docutils literal notranslate"><span class="pre">PacingPlatform</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing.html#pacing.PatientGraph"><code class="docutils literal notranslate"><span class="pre">PatientGraph</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing.html#pacing.RiskReport"><code class="docutils literal notranslate"><span class="pre">RiskReport</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing.html#pacing.SessionMetadata"><code class="docutils literal notranslate"><span class="pre">SessionMetadata</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing.html#pacing.SimulationContext"><code class="docutils literal notranslate"><span class="pre">SimulationContext</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing.html#pacing.SubstanceType"><code class="docutils literal notranslate"><span class="pre">SubstanceType</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing.html#pacing.SubstanceUse"><code class="docutils literal notranslate"><span class="pre">SubstanceUse</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing.html#pacing.SubstanceUseStatus"><code class="docutils literal notranslate"><span class="pre">SubstanceUseStatus</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing.html#pacing.TranscriptionResult"><code class="docutils literal notranslate"><span class="pre">TranscriptionResult</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing.html#pacing.UncertaintyAuditor"><code class="docutils literal notranslate"><span class="pre">UncertaintyAuditor</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing.html#pacing.create_employment_mutation"><code class="docutils literal notranslate"><span class="pre">create_employment_mutation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing.html#pacing.create_mat_intervention_mutation"><code class="docutils literal notranslate"><span class="pre">create_mat_intervention_mutation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing.html#pacing.create_stable_housing_mutation"><code class="docutils literal notranslate"><span class="pre">create_stable_housing_mutation()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/pacing/core/agent_interfaces.html">pacing.core.agent_interfaces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/core/agent_interfaces.html#pacing.core.agent_interfaces.IScribeAgent"><code class="docutils literal notranslate"><span class="pre">IScribeAgent</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/core/agent_interfaces.html#pacing.core.agent_interfaces.ISidecarAgent"><code class="docutils literal notranslate"><span class="pre">ISidecarAgent</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/pacing/core/audio_interfaces.html">pacing.core.audio_interfaces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/core/audio_interfaces.html#pacing.core.audio_interfaces.IAudioProvider"><code class="docutils literal notranslate"><span class="pre">IAudioProvider</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/pacing/core/model_interfaces.html">pacing.core.model_interfaces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/core/model_interfaces.html#pacing.core.model_interfaces.IRiskModel"><code class="docutils literal notranslate"><span class="pre">IRiskModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/core/model_interfaces.html#pacing.core.model_interfaces.ISimulationModel"><code class="docutils literal notranslate"><span class="pre">ISimulationModel</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/pacing/core/session_interfaces.html">pacing.core.session_interfaces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/core/session_interfaces.html#pacing.core.session_interfaces.ISessionStream"><code class="docutils literal notranslate"><span class="pre">ISessionStream</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/pacing/core/transcription_interfaces.html">pacing.core.transcription_interfaces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/core/transcription_interfaces.html#pacing.core.transcription_interfaces.ITranscriber"><code class="docutils literal notranslate"><span class="pre">ITranscriber</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/pacing/impl/agents/uncertainty_auditor.html">pacing.impl.agents.uncertainty_auditor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/impl/agents/uncertainty_auditor.html#pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor"><code class="docutils literal notranslate"><span class="pre">UncertaintyAuditor</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/pacing/impl/defaults/mock_audio.html">pacing.impl.defaults.mock_audio</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/impl/defaults/mock_audio.html#pacing.impl.defaults.mock_audio.MockAudioProvider"><code class="docutils literal notranslate"><span class="pre">MockAudioProvider</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/impl/defaults/mock_audio.html#pacing.impl.defaults.mock_audio.ScriptedAudioProvider"><code class="docutils literal notranslate"><span class="pre">ScriptedAudioProvider</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/pacing/impl/defaults/mock_risk_model.html">pacing.impl.defaults.mock_risk_model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/impl/defaults/mock_risk_model.html#pacing.impl.defaults.mock_risk_model.MockBayesianModel"><code class="docutils literal notranslate"><span class="pre">MockBayesianModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/impl/defaults/mock_risk_model.html#pacing.impl.defaults.mock_risk_model.MockSimulationModel"><code class="docutils literal notranslate"><span class="pre">MockSimulationModel</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/pacing/impl/defaults/mock_transcriber.html">pacing.impl.defaults.mock_transcriber</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/impl/defaults/mock_transcriber.html#pacing.impl.defaults.mock_transcriber.AdaptiveConfidenceTranscriber"><code class="docutils literal notranslate"><span class="pre">AdaptiveConfidenceTranscriber</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/impl/defaults/mock_transcriber.html#pacing.impl.defaults.mock_transcriber.MockTranscriber"><code class="docutils literal notranslate"><span class="pre">MockTranscriber</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/pacing/models/data_models.html">pacing.models.data_models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/models/data_models.html#pacing.models.data_models.ConfidenceLevel"><code class="docutils literal notranslate"><span class="pre">ConfidenceLevel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/models/data_models.html#pacing.models.data_models.Event"><code class="docutils literal notranslate"><span class="pre">Event</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/models/data_models.html#pacing.models.data_models.EventType"><code class="docutils literal notranslate"><span class="pre">EventType</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/models/data_models.html#pacing.models.data_models.ExtractedEntity"><code class="docutils literal notranslate"><span class="pre">ExtractedEntity</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/models/data_models.html#pacing.models.data_models.GraphEdge"><code class="docutils literal notranslate"><span class="pre">GraphEdge</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/models/data_models.html#pacing.models.data_models.Intervention"><code class="docutils literal notranslate"><span class="pre">Intervention</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/models/data_models.html#pacing.models.data_models.InterventionType"><code class="docutils literal notranslate"><span class="pre">InterventionType</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/models/data_models.html#pacing.models.data_models.PatientGraph"><code class="docutils literal notranslate"><span class="pre">PatientGraph</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/models/data_models.html#pacing.models.data_models.ReviewQueueItem"><code class="docutils literal notranslate"><span class="pre">ReviewQueueItem</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/models/data_models.html#pacing.models.data_models.RiskFactor"><code class="docutils literal notranslate"><span class="pre">RiskFactor</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/models/data_models.html#pacing.models.data_models.RiskReport"><code class="docutils literal notranslate"><span class="pre">RiskReport</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/models/data_models.html#pacing.models.data_models.SessionMetadata"><code class="docutils literal notranslate"><span class="pre">SessionMetadata</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/models/data_models.html#pacing.models.data_models.SubstanceType"><code class="docutils literal notranslate"><span class="pre">SubstanceType</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/models/data_models.html#pacing.models.data_models.SubstanceUse"><code class="docutils literal notranslate"><span class="pre">SubstanceUse</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/models/data_models.html#pacing.models.data_models.SubstanceUseStatus"><code class="docutils literal notranslate"><span class="pre">SubstanceUseStatus</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/models/data_models.html#pacing.models.data_models.TranscriptionResult"><code class="docutils literal notranslate"><span class="pre">TranscriptionResult</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/pacing/platform.html">pacing.platform</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/platform.html#pacing.platform.BasicSessionStream"><code class="docutils literal notranslate"><span class="pre">BasicSessionStream</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/platform.html#pacing.platform.OperatingMode"><code class="docutils literal notranslate"><span class="pre">OperatingMode</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/platform.html#pacing.platform.PacingPlatform"><code class="docutils literal notranslate"><span class="pre">PacingPlatform</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/pacing/simulation/simulation_engine.html">pacing.simulation.simulation_engine</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/simulation/simulation_engine.html#pacing.simulation.simulation_engine.Mutation"><code class="docutils literal notranslate"><span class="pre">Mutation</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/simulation/simulation_engine.html#pacing.simulation.simulation_engine.MutationType"><code class="docutils literal notranslate"><span class="pre">MutationType</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/simulation/simulation_engine.html#pacing.simulation.simulation_engine.SimulationContext"><code class="docutils literal notranslate"><span class="pre">SimulationContext</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/simulation/simulation_engine.html#pacing.simulation.simulation_engine.create_employment_mutation"><code class="docutils literal notranslate"><span class="pre">create_employment_mutation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/simulation/simulation_engine.html#pacing.simulation.simulation_engine.create_mat_intervention_mutation"><code class="docutils literal notranslate"><span class="pre">create_mat_intervention_mutation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/pacing/simulation/simulation_engine.html#pacing.simulation.simulation_engine.create_stable_housing_mutation"><code class="docutils literal notranslate"><span class="pre">create_stable_housing_mutation()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

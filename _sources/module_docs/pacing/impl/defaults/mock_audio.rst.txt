@@ -1,0 +1,4 @@
+pacing.impl.defaults.mock_audio
+===============================
+.. automodule:: pacing.impl.defaults.mock_audio
+   :members:

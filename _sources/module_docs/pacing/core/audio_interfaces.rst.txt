@@ -1,0 +1,4 @@
+pacing.core.audio_interfaces
+============================
+.. automodule:: pacing.core.audio_interfaces
+   :members:

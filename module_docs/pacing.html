@@ -1,0 +1,1252 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pacing &mdash; pacing 0.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=47de8214"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="pacing.core.agent_interfaces" href="pacing/core/agent_interfaces.html" />
+    <link rel="prev" title="Welcome to pacing’s documentation!" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            pacing
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pacing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.AdaptiveConfidenceTranscriber"><code class="docutils literal notranslate"><span class="pre">AdaptiveConfidenceTranscriber</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.AdaptiveConfidenceTranscriber.transcribe_chunk"><code class="docutils literal notranslate"><span class="pre">AdaptiveConfidenceTranscriber.transcribe_chunk()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.Event"><code class="docutils literal notranslate"><span class="pre">Event</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.Event.model_config"><code class="docutils literal notranslate"><span class="pre">Event.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.EventType"><code class="docutils literal notranslate"><span class="pre">EventType</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.Intervention"><code class="docutils literal notranslate"><span class="pre">Intervention</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.Intervention.model_config"><code class="docutils literal notranslate"><span class="pre">Intervention.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.InterventionType"><code class="docutils literal notranslate"><span class="pre">InterventionType</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.MockAudioProvider"><code class="docutils literal notranslate"><span class="pre">MockAudioProvider</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.MockAudioProvider.get_audio_chunks"><code class="docutils literal notranslate"><span class="pre">MockAudioProvider.get_audio_chunks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.MockAudioProvider.get_audio_chunks_async"><code class="docutils literal notranslate"><span class="pre">MockAudioProvider.get_audio_chunks_async()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.MockAudioProvider.get_sample_rate"><code class="docutils literal notranslate"><span class="pre">MockAudioProvider.get_sample_rate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.MockAudioProvider.is_streaming"><code class="docutils literal notranslate"><span class="pre">MockAudioProvider.is_streaming</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.MockAudioProvider.start_stream"><code class="docutils literal notranslate"><span class="pre">MockAudioProvider.start_stream()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.MockAudioProvider.stop_stream"><code class="docutils literal notranslate"><span class="pre">MockAudioProvider.stop_stream()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.MockBayesianModel"><code class="docutils literal notranslate"><span class="pre">MockBayesianModel</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.MockBayesianModel.calculate_risk"><code class="docutils literal notranslate"><span class="pre">MockBayesianModel.calculate_risk()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.MockBayesianModel.get_model_metadata"><code class="docutils literal notranslate"><span class="pre">MockBayesianModel.get_model_metadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.MockBayesianModel.get_model_version"><code class="docutils literal notranslate"><span class="pre">MockBayesianModel.get_model_version()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.MockSimulationModel"><code class="docutils literal notranslate"><span class="pre">MockSimulationModel</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.MockSimulationModel.calculate_risk_delta"><code class="docutils literal notranslate"><span class="pre">MockSimulationModel.calculate_risk_delta()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.MockTranscriber"><code class="docutils literal notranslate"><span class="pre">MockTranscriber</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.MockTranscriber.get_model_info"><code class="docutils literal notranslate"><span class="pre">MockTranscriber.get_model_info()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.MockTranscriber.reset_script"><code class="docutils literal notranslate"><span class="pre">MockTranscriber.reset_script()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.MockTranscriber.supports_speaker_diarization"><code class="docutils literal notranslate"><span class="pre">MockTranscriber.supports_speaker_diarization()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.MockTranscriber.transcribe_chunk"><code class="docutils literal notranslate"><span class="pre">MockTranscriber.transcribe_chunk()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.Mutation"><code class="docutils literal notranslate"><span class="pre">Mutation</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.Mutation.apply"><code class="docutils literal notranslate"><span class="pre">Mutation.apply()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.MutationType"><code class="docutils literal notranslate"><span class="pre">MutationType</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.OperatingMode"><code class="docutils literal notranslate"><span class="pre">OperatingMode</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.PacingPlatform"><code class="docutils literal notranslate"><span class="pre">PacingPlatform</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.PacingPlatform.calculate_risk"><code class="docutils literal notranslate"><span class="pre">PacingPlatform.calculate_risk()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.PacingPlatform.get_platform_status"><code class="docutils literal notranslate"><span class="pre">PacingPlatform.get_platform_status()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.PacingPlatform.get_simulation_context"><code class="docutils literal notranslate"><span class="pre">PacingPlatform.get_simulation_context()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.PacingPlatform.register_agent"><code class="docutils literal notranslate"><span class="pre">PacingPlatform.register_agent()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.PacingPlatform.set_risk_model"><code class="docutils literal notranslate"><span class="pre">PacingPlatform.set_risk_model()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.PacingPlatform.set_transcriber"><code class="docutils literal notranslate"><span class="pre">PacingPlatform.set_transcriber()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.PacingPlatform.start_live_session"><code class="docutils literal notranslate"><span class="pre">PacingPlatform.start_live_session()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.PacingPlatform.stop_live_session"><code class="docutils literal notranslate"><span class="pre">PacingPlatform.stop_live_session()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.PacingPlatform.unregister_agent"><code class="docutils literal notranslate"><span class="pre">PacingPlatform.unregister_agent()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.PatientGraph"><code class="docutils literal notranslate"><span class="pre">PatientGraph</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.PatientGraph.get_all_node_ids"><code class="docutils literal notranslate"><span class="pre">PatientGraph.get_all_node_ids()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.PatientGraph.model_config"><code class="docutils literal notranslate"><span class="pre">PatientGraph.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.RiskReport"><code class="docutils literal notranslate"><span class="pre">RiskReport</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.RiskReport.patient_id"><code class="docutils literal notranslate"><span class="pre">RiskReport.patient_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.RiskReport.risk_score"><code class="docutils literal notranslate"><span class="pre">RiskReport.risk_score</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.RiskReport.risk_factors"><code class="docutils literal notranslate"><span class="pre">RiskReport.risk_factors</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.RiskReport.timestamp"><code class="docutils literal notranslate"><span class="pre">RiskReport.timestamp</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.RiskReport.model_version"><code class="docutils literal notranslate"><span class="pre">RiskReport.model_version</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.RiskReport.model_config"><code class="docutils literal notranslate"><span class="pre">RiskReport.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.SessionMetadata"><code class="docutils literal notranslate"><span class="pre">SessionMetadata</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.SessionMetadata.model_config"><code class="docutils literal notranslate"><span class="pre">SessionMetadata.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.SimulationContext"><code class="docutils literal notranslate"><span class="pre">SimulationContext</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.SimulationContext.compare_scenarios"><code class="docutils literal notranslate"><span class="pre">SimulationContext.compare_scenarios()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.SimulationContext.get_simulation_history"><code class="docutils literal notranslate"><span class="pre">SimulationContext.get_simulation_history()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.SimulationContext.reset_baseline"><code class="docutils literal notranslate"><span class="pre">SimulationContext.reset_baseline()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.SimulationContext.simulate_multiple_mutations"><code class="docutils literal notranslate"><span class="pre">SimulationContext.simulate_multiple_mutations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.SimulationContext.simulate_mutation"><code class="docutils literal notranslate"><span class="pre">SimulationContext.simulate_mutation()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.SubstanceType"><code class="docutils literal notranslate"><span class="pre">SubstanceType</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.SubstanceUse"><code class="docutils literal notranslate"><span class="pre">SubstanceUse</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.SubstanceUse.model_config"><code class="docutils literal notranslate"><span class="pre">SubstanceUse.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.SubstanceUseStatus"><code class="docutils literal notranslate"><span class="pre">SubstanceUseStatus</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.TranscriptionResult"><code class="docutils literal notranslate"><span class="pre">TranscriptionResult</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.TranscriptionResult.text"><code class="docutils literal notranslate"><span class="pre">TranscriptionResult.text</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.TranscriptionResult.timestamp"><code class="docutils literal notranslate"><span class="pre">TranscriptionResult.timestamp</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.TranscriptionResult.confidence_score"><code class="docutils literal notranslate"><span class="pre">TranscriptionResult.confidence_score</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.TranscriptionResult.speaker_id"><code class="docutils literal notranslate"><span class="pre">TranscriptionResult.speaker_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.TranscriptionResult.is_partial"><code class="docutils literal notranslate"><span class="pre">TranscriptionResult.is_partial</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.TranscriptionResult.confidence_level"><code class="docutils literal notranslate"><span class="pre">TranscriptionResult.confidence_level</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.TranscriptionResult.model_config"><code class="docutils literal notranslate"><span class="pre">TranscriptionResult.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.UncertaintyAuditor"><code class="docutils literal notranslate"><span class="pre">UncertaintyAuditor</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.UncertaintyAuditor.clear_reviewed_items"><code class="docutils literal notranslate"><span class="pre">UncertaintyAuditor.clear_reviewed_items()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.UncertaintyAuditor.get_agent_name"><code class="docutils literal notranslate"><span class="pre">UncertaintyAuditor.get_agent_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.UncertaintyAuditor.get_agent_status"><code class="docutils literal notranslate"><span class="pre">UncertaintyAuditor.get_agent_status()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.UncertaintyAuditor.get_review_queue"><code class="docutils literal notranslate"><span class="pre">UncertaintyAuditor.get_review_queue()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.UncertaintyAuditor.get_statistics"><code class="docutils literal notranslate"><span class="pre">UncertaintyAuditor.get_statistics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.UncertaintyAuditor.get_unreviewed_items"><code class="docutils literal notranslate"><span class="pre">UncertaintyAuditor.get_unreviewed_items()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.UncertaintyAuditor.mark_reviewed"><code class="docutils literal notranslate"><span class="pre">UncertaintyAuditor.mark_reviewed()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.UncertaintyAuditor.on_session_end"><code class="docutils literal notranslate"><span class="pre">UncertaintyAuditor.on_session_end()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.UncertaintyAuditor.on_session_start"><code class="docutils literal notranslate"><span class="pre">UncertaintyAuditor.on_session_start()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.UncertaintyAuditor.on_transcription_update"><code class="docutils literal notranslate"><span class="pre">UncertaintyAuditor.on_transcription_update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.create_employment_mutation"><code class="docutils literal notranslate"><span class="pre">create_employment_mutation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.create_mat_intervention_mutation"><code class="docutils literal notranslate"><span class="pre">create_mat_intervention_mutation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.create_stable_housing_mutation"><code class="docutils literal notranslate"><span class="pre">create_stable_housing_mutation()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pacing/core/agent_interfaces.html">pacing.core.agent_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pacing/core/audio_interfaces.html">pacing.core.audio_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pacing/core/model_interfaces.html">pacing.core.model_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pacing/core/session_interfaces.html">pacing.core.session_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pacing/core/transcription_interfaces.html">pacing.core.transcription_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pacing/impl/agents/uncertainty_auditor.html">pacing.impl.agents.uncertainty_auditor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pacing/impl/defaults/mock_audio.html">pacing.impl.defaults.mock_audio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pacing/impl/defaults/mock_risk_model.html">pacing.impl.defaults.mock_risk_model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pacing/impl/defaults/mock_transcriber.html">pacing.impl.defaults.mock_transcriber</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pacing/models/data_models.html">pacing.models.data_models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pacing/platform.html">pacing.platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pacing/simulation/simulation_engine.html">pacing.simulation.simulation_engine</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pacing</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">pacing</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/module_docs/pacing.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-pacing">
+<span id="pacing"></span><h1>pacing<a class="headerlink" href="#module-pacing" title="Link to this heading"></a></h1>
+<p>PACING: Platform for Agentic Clinical Intelligence with Networked Graphs</p>
+<p>A clinical decision support system for Substance Use Disorder (SUD) treatment
+with two main operational modes:</p>
+<ol class="arabic simple">
+<li><p>Live Session Mode: Real-time audio transcription with parallel agentic sidecars</p></li>
+<li><p>Longitudinal Analysis Mode: Risk assessment and What-If scenario simulation</p></li>
+</ol>
+<p>Key Features:
+- Extensible plugin architecture with dependency injection
+- Privacy-aware: DEV_MODE (persists data) vs PROD_MODE (ephemeral)
+- Auditable: Human-in-the-loop verification with UncertaintyAuditor
+- Explainable: Risk factors with evidence and contribution scores</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.AdaptiveConfidenceTranscriber">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.</span></span><span class="sig-name descname"><span class="pre">AdaptiveConfidenceTranscriber</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">script</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latency_ms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_confidence</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.85</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence_variance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacing/impl/defaults/mock_transcriber.html#AdaptiveConfidenceTranscriber"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.AdaptiveConfidenceTranscriber" title="Link to this definition"></a></dt>
+<dd><p>Mock transcriber that adjusts confidence based on text characteristics.</p>
+<p>This variant simulates more realistic confidence scores by:
+- Lowering confidence for longer utterances (harder to transcribe)
+- Lowering confidence for utterances with medical/technical terms
+- Lowering confidence for utterances with negations (tricky)</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.AdaptiveConfidenceTranscriber.transcribe_chunk">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">transcribe_chunk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">audio_chunk</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_final</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pacing/models/data_models.html#pacing.models.data_models.TranscriptionResult" title="pacing.models.data_models.TranscriptionResult"><span class="pre">TranscriptionResult</span></a></span></span><a class="reference internal" href="../_modules/pacing/impl/defaults/mock_transcriber.html#AdaptiveConfidenceTranscriber.transcribe_chunk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.AdaptiveConfidenceTranscriber.transcribe_chunk" title="Link to this definition"></a></dt>
+<dd><p>Transcribe with adaptive confidence.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.Event">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.</span></span><span class="sig-name descname"><span class="pre">Event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_id:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_type:</span> <span class="pre">~pacing.models.data_models.EventType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date:</span> <span class="pre">~datetime.datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impact_score:</span> <span class="pre">~typing.Annotated[float</span> <span class="pre">|</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~annotated_types.Ge(ge=-1.0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~annotated_types.Le(le=1.0)]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata:</span> <span class="pre">~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Any]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacing/models/data_models.html#Event"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.Event" title="Link to this definition"></a></dt>
+<dd><p>A life event in the patient’s history.</p>
+<p>Events represent significant occurrences that may impact relapse risk.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pacing.Event.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#pacing.Event.model_config" title="Link to this definition"></a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.EventType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.</span></span><span class="sig-name descname"><span class="pre">EventType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacing/models/data_models.html#EventType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.EventType" title="Link to this definition"></a></dt>
+<dd><p>Types of life events tracked in the patient graph.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.Intervention">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.</span></span><span class="sig-name descname"><span class="pre">Intervention</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intervention_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intervention_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pacing/models/data_models.html#pacing.models.data_models.InterventionType" title="pacing.models.data_models.InterventionType"><span class="pre">InterventionType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">effectiveness_score</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Ge</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">ge</span></span><span class="o"><span class="pre">=</span></span><span class="pre">0.0</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Le</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">le</span></span><span class="o"><span class="pre">=</span></span><span class="pre">1.0</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacing/models/data_models.html#Intervention"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.Intervention" title="Link to this definition"></a></dt>
+<dd><p>A clinical intervention in the patient’s treatment plan.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pacing.Intervention.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#pacing.Intervention.model_config" title="Link to this definition"></a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.InterventionType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.</span></span><span class="sig-name descname"><span class="pre">InterventionType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacing/models/data_models.html#InterventionType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.InterventionType" title="Link to this definition"></a></dt>
+<dd><p>Types of clinical interventions.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.MockAudioProvider">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.</span></span><span class="sig-name descname"><span class="pre">MockAudioProvider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">16000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_duration_ms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_duration_sec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacing/impl/defaults/mock_audio.html#MockAudioProvider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.MockAudioProvider" title="Link to this definition"></a></dt>
+<dd><p>Mock audio provider that generates synthetic audio signals.</p>
+<p>This implementation is useful for:
+- Testing the platform without audio hardware
+- Demonstrating the system in controlled scenarios
+- Development and CI/CD pipelines</p>
+<p>The mock provider can:
+- Generate silence
+- Generate synthetic tones
+- Simulate realistic audio chunk timing</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.MockAudioProvider.get_audio_chunks">
+<span class="sig-name descname"><span class="pre">get_audio_chunks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/pacing/impl/defaults/mock_audio.html#MockAudioProvider.get_audio_chunks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.MockAudioProvider.get_audio_chunks" title="Link to this definition"></a></dt>
+<dd><p>Generate mock audio chunks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Yields<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>np.ndarray</em> – Synthetic audio data (float32, normalized to [-1, 1])</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.MockAudioProvider.get_audio_chunks_async">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_audio_chunks_async</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">AsyncIterator</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/pacing/impl/defaults/mock_audio.html#MockAudioProvider.get_audio_chunks_async"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.MockAudioProvider.get_audio_chunks_async" title="Link to this definition"></a></dt>
+<dd><p>Asynchronously generate mock audio chunks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Yields<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>np.ndarray</em> – Synthetic audio data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.MockAudioProvider.get_sample_rate">
+<span class="sig-name descname"><span class="pre">get_sample_rate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../_modules/pacing/impl/defaults/mock_audio.html#MockAudioProvider.get_sample_rate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.MockAudioProvider.get_sample_rate" title="Link to this definition"></a></dt>
+<dd><p>Get the sample rate.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pacing.MockAudioProvider.is_streaming">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_streaming</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#pacing.MockAudioProvider.is_streaming" title="Link to this definition"></a></dt>
+<dd><p>Check if currently streaming.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.MockAudioProvider.start_stream">
+<span class="sig-name descname"><span class="pre">start_stream</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/pacing/impl/defaults/mock_audio.html#MockAudioProvider.start_stream"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.MockAudioProvider.start_stream" title="Link to this definition"></a></dt>
+<dd><p>Start the mock audio stream.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.MockAudioProvider.stop_stream">
+<span class="sig-name descname"><span class="pre">stop_stream</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/pacing/impl/defaults/mock_audio.html#MockAudioProvider.stop_stream"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.MockAudioProvider.stop_stream" title="Link to this definition"></a></dt>
+<dd><p>Stop the mock audio stream.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.MockBayesianModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.</span></span><span class="sig-name descname"><span class="pre">MockBayesianModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_risk</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacing/impl/defaults/mock_risk_model.html#MockBayesianModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.MockBayesianModel" title="Link to this definition"></a></dt>
+<dd><p>Mock risk model using simple rule-based logic.</p>
+<p>This implementation demonstrates the IRiskModel interface without requiring
+actual Bayesian network inference. It uses heuristics like:
+- Recent substance use increases risk
+- Negative life events increase risk
+- Active interventions decrease risk
+- Longer sobriety decreases risk</p>
+<p>Risk Score Calculation:
+1. Start with base risk (0.50)
+2. Adjust based on recent substance use
+3. Adjust based on recent negative events
+4. Adjust based on active interventions
+5. Clamp to [0.0, 1.0]</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.MockBayesianModel.calculate_risk">
+<span class="sig-name descname"><span class="pre">calculate_risk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patient_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pacing/models/data_models.html#pacing.models.data_models.PatientGraph" title="pacing.models.data_models.PatientGraph"><span class="pre">PatientGraph</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pacing/models/data_models.html#pacing.models.data_models.RiskReport" title="pacing.models.data_models.RiskReport"><span class="pre">RiskReport</span></a></span></span><a class="reference internal" href="../_modules/pacing/impl/defaults/mock_risk_model.html#MockBayesianModel.calculate_risk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.MockBayesianModel.calculate_risk" title="Link to this definition"></a></dt>
+<dd><p>Calculate risk using simple heuristics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>patient_data</strong> – Patient clinical history</p></li>
+<li><p><strong>options</strong> – Optional configuration</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Risk assessment with contributing factors</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pacing.RiskReport" title="pacing.RiskReport">RiskReport</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.MockBayesianModel.get_model_metadata">
+<span class="sig-name descname"><span class="pre">get_model_metadata</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../_modules/pacing/impl/defaults/mock_risk_model.html#MockBayesianModel.get_model_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.MockBayesianModel.get_model_metadata" title="Link to this definition"></a></dt>
+<dd><p>Get model metadata.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.MockBayesianModel.get_model_version">
+<span class="sig-name descname"><span class="pre">get_model_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/pacing/impl/defaults/mock_risk_model.html#MockBayesianModel.get_model_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.MockBayesianModel.get_model_version" title="Link to this definition"></a></dt>
+<dd><p>Get model version.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.MockSimulationModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.</span></span><span class="sig-name descname"><span class="pre">MockSimulationModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_risk</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacing/impl/defaults/mock_risk_model.html#MockSimulationModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.MockSimulationModel" title="Link to this definition"></a></dt>
+<dd><p>Mock model that supports What-If simulation.</p>
+<p>Extends MockBayesianModel to enable scenario comparison.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.MockSimulationModel.calculate_risk_delta">
+<span class="sig-name descname"><span class="pre">calculate_risk_delta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">baseline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pacing/models/data_models.html#pacing.models.data_models.PatientGraph" title="pacing.models.data_models.PatientGraph"><span class="pre">PatientGraph</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pacing/models/data_models.html#pacing.models.data_models.PatientGraph" title="pacing.models.data_models.PatientGraph"><span class="pre">PatientGraph</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/pacing/impl/defaults/mock_risk_model.html#MockSimulationModel.calculate_risk_delta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.MockSimulationModel.calculate_risk_delta" title="Link to this definition"></a></dt>
+<dd><p>Calculate risk change between baseline and modified scenarios.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>baseline</strong> – Current patient state</p></li>
+<li><p><strong>modified</strong> – Hypothetical patient state</p></li>
+<li><p><strong>options</strong> – Optional configuration</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Risk comparison with delta and explanation</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.MockTranscriber">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.</span></span><span class="sig-name descname"><span class="pre">MockTranscriber</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">script</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latency_ms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_confidence</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.85</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence_variance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacing/impl/defaults/mock_transcriber.html#MockTranscriber"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.MockTranscriber" title="Link to this definition"></a></dt>
+<dd><p>Mock transcriber that yields pre-scripted text.</p>
+<p>This implementation simulates a real transcription service by:
+- Returning text from a pre-defined script
+- Adding realistic latency (processing delay)
+- Generating plausible confidence scores
+- Supporting partial (streaming) results</p>
+<p>Useful for:
+- Testing the platform without API costs
+- Creating reproducible demonstrations
+- Development and CI/CD</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.MockTranscriber.get_model_info">
+<span class="sig-name descname"><span class="pre">get_model_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../_modules/pacing/impl/defaults/mock_transcriber.html#MockTranscriber.get_model_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.MockTranscriber.get_model_info" title="Link to this definition"></a></dt>
+<dd><p>Get mock model information.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.MockTranscriber.reset_script">
+<span class="sig-name descname"><span class="pre">reset_script</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/pacing/impl/defaults/mock_transcriber.html#MockTranscriber.reset_script"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.MockTranscriber.reset_script" title="Link to this definition"></a></dt>
+<dd><p>Reset the script index to start from the beginning.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.MockTranscriber.supports_speaker_diarization">
+<span class="sig-name descname"><span class="pre">supports_speaker_diarization</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/pacing/impl/defaults/mock_transcriber.html#MockTranscriber.supports_speaker_diarization"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.MockTranscriber.supports_speaker_diarization" title="Link to this definition"></a></dt>
+<dd><p>Mock transcriber does not support speaker diarization.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.MockTranscriber.transcribe_chunk">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">transcribe_chunk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">audio_chunk</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_final</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pacing/models/data_models.html#pacing.models.data_models.TranscriptionResult" title="pacing.models.data_models.TranscriptionResult"><span class="pre">TranscriptionResult</span></a></span></span><a class="reference internal" href="../_modules/pacing/impl/defaults/mock_transcriber.html#MockTranscriber.transcribe_chunk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.MockTranscriber.transcribe_chunk" title="Link to this definition"></a></dt>
+<dd><p>Simulate transcription of an audio chunk.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>audio_chunk</strong> – Audio samples (ignored in mock)</p></li>
+<li><p><strong>sample_rate</strong> – Sample rate (ignored in mock)</p></li>
+<li><p><strong>is_final</strong> – Whether this is the final chunk</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Mock transcription with confidence score</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pacing.TranscriptionResult" title="pacing.TranscriptionResult">TranscriptionResult</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.Mutation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.</span></span><span class="sig-name descname"><span class="pre">Mutation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mutation_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pacing/simulation/simulation_engine.html#pacing.simulation.simulation_engine.MutationType" title="pacing.simulation.simulation_engine.MutationType"><span class="pre">MutationType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacing/simulation/simulation_engine.html#Mutation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.Mutation" title="Link to this definition"></a></dt>
+<dd><p>A modification to apply to a patient graph for simulation.</p>
+<p>Mutations represent “What If” questions:
+- What if housing became stable?
+- What if the patient started medication-assisted treatment?
+- What if the patient experienced a traumatic event?</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.Mutation.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pacing/models/data_models.html#pacing.models.data_models.PatientGraph" title="pacing.models.data_models.PatientGraph"><span class="pre">PatientGraph</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pacing/models/data_models.html#pacing.models.data_models.PatientGraph" title="pacing.models.data_models.PatientGraph"><span class="pre">PatientGraph</span></a></span></span><a class="reference internal" href="../_modules/pacing/simulation/simulation_engine.html#Mutation.apply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.Mutation.apply" title="Link to this definition"></a></dt>
+<dd><p>Apply this mutation to a patient graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>graph</strong> – The graph to modify</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new graph with the mutation applied</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pacing.PatientGraph" title="pacing.PatientGraph">PatientGraph</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.MutationType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.</span></span><span class="sig-name descname"><span class="pre">MutationType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacing/simulation/simulation_engine.html#MutationType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.MutationType" title="Link to this definition"></a></dt>
+<dd><p>Types of mutations that can be applied to a patient graph.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.OperatingMode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.</span></span><span class="sig-name descname"><span class="pre">OperatingMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacing/platform.html#OperatingMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.OperatingMode" title="Link to this definition"></a></dt>
+<dd><p>Operating mode for the platform.</p>
+<p>DEV_MODE: Persists raw data (audio, transcripts) for debugging and auditing
+PROD_MODE: Ephemeral raw data, only structured extractions are retained</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.PacingPlatform">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.</span></span><span class="sig-name descname"><span class="pre">PacingPlatform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operating_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pacing/platform.html#pacing.platform.OperatingMode" title="pacing.platform.OperatingMode"><span class="pre">OperatingMode</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">OperatingMode.PROD_MODE</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transcriber</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pacing/core/transcription_interfaces.html#pacing.core.transcription_interfaces.ITranscriber" title="pacing.core.transcription_interfaces.ITranscriber"><span class="pre">ITranscriber</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">risk_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pacing/core/model_interfaces.html#pacing.core.model_interfaces.IRiskModel" title="pacing.core.model_interfaces.IRiskModel"><span class="pre">IRiskModel</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacing/platform.html#PacingPlatform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.PacingPlatform" title="Link to this definition"></a></dt>
+<dd><p>Main PACING platform class.</p>
+<p>This is the primary interface for initializing and configuring the PACING
+system. It provides dependency injection for all major components:
+- Audio providers
+- Transcribers
+- Sidecar agents
+- Risk models
+- Operating mode (DEV/PROD)</p>
+<dl>
+<dt>Example Usage:</dt><dd><p># Initialize platform in DEV mode
+platform = PacingPlatform(operating_mode=OperatingMode.DEV_MODE)</p>
+<p># Inject custom components
+platform.set_transcriber(DeepgramTranscriber(api_key=…))
+platform.set_risk_model(MyBayesianNetwork())</p>
+<p># Register agents
+platform.register_agent(UncertaintyAuditor(confidence_threshold=0.70))
+platform.register_agent(GuideAgent())
+platform.register_agent(ScribeAgent())</p>
+<p># Start a session
+session = SessionMetadata(</p>
+<blockquote>
+<div><p>session_id=”session_001”,
+patient_id=”patient_123”,
+clinician_id=”clinician_456”,
+start_time=datetime.now()</p>
+</div></blockquote>
+<p>)</p>
+<p>audio = MyAudioProvider()
+await platform.start_live_session(session, audio)</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.PacingPlatform.calculate_risk">
+<span class="sig-name descname"><span class="pre">calculate_risk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patient_graph</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pacing/models/data_models.html#pacing.models.data_models.PatientGraph" title="pacing.models.data_models.PatientGraph"><span class="pre">PatientGraph</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacing/platform.html#PacingPlatform.calculate_risk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.PacingPlatform.calculate_risk" title="Link to this definition"></a></dt>
+<dd><p>Calculate relapse risk for a patient (Longitudinal Mode).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>patient_graph</strong> – Patient clinical history</p></li>
+<li><p><strong>options</strong> – Optional model configuration</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Risk assessment</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pacing.RiskReport" title="pacing.RiskReport">RiskReport</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If risk model not configured</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.PacingPlatform.get_platform_status">
+<span class="sig-name descname"><span class="pre">get_platform_status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../_modules/pacing/platform.html#PacingPlatform.get_platform_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.PacingPlatform.get_platform_status" title="Link to this definition"></a></dt>
+<dd><p>Get current platform status.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Platform configuration and status</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.PacingPlatform.get_simulation_context">
+<span class="sig-name descname"><span class="pre">get_simulation_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patient_graph</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pacing/models/data_models.html#pacing.models.data_models.PatientGraph" title="pacing.models.data_models.PatientGraph"><span class="pre">PatientGraph</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacing/platform.html#PacingPlatform.get_simulation_context"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.PacingPlatform.get_simulation_context" title="Link to this definition"></a></dt>
+<dd><p>Create a simulation context for What-If analysis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>patient_graph</strong> – Patient clinical history</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Context for running simulations</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pacing.SimulationContext" title="pacing.SimulationContext">SimulationContext</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If risk model doesn’t support simulation</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.PacingPlatform.register_agent">
+<span class="sig-name descname"><span class="pre">register_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pacing/core/agent_interfaces.html#pacing.core.agent_interfaces.ISidecarAgent" title="pacing.core.agent_interfaces.ISidecarAgent"><span class="pre">ISidecarAgent</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/pacing/platform.html#PacingPlatform.register_agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.PacingPlatform.register_agent" title="Link to this definition"></a></dt>
+<dd><p>Register a sidecar agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>agent</strong> – Sidecar agent implementation</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.PacingPlatform.set_risk_model">
+<span class="sig-name descname"><span class="pre">set_risk_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pacing/core/model_interfaces.html#pacing.core.model_interfaces.IRiskModel" title="pacing.core.model_interfaces.IRiskModel"><span class="pre">IRiskModel</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/pacing/platform.html#PacingPlatform.set_risk_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.PacingPlatform.set_risk_model" title="Link to this definition"></a></dt>
+<dd><p>Inject a custom risk model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>model</strong> – Risk model implementation</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.PacingPlatform.set_transcriber">
+<span class="sig-name descname"><span class="pre">set_transcriber</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcriber</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pacing/core/transcription_interfaces.html#pacing.core.transcription_interfaces.ITranscriber" title="pacing.core.transcription_interfaces.ITranscriber"><span class="pre">ITranscriber</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/pacing/platform.html#PacingPlatform.set_transcriber"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.PacingPlatform.set_transcriber" title="Link to this definition"></a></dt>
+<dd><p>Inject a custom transcriber.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>transcriber</strong> – Transcriber implementation</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.PacingPlatform.start_live_session">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">start_live_session</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session_metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pacing/models/data_models.html#pacing.models.data_models.SessionMetadata" title="pacing.models.data_models.SessionMetadata"><span class="pre">SessionMetadata</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">audio_provider</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pacing/core/audio_interfaces.html#pacing.core.audio_interfaces.IAudioProvider" title="pacing.core.audio_interfaces.IAudioProvider"><span class="pre">IAudioProvider</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/pacing/platform.html#PacingPlatform.start_live_session"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.PacingPlatform.start_live_session" title="Link to this definition"></a></dt>
+<dd><p>Start a live clinical session.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>session_metadata</strong> – Session information</p></li>
+<li><p><strong>audio_provider</strong> – Audio source</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If transcriber not configured</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.PacingPlatform.stop_live_session">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">stop_live_session</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/pacing/platform.html#PacingPlatform.stop_live_session"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.PacingPlatform.stop_live_session" title="Link to this definition"></a></dt>
+<dd><p>Stop the current live session.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.PacingPlatform.unregister_agent">
+<span class="sig-name descname"><span class="pre">unregister_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pacing/core/agent_interfaces.html#pacing.core.agent_interfaces.ISidecarAgent" title="pacing.core.agent_interfaces.ISidecarAgent"><span class="pre">ISidecarAgent</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/pacing/platform.html#PacingPlatform.unregister_agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.PacingPlatform.unregister_agent" title="Link to this definition"></a></dt>
+<dd><p>Unregister a sidecar agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>agent</strong> – Sidecar agent to remove</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.PatientGraph">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.</span></span><span class="sig-name descname"><span class="pre">PatientGraph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patient_id:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">events:</span> <span class="pre">~typing.List[~pacing.models.data_models.Event]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">substance_use_records:</span> <span class="pre">~typing.List[~pacing.models.data_models.SubstanceUse]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interventions:</span> <span class="pre">~typing.List[~pacing.models.data_models.Intervention]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edges:</span> <span class="pre">~typing.List[~pacing.models.data_models.GraphEdge]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata:</span> <span class="pre">~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Any]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacing/models/data_models.html#PatientGraph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.PatientGraph" title="Link to this definition"></a></dt>
+<dd><p>A structured representation of a patient’s clinical history.</p>
+<p>This graph contains nodes (events, substance use, interventions) and edges
+(temporal/causal relationships) that are used for longitudinal reasoning.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.PatientGraph.get_all_node_ids">
+<span class="sig-name descname"><span class="pre">get_all_node_ids</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/pacing/models/data_models.html#PatientGraph.get_all_node_ids"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.PatientGraph.get_all_node_ids" title="Link to this definition"></a></dt>
+<dd><p>Get all node IDs in the graph.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">graph</span> <span class="o">=</span> <span class="n">PatientGraph</span><span class="p">(</span><span class="n">patient_id</span><span class="o">=</span><span class="s2">&quot;p123&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">graph</span><span class="o">.</span><span class="n">get_all_node_ids</span><span class="p">()</span>
+<span class="go">[]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">graph</span><span class="o">.</span><span class="n">events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Event</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">event_id</span><span class="o">=</span><span class="s2">&quot;e1&quot;</span><span class="p">,</span> <span class="n">event_type</span><span class="o">=</span><span class="n">EventType</span><span class="o">.</span><span class="n">JOB_CHANGE</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="gp">... </span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;e1&quot;</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">get_all_node_ids</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pacing.PatientGraph.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#pacing.PatientGraph.model_config" title="Link to this definition"></a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.RiskReport">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.</span></span><span class="sig-name descname"><span class="pre">RiskReport</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">*,</span> <span class="pre">patient_id:</span> <span class="pre">str,</span> <span class="pre">risk_score:</span> <span class="pre">~typing.Annotated[float,</span> <span class="pre">~annotated_types.Ge(ge=0.0),</span> <span class="pre">~annotated_types.Le(le=1.0)],</span> <span class="pre">risk_factors:</span> <span class="pre">~typing.List[~pacing.models.data_models.RiskFactor]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;,</span> <span class="pre">timestamp:</span> <span class="pre">~datetime.datetime</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;,</span> <span class="pre">model_version:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'default',</span> <span class="pre">confidence_interval:</span> <span class="pre">tuple[float,</span> <span class="pre">float]</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacing/models/data_models.html#RiskReport"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.RiskReport" title="Link to this definition"></a></dt>
+<dd><p>Output from a risk assessment model.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pacing.RiskReport.patient_id">
+<span class="sig-name descname"><span class="pre">patient_id</span></span><a class="headerlink" href="#pacing.RiskReport.patient_id" title="Link to this definition"></a></dt>
+<dd><p>Patient identifier</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pacing.RiskReport.risk_score">
+<span class="sig-name descname"><span class="pre">risk_score</span></span><a class="headerlink" href="#pacing.RiskReport.risk_score" title="Link to this definition"></a></dt>
+<dd><p>Overall relapse risk probability (0.0-1.0)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pacing.RiskReport.risk_factors">
+<span class="sig-name descname"><span class="pre">risk_factors</span></span><a class="headerlink" href="#pacing.RiskReport.risk_factors" title="Link to this definition"></a></dt>
+<dd><p>Contributing factors ranked by importance</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="pacing/models/data_models.html#pacing.models.data_models.RiskFactor" title="pacing.models.data_models.RiskFactor">pacing.models.data_models.RiskFactor</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pacing.RiskReport.timestamp">
+<span class="sig-name descname"><span class="pre">timestamp</span></span><a class="headerlink" href="#pacing.RiskReport.timestamp" title="Link to this definition"></a></dt>
+<dd><p>When this assessment was generated</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>datetime.datetime</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pacing.RiskReport.model_version">
+<span class="sig-name descname"><span class="pre">model_version</span></span><a class="headerlink" href="#pacing.RiskReport.model_version" title="Link to this definition"></a></dt>
+<dd><p>Identifier for the model that generated this report</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pacing.RiskReport.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#pacing.RiskReport.model_config" title="Link to this definition"></a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.SessionMetadata">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.</span></span><span class="sig-name descname"><span class="pre">SessionMetadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patient_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clinician_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'counseling'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacing/models/data_models.html#SessionMetadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.SessionMetadata" title="Link to this definition"></a></dt>
+<dd><p>Metadata for a clinical session.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pacing.SessionMetadata.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#pacing.SessionMetadata.model_config" title="Link to this definition"></a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.SimulationContext">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.</span></span><span class="sig-name descname"><span class="pre">SimulationContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">baseline_graph</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pacing/models/data_models.html#pacing.models.data_models.PatientGraph" title="pacing.models.data_models.PatientGraph"><span class="pre">PatientGraph</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pacing/core/model_interfaces.html#pacing.core.model_interfaces.ISimulationModel" title="pacing.core.model_interfaces.ISimulationModel"><span class="pre">ISimulationModel</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacing/simulation/simulation_engine.html#SimulationContext"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.SimulationContext" title="Link to this definition"></a></dt>
+<dd><p>Context for running What-If simulations on patient data.</p>
+<p>The SimulationContext:
+1. Takes a baseline patient graph (current state)
+2. Applies hypothetical mutations (e.g., “What if housing stable?”)
+3. Runs risk models on both baseline and modified graphs
+4. Compares the results to show the impact of the hypothetical change</p>
+<dl>
+<dt>Example Usage:</dt><dd><p># Load patient data
+patient_graph = load_patient_data(patient_id)</p>
+<p># Create simulation context
+model = MockSimulationModel()
+sim = SimulationContext(patient_graph, model)</p>
+<p># Run “What If” scenario
+result = sim.simulate_mutation(</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Mutation(</dt><dd><p>MutationType.MODIFY_HOUSING,
+{“status”: “stable”, “impact_score”: 0.8},
+description=”Housing becomes stable”</p>
+</dd>
+</dl>
+<p>)</p>
+</div></blockquote>
+<p>)</p>
+<p>print(f”Current risk: {result[‘baseline_risk’]:.2%}”)
+print(f”Predicted risk with stable housing: {result[‘modified_risk’]:.2%}”)
+print(f”Risk reduction: {abs(result[‘delta’]):.2%}”)</p>
+</dd>
+</dl>
+<p>Design Philosophy:
+- Simulations are non-destructive (original data never modified)
+- Multiple scenarios can be compared side-by-side
+- Results include explanations for interpretability
+- Suitable for clinical decision support and patient education</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.SimulationContext.compare_scenarios">
+<span class="sig-name descname"><span class="pre">compare_scenarios</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenarios</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pacing/simulation/simulation_engine.html#pacing.simulation.simulation_engine.Mutation" title="pacing.simulation.simulation_engine.Mutation"><span class="pre">Mutation</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/pacing/simulation/simulation_engine.html#SimulationContext.compare_scenarios"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.SimulationContext.compare_scenarios" title="Link to this definition"></a></dt>
+<dd><p>Compare multiple alternative scenarios side-by-side.</p>
+<p class="rubric">Example</p>
+<dl class="simple">
+<dt>scenarios = {</dt><dd><p>“Scenario A: MAT Only”: [mat_mutation],
+“Scenario B: MAT + Housing”: [mat_mutation, housing_mutation],
+“Scenario C: MAT + Housing + Employment”: [mat_mutation, housing_mutation, job_mutation]</p>
+</dd>
+</dl>
+<p>}</p>
+<p>comparison = sim.compare_scenarios(scenarios)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scenarios</strong> – Dict mapping scenario names to mutation lists</p></li>
+<li><p><strong>options</strong> – Optional model configuration</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results for each scenario</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.SimulationContext.get_simulation_history">
+<span class="sig-name descname"><span class="pre">get_simulation_history</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/pacing/simulation/simulation_engine.html#SimulationContext.get_simulation_history"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.SimulationContext.get_simulation_history" title="Link to this definition"></a></dt>
+<dd><p>Get the history of all simulations run in this context.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of simulation results</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[Dict[str, Any]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.SimulationContext.reset_baseline">
+<span class="sig-name descname"><span class="pre">reset_baseline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_baseline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pacing/models/data_models.html#pacing.models.data_models.PatientGraph" title="pacing.models.data_models.PatientGraph"><span class="pre">PatientGraph</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/pacing/simulation/simulation_engine.html#SimulationContext.reset_baseline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.SimulationContext.reset_baseline" title="Link to this definition"></a></dt>
+<dd><p>Update the baseline graph (e.g., when patient data changes).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>new_baseline</strong> – The new baseline patient state</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.SimulationContext.simulate_multiple_mutations">
+<span class="sig-name descname"><span class="pre">simulate_multiple_mutations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mutations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pacing/simulation/simulation_engine.html#pacing.simulation.simulation_engine.Mutation" title="pacing.simulation.simulation_engine.Mutation"><span class="pre">Mutation</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/pacing/simulation/simulation_engine.html#SimulationContext.simulate_multiple_mutations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.SimulationContext.simulate_multiple_mutations" title="Link to this definition"></a></dt>
+<dd><p>Simulate the combined impact of multiple mutations.</p>
+<p>This allows exploring complex scenarios like:
+“What if housing stabilizes AND patient starts MAT AND gets employed?”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mutations</strong> – List of mutations to apply together</p></li>
+<li><p><strong>options</strong> – Optional model configuration</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Simulation results with risk comparison</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.SimulationContext.simulate_mutation">
+<span class="sig-name descname"><span class="pre">simulate_mutation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mutation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pacing/simulation/simulation_engine.html#pacing.simulation.simulation_engine.Mutation" title="pacing.simulation.simulation_engine.Mutation"><span class="pre">Mutation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/pacing/simulation/simulation_engine.html#SimulationContext.simulate_mutation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.SimulationContext.simulate_mutation" title="Link to this definition"></a></dt>
+<dd><p>Simulate the impact of a single mutation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mutation</strong> – The hypothetical change to apply</p></li>
+<li><p><strong>options</strong> – Optional model configuration</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Simulation results with risk comparison</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.SubstanceType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.</span></span><span class="sig-name descname"><span class="pre">SubstanceType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacing/models/data_models.html#SubstanceType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.SubstanceType" title="Link to this definition"></a></dt>
+<dd><p>Types of substances tracked.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.SubstanceUse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.</span></span><span class="sig-name descname"><span class="pre">SubstanceUse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">substance_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pacing/models/data_models.html#pacing.models.data_models.SubstanceType" title="pacing.models.data_models.SubstanceType"><span class="pre">SubstanceType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pacing/models/data_models.html#pacing.models.data_models.SubstanceUseStatus" title="pacing.models.data_models.SubstanceUseStatus"><span class="pre">SubstanceUseStatus</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">severity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Ge</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">ge</span></span><span class="o"><span class="pre">=</span></span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Le</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">le</span></span><span class="o"><span class="pre">=</span></span><span class="m"><span class="pre">10</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacing/models/data_models.html#SubstanceUse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.SubstanceUse" title="Link to this definition"></a></dt>
+<dd><p>A substance use event or status change.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pacing.SubstanceUse.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#pacing.SubstanceUse.model_config" title="Link to this definition"></a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.SubstanceUseStatus">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.</span></span><span class="sig-name descname"><span class="pre">SubstanceUseStatus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacing/models/data_models.html#SubstanceUseStatus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.SubstanceUseStatus" title="Link to this definition"></a></dt>
+<dd><p>Status of substance use.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.TranscriptionResult">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.</span></span><span class="sig-name descname"><span class="pre">TranscriptionResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">*,</span> <span class="pre">text:</span> <span class="pre">str,</span> <span class="pre">timestamp:</span> <span class="pre">~datetime.datetime</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;,</span> <span class="pre">confidence_score:</span> <span class="pre">~typing.Annotated[float,</span> <span class="pre">~annotated_types.Ge(ge=0.0),</span> <span class="pre">~annotated_types.Le(le=1.0)],</span> <span class="pre">speaker_id:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">is_partial:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacing/models/data_models.html#TranscriptionResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.TranscriptionResult" title="Link to this definition"></a></dt>
+<dd><p>Result from a transcription operation.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pacing.TranscriptionResult.text">
+<span class="sig-name descname"><span class="pre">text</span></span><a class="headerlink" href="#pacing.TranscriptionResult.text" title="Link to this definition"></a></dt>
+<dd><p>The transcribed text</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pacing.TranscriptionResult.timestamp">
+<span class="sig-name descname"><span class="pre">timestamp</span></span><a class="headerlink" href="#pacing.TranscriptionResult.timestamp" title="Link to this definition"></a></dt>
+<dd><p>When this transcription was generated</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>datetime.datetime</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pacing.TranscriptionResult.confidence_score">
+<span class="sig-name descname"><span class="pre">confidence_score</span></span><a class="headerlink" href="#pacing.TranscriptionResult.confidence_score" title="Link to this definition"></a></dt>
+<dd><p>Acoustic confidence (0.0-1.0)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pacing.TranscriptionResult.speaker_id">
+<span class="sig-name descname"><span class="pre">speaker_id</span></span><a class="headerlink" href="#pacing.TranscriptionResult.speaker_id" title="Link to this definition"></a></dt>
+<dd><p>Optional speaker identification</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pacing.TranscriptionResult.is_partial">
+<span class="sig-name descname"><span class="pre">is_partial</span></span><a class="headerlink" href="#pacing.TranscriptionResult.is_partial" title="Link to this definition"></a></dt>
+<dd><p>Whether this is a partial (streaming) result</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pacing.TranscriptionResult.confidence_level">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">confidence_level</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="pacing/models/data_models.html#pacing.models.data_models.ConfidenceLevel" title="pacing.models.data_models.ConfidenceLevel"><span class="pre">ConfidenceLevel</span></a></em><a class="headerlink" href="#pacing.TranscriptionResult.confidence_level" title="Link to this definition"></a></dt>
+<dd><p>Categorize confidence score into levels.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t1</span> <span class="o">=</span> <span class="n">TranscriptionResult</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;hello&quot;</span><span class="p">,</span> <span class="n">confidence_score</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t1</span><span class="o">.</span><span class="n">confidence_level</span>
+<span class="go">&lt;ConfidenceLevel.HIGH: &#39;high&#39;&gt;</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t2</span> <span class="o">=</span> <span class="n">TranscriptionResult</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;world&quot;</span><span class="p">,</span> <span class="n">confidence_score</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t2</span><span class="o">.</span><span class="n">confidence_level</span>
+<span class="go">&lt;ConfidenceLevel.MEDIUM: &#39;medium&#39;&gt;</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t3</span> <span class="o">=</span> <span class="n">TranscriptionResult</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="n">confidence_score</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t3</span><span class="o">.</span><span class="n">confidence_level</span>
+<span class="go">&lt;ConfidenceLevel.LOW: &#39;low&#39;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pacing.TranscriptionResult.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#pacing.TranscriptionResult.model_config" title="Link to this definition"></a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.UncertaintyAuditor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.</span></span><span class="sig-name descname"><span class="pre">UncertaintyAuditor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">confidence_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_queue_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_flag_medical_terms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacing/impl/agents/uncertainty_auditor.html#UncertaintyAuditor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.UncertaintyAuditor" title="Link to this definition"></a></dt>
+<dd><p>Sidecar agent that audits transcription confidence and flags uncertain segments.</p>
+<p>The UncertaintyAuditor implements a critical safety mechanism in clinical
+decision support: it identifies transcription segments where the acoustic
+model has low confidence and queues them for human verification.</p>
+<p>Design Rationale:
+- Clinical decisions should never be based on uncertain transcriptions
+- Medical/legal terminology often has low acoustic confidence
+- Human verification creates an auditable trail
+- This pattern enables “glass box” AI (explainable and verifiable)</p>
+<p>Configuration:
+- confidence_threshold: Below this, segment is flagged (default: 0.70)
+- priority_rules: Customize prioritization logic
+- max_queue_size: Maximum review queue size before warning</p>
+<p>Privacy Note:
+- The auditor stores transcriptions (text) for review, not raw audio
+- In production, implement retention policies for the review queue</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.UncertaintyAuditor.clear_reviewed_items">
+<span class="sig-name descname"><span class="pre">clear_reviewed_items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../_modules/pacing/impl/agents/uncertainty_auditor.html#UncertaintyAuditor.clear_reviewed_items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.UncertaintyAuditor.clear_reviewed_items" title="Link to this definition"></a></dt>
+<dd><p>Remove reviewed items from the queue.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Number of items removed</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.UncertaintyAuditor.get_agent_name">
+<span class="sig-name descname"><span class="pre">get_agent_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/pacing/impl/agents/uncertainty_auditor.html#UncertaintyAuditor.get_agent_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.UncertaintyAuditor.get_agent_name" title="Link to this definition"></a></dt>
+<dd><p>Get the agent name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.UncertaintyAuditor.get_agent_status">
+<span class="sig-name descname"><span class="pre">get_agent_status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../_modules/pacing/impl/agents/uncertainty_auditor.html#UncertaintyAuditor.get_agent_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.UncertaintyAuditor.get_agent_status" title="Link to this definition"></a></dt>
+<dd><p>Get the current status of the auditor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.UncertaintyAuditor.get_review_queue">
+<span class="sig-name descname"><span class="pre">get_review_queue</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pacing/models/data_models.html#pacing.models.data_models.ReviewQueueItem" title="pacing.models.data_models.ReviewQueueItem"><span class="pre">ReviewQueueItem</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/pacing/impl/agents/uncertainty_auditor.html#UncertaintyAuditor.get_review_queue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.UncertaintyAuditor.get_review_queue" title="Link to this definition"></a></dt>
+<dd><p>Get all items in the review queue.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Items sorted by priority (highest first)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[<a class="reference internal" href="pacing/models/data_models.html#pacing.models.data_models.ReviewQueueItem" title="pacing.models.data_models.ReviewQueueItem">ReviewQueueItem</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.UncertaintyAuditor.get_statistics">
+<span class="sig-name descname"><span class="pre">get_statistics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../_modules/pacing/impl/agents/uncertainty_auditor.html#UncertaintyAuditor.get_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.UncertaintyAuditor.get_statistics" title="Link to this definition"></a></dt>
+<dd><p>Get comprehensive statistics about auditor performance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Statistics including flagging rates, priority distribution, etc.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.UncertaintyAuditor.get_unreviewed_items">
+<span class="sig-name descname"><span class="pre">get_unreviewed_items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pacing/models/data_models.html#pacing.models.data_models.ReviewQueueItem" title="pacing.models.data_models.ReviewQueueItem"><span class="pre">ReviewQueueItem</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/pacing/impl/agents/uncertainty_auditor.html#UncertaintyAuditor.get_unreviewed_items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.UncertaintyAuditor.get_unreviewed_items" title="Link to this definition"></a></dt>
+<dd><p>Get only unreviewed items from the queue.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Unreviewed items</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[<a class="reference internal" href="pacing/models/data_models.html#pacing.models.data_models.ReviewQueueItem" title="pacing.models.data_models.ReviewQueueItem">ReviewQueueItem</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.UncertaintyAuditor.mark_reviewed">
+<span class="sig-name descname"><span class="pre">mark_reviewed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reviewer_notes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/pacing/impl/agents/uncertainty_auditor.html#UncertaintyAuditor.mark_reviewed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.UncertaintyAuditor.mark_reviewed" title="Link to this definition"></a></dt>
+<dd><p>Mark an item as reviewed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>item_id</strong> – The item ID to mark as reviewed</p></li>
+<li><p><strong>reviewer_notes</strong> – Optional notes from the reviewer</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if item was found and marked, False otherwise</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.UncertaintyAuditor.on_session_end">
+<span class="sig-name descname"><span class="pre">on_session_end</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/pacing/impl/agents/uncertainty_auditor.html#UncertaintyAuditor.on_session_end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.UncertaintyAuditor.on_session_end" title="Link to this definition"></a></dt>
+<dd><p>Finalize processing for a session.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>session_id</strong> – Session identifier</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.UncertaintyAuditor.on_session_start">
+<span class="sig-name descname"><span class="pre">on_session_start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/pacing/impl/agents/uncertainty_auditor.html#UncertaintyAuditor.on_session_start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.UncertaintyAuditor.on_session_start" title="Link to this definition"></a></dt>
+<dd><p>Initialize for a new session.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>session_id</strong> – Session identifier</p></li>
+<li><p><strong>metadata</strong> – Session metadata</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.UncertaintyAuditor.on_transcription_update">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_transcription_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcription</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pacing/models/data_models.html#pacing.models.data_models.TranscriptionResult" title="pacing.models.data_models.TranscriptionResult"><span class="pre">TranscriptionResult</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/pacing/impl/agents/uncertainty_auditor.html#UncertaintyAuditor.on_transcription_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.UncertaintyAuditor.on_transcription_update" title="Link to this definition"></a></dt>
+<dd><p>Process a transcription and flag if confidence is low.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>transcription</strong> – The transcription to audit</p></li>
+<li><p><strong>context</strong> – Optional context (session_id, patient_id, etc.)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pacing.create_employment_mutation">
+<span class="sig-prename descclassname"><span class="pre">pacing.</span></span><span class="sig-name descname"><span class="pre">create_employment_mutation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">employed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pacing/simulation/simulation_engine.html#pacing.simulation.simulation_engine.Mutation" title="pacing.simulation.simulation_engine.Mutation"><span class="pre">Mutation</span></a></span></span><a class="reference internal" href="../_modules/pacing/simulation/simulation_engine.html#create_employment_mutation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.create_employment_mutation" title="Link to this definition"></a></dt>
+<dd><p>Create a mutation representing employment status change.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mutation</span> <span class="o">=</span> <span class="n">create_employment_mutation</span><span class="p">(</span><span class="n">employed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mutation</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span>
+<span class="go">&#39;employed&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mutation</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;impact_score&#39;</span><span class="p">]</span>
+<span class="go">0.6</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mutation</span> <span class="o">=</span> <span class="n">create_employment_mutation</span><span class="p">(</span><span class="n">employed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mutation</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span>
+<span class="go">&#39;unemployed&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mutation</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;impact_score&#39;</span><span class="p">]</span>
+<span class="go">-0.6</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pacing.create_mat_intervention_mutation">
+<span class="sig-prename descclassname"><span class="pre">pacing.</span></span><span class="sig-name descname"><span class="pre">create_mat_intervention_mutation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">medication</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'buprenorphine'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pacing/simulation/simulation_engine.html#pacing.simulation.simulation_engine.Mutation" title="pacing.simulation.simulation_engine.Mutation"><span class="pre">Mutation</span></a></span></span><a class="reference internal" href="../_modules/pacing/simulation/simulation_engine.html#create_mat_intervention_mutation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.create_mat_intervention_mutation" title="Link to this definition"></a></dt>
+<dd><p>Create a mutation for starting medication-assisted treatment (MAT).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pacing.create_stable_housing_mutation">
+<span class="sig-prename descclassname"><span class="pre">pacing.</span></span><span class="sig-name descname"><span class="pre">create_stable_housing_mutation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pacing/simulation/simulation_engine.html#pacing.simulation.simulation_engine.Mutation" title="pacing.simulation.simulation_engine.Mutation"><span class="pre">Mutation</span></a></span></span><a class="reference internal" href="../_modules/pacing/simulation/simulation_engine.html#create_stable_housing_mutation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.create_stable_housing_mutation" title="Link to this definition"></a></dt>
+<dd><p>Create a mutation representing stable housing.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mutation</span> <span class="o">=</span> <span class="n">create_stable_housing_mutation</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mutation</span><span class="o">.</span><span class="n">mutation_type</span>
+<span class="go">&lt;MutationType.MODIFY_HOUSING: &#39;modify_housing&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mutation</span><span class="o">.</span><span class="n">description</span>
+<span class="go">&#39;Stable Housing&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mutation</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span>
+<span class="go">&#39;stable&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="Welcome to pacing’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pacing/core/agent_interfaces.html" class="btn btn-neutral float-right" title="pacing.core.agent_interfaces" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

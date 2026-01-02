@@ -1,0 +1,292 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pacing.impl.agents.uncertainty_auditor &mdash; pacing 0.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=47de8214"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="pacing.impl.defaults.mock_audio" href="../defaults/mock_audio.html" />
+    <link rel="prev" title="pacing.core.transcription_interfaces" href="../../core/transcription_interfaces.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            pacing
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../pacing.html">pacing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../core/agent_interfaces.html">pacing.core.agent_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../core/audio_interfaces.html">pacing.core.audio_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../core/model_interfaces.html">pacing.core.model_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../core/session_interfaces.html">pacing.core.session_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../core/transcription_interfaces.html">pacing.core.transcription_interfaces</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pacing.impl.agents.uncertainty_auditor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor"><code class="docutils literal notranslate"><span class="pre">UncertaintyAuditor</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.clear_reviewed_items"><code class="docutils literal notranslate"><span class="pre">UncertaintyAuditor.clear_reviewed_items()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.get_agent_name"><code class="docutils literal notranslate"><span class="pre">UncertaintyAuditor.get_agent_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.get_agent_status"><code class="docutils literal notranslate"><span class="pre">UncertaintyAuditor.get_agent_status()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.get_review_queue"><code class="docutils literal notranslate"><span class="pre">UncertaintyAuditor.get_review_queue()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.get_statistics"><code class="docutils literal notranslate"><span class="pre">UncertaintyAuditor.get_statistics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.get_unreviewed_items"><code class="docutils literal notranslate"><span class="pre">UncertaintyAuditor.get_unreviewed_items()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.mark_reviewed"><code class="docutils literal notranslate"><span class="pre">UncertaintyAuditor.mark_reviewed()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.on_session_end"><code class="docutils literal notranslate"><span class="pre">UncertaintyAuditor.on_session_end()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.on_session_start"><code class="docutils literal notranslate"><span class="pre">UncertaintyAuditor.on_session_start()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.on_transcription_update"><code class="docutils literal notranslate"><span class="pre">UncertaintyAuditor.on_transcription_update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../defaults/mock_audio.html">pacing.impl.defaults.mock_audio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../defaults/mock_risk_model.html">pacing.impl.defaults.mock_risk_model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../defaults/mock_transcriber.html">pacing.impl.defaults.mock_transcriber</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/data_models.html">pacing.models.data_models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../platform.html">pacing.platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../simulation/simulation_engine.html">pacing.simulation.simulation_engine</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">pacing</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">pacing.impl.agents.uncertainty_auditor</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/module_docs/pacing/impl/agents/uncertainty_auditor.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-pacing.impl.agents.uncertainty_auditor">
+<span id="pacing-impl-agents-uncertainty-auditor"></span><h1>pacing.impl.agents.uncertainty_auditor<a class="headerlink" href="#module-pacing.impl.agents.uncertainty_auditor" title="Link to this heading"></a></h1>
+<p>Uncertainty Auditor Agent for the PACING platform.</p>
+<p>This agent monitors transcription confidence scores and flags low-confidence
+segments for human verification, implementing a human-in-the-loop safety mechanism.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.impl.agents.uncertainty_auditor.</span></span><span class="sig-name descname"><span class="pre">UncertaintyAuditor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">confidence_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_queue_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_flag_medical_terms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/pacing/impl/agents/uncertainty_auditor.html#UncertaintyAuditor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor" title="Link to this definition"></a></dt>
+<dd><p>Sidecar agent that audits transcription confidence and flags uncertain segments.</p>
+<p>The UncertaintyAuditor implements a critical safety mechanism in clinical
+decision support: it identifies transcription segments where the acoustic
+model has low confidence and queues them for human verification.</p>
+<p>Design Rationale:
+- Clinical decisions should never be based on uncertain transcriptions
+- Medical/legal terminology often has low acoustic confidence
+- Human verification creates an auditable trail
+- This pattern enables “glass box” AI (explainable and verifiable)</p>
+<p>Configuration:
+- confidence_threshold: Below this, segment is flagged (default: 0.70)
+- priority_rules: Customize prioritization logic
+- max_queue_size: Maximum review queue size before warning</p>
+<p>Privacy Note:
+- The auditor stores transcriptions (text) for review, not raw audio
+- In production, implement retention policies for the review queue</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.clear_reviewed_items">
+<span class="sig-name descname"><span class="pre">clear_reviewed_items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../../../../_modules/pacing/impl/agents/uncertainty_auditor.html#UncertaintyAuditor.clear_reviewed_items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.clear_reviewed_items" title="Link to this definition"></a></dt>
+<dd><p>Remove reviewed items from the queue.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Number of items removed</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.get_agent_name">
+<span class="sig-name descname"><span class="pre">get_agent_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../../../_modules/pacing/impl/agents/uncertainty_auditor.html#UncertaintyAuditor.get_agent_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.get_agent_name" title="Link to this definition"></a></dt>
+<dd><p>Get the agent name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.get_agent_status">
+<span class="sig-name descname"><span class="pre">get_agent_status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../../../../_modules/pacing/impl/agents/uncertainty_auditor.html#UncertaintyAuditor.get_agent_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.get_agent_status" title="Link to this definition"></a></dt>
+<dd><p>Get the current status of the auditor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.get_review_queue">
+<span class="sig-name descname"><span class="pre">get_review_queue</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../models/data_models.html#pacing.models.data_models.ReviewQueueItem" title="pacing.models.data_models.ReviewQueueItem"><span class="pre">ReviewQueueItem</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../../_modules/pacing/impl/agents/uncertainty_auditor.html#UncertaintyAuditor.get_review_queue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.get_review_queue" title="Link to this definition"></a></dt>
+<dd><p>Get all items in the review queue.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Items sorted by priority (highest first)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[<a class="reference internal" href="../../models/data_models.html#pacing.models.data_models.ReviewQueueItem" title="pacing.models.data_models.ReviewQueueItem">ReviewQueueItem</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.get_statistics">
+<span class="sig-name descname"><span class="pre">get_statistics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../../../../_modules/pacing/impl/agents/uncertainty_auditor.html#UncertaintyAuditor.get_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.get_statistics" title="Link to this definition"></a></dt>
+<dd><p>Get comprehensive statistics about auditor performance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Statistics including flagging rates, priority distribution, etc.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.get_unreviewed_items">
+<span class="sig-name descname"><span class="pre">get_unreviewed_items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../models/data_models.html#pacing.models.data_models.ReviewQueueItem" title="pacing.models.data_models.ReviewQueueItem"><span class="pre">ReviewQueueItem</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../../_modules/pacing/impl/agents/uncertainty_auditor.html#UncertaintyAuditor.get_unreviewed_items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.get_unreviewed_items" title="Link to this definition"></a></dt>
+<dd><p>Get only unreviewed items from the queue.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Unreviewed items</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[<a class="reference internal" href="../../models/data_models.html#pacing.models.data_models.ReviewQueueItem" title="pacing.models.data_models.ReviewQueueItem">ReviewQueueItem</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.mark_reviewed">
+<span class="sig-name descname"><span class="pre">mark_reviewed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reviewer_notes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../../../_modules/pacing/impl/agents/uncertainty_auditor.html#UncertaintyAuditor.mark_reviewed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.mark_reviewed" title="Link to this definition"></a></dt>
+<dd><p>Mark an item as reviewed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>item_id</strong> – The item ID to mark as reviewed</p></li>
+<li><p><strong>reviewer_notes</strong> – Optional notes from the reviewer</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if item was found and marked, False otherwise</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.on_session_end">
+<span class="sig-name descname"><span class="pre">on_session_end</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../../../_modules/pacing/impl/agents/uncertainty_auditor.html#UncertaintyAuditor.on_session_end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.on_session_end" title="Link to this definition"></a></dt>
+<dd><p>Finalize processing for a session.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>session_id</strong> – Session identifier</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.on_session_start">
+<span class="sig-name descname"><span class="pre">on_session_start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../../../_modules/pacing/impl/agents/uncertainty_auditor.html#UncertaintyAuditor.on_session_start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.on_session_start" title="Link to this definition"></a></dt>
+<dd><p>Initialize for a new session.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>session_id</strong> – Session identifier</p></li>
+<li><p><strong>metadata</strong> – Session metadata</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.on_transcription_update">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_transcription_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcription</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../models/data_models.html#pacing.models.data_models.TranscriptionResult" title="pacing.models.data_models.TranscriptionResult"><span class="pre">TranscriptionResult</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../../../_modules/pacing/impl/agents/uncertainty_auditor.html#UncertaintyAuditor.on_transcription_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.impl.agents.uncertainty_auditor.UncertaintyAuditor.on_transcription_update" title="Link to this definition"></a></dt>
+<dd><p>Process a transcription and flag if confidence is low.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>transcription</strong> – The transcription to audit</p></li>
+<li><p><strong>context</strong> – Optional context (session_id, patient_id, etc.)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../core/transcription_interfaces.html" class="btn btn-neutral float-left" title="pacing.core.transcription_interfaces" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../defaults/mock_audio.html" class="btn btn-neutral float-right" title="pacing.impl.defaults.mock_audio" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

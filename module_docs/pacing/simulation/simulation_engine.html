@@ -1,0 +1,354 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pacing.simulation.simulation_engine &mdash; pacing 0.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=47de8214"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="prev" title="pacing.platform" href="../platform.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            pacing
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../pacing.html">pacing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../core/agent_interfaces.html">pacing.core.agent_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../core/audio_interfaces.html">pacing.core.audio_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../core/model_interfaces.html">pacing.core.model_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../core/session_interfaces.html">pacing.core.session_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../core/transcription_interfaces.html">pacing.core.transcription_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../impl/agents/uncertainty_auditor.html">pacing.impl.agents.uncertainty_auditor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../impl/defaults/mock_audio.html">pacing.impl.defaults.mock_audio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../impl/defaults/mock_risk_model.html">pacing.impl.defaults.mock_risk_model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../impl/defaults/mock_transcriber.html">pacing.impl.defaults.mock_transcriber</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/data_models.html">pacing.models.data_models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../platform.html">pacing.platform</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pacing.simulation.simulation_engine</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.simulation.simulation_engine.Mutation"><code class="docutils literal notranslate"><span class="pre">Mutation</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.simulation.simulation_engine.Mutation.apply"><code class="docutils literal notranslate"><span class="pre">Mutation.apply()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.simulation.simulation_engine.MutationType"><code class="docutils literal notranslate"><span class="pre">MutationType</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.simulation.simulation_engine.SimulationContext"><code class="docutils literal notranslate"><span class="pre">SimulationContext</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.simulation.simulation_engine.SimulationContext.compare_scenarios"><code class="docutils literal notranslate"><span class="pre">SimulationContext.compare_scenarios()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.simulation.simulation_engine.SimulationContext.get_simulation_history"><code class="docutils literal notranslate"><span class="pre">SimulationContext.get_simulation_history()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.simulation.simulation_engine.SimulationContext.reset_baseline"><code class="docutils literal notranslate"><span class="pre">SimulationContext.reset_baseline()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.simulation.simulation_engine.SimulationContext.simulate_multiple_mutations"><code class="docutils literal notranslate"><span class="pre">SimulationContext.simulate_multiple_mutations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.simulation.simulation_engine.SimulationContext.simulate_mutation"><code class="docutils literal notranslate"><span class="pre">SimulationContext.simulate_mutation()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.simulation.simulation_engine.create_employment_mutation"><code class="docutils literal notranslate"><span class="pre">create_employment_mutation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.simulation.simulation_engine.create_mat_intervention_mutation"><code class="docutils literal notranslate"><span class="pre">create_mat_intervention_mutation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.simulation.simulation_engine.create_stable_housing_mutation"><code class="docutils literal notranslate"><span class="pre">create_stable_housing_mutation()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pacing</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">pacing.simulation.simulation_engine</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/module_docs/pacing/simulation/simulation_engine.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-pacing.simulation.simulation_engine">
+<span id="pacing-simulation-simulation-engine"></span><h1>pacing.simulation.simulation_engine<a class="headerlink" href="#module-pacing.simulation.simulation_engine" title="Link to this heading"></a></h1>
+<p>Simulation engine for What-If analysis in PACING.</p>
+<p>This module enables clinicians to explore hypothetical scenarios and understand
+how changes in a patient’s circumstances might affect relapse risk.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.simulation.simulation_engine.Mutation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.simulation.simulation_engine.</span></span><span class="sig-name descname"><span class="pre">Mutation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mutation_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pacing.simulation.simulation_engine.MutationType" title="pacing.simulation.simulation_engine.MutationType"><span class="pre">MutationType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pacing/simulation/simulation_engine.html#Mutation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.simulation.simulation_engine.Mutation" title="Link to this definition"></a></dt>
+<dd><p>A modification to apply to a patient graph for simulation.</p>
+<p>Mutations represent “What If” questions:
+- What if housing became stable?
+- What if the patient started medication-assisted treatment?
+- What if the patient experienced a traumatic event?</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.simulation.simulation_engine.Mutation.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../models/data_models.html#pacing.models.data_models.PatientGraph" title="pacing.models.data_models.PatientGraph"><span class="pre">PatientGraph</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../models/data_models.html#pacing.models.data_models.PatientGraph" title="pacing.models.data_models.PatientGraph"><span class="pre">PatientGraph</span></a></span></span><a class="reference internal" href="../../../_modules/pacing/simulation/simulation_engine.html#Mutation.apply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.simulation.simulation_engine.Mutation.apply" title="Link to this definition"></a></dt>
+<dd><p>Apply this mutation to a patient graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>graph</strong> – The graph to modify</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new graph with the mutation applied</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../pacing.html#pacing.PatientGraph" title="pacing.PatientGraph">PatientGraph</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.simulation.simulation_engine.MutationType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.simulation.simulation_engine.</span></span><span class="sig-name descname"><span class="pre">MutationType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pacing/simulation/simulation_engine.html#MutationType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.simulation.simulation_engine.MutationType" title="Link to this definition"></a></dt>
+<dd><p>Types of mutations that can be applied to a patient graph.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.simulation.simulation_engine.SimulationContext">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.simulation.simulation_engine.</span></span><span class="sig-name descname"><span class="pre">SimulationContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">baseline_graph</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../models/data_models.html#pacing.models.data_models.PatientGraph" title="pacing.models.data_models.PatientGraph"><span class="pre">PatientGraph</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../core/model_interfaces.html#pacing.core.model_interfaces.ISimulationModel" title="pacing.core.model_interfaces.ISimulationModel"><span class="pre">ISimulationModel</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pacing/simulation/simulation_engine.html#SimulationContext"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.simulation.simulation_engine.SimulationContext" title="Link to this definition"></a></dt>
+<dd><p>Context for running What-If simulations on patient data.</p>
+<p>The SimulationContext:
+1. Takes a baseline patient graph (current state)
+2. Applies hypothetical mutations (e.g., “What if housing stable?”)
+3. Runs risk models on both baseline and modified graphs
+4. Compares the results to show the impact of the hypothetical change</p>
+<dl>
+<dt>Example Usage:</dt><dd><p># Load patient data
+patient_graph = load_patient_data(patient_id)</p>
+<p># Create simulation context
+model = MockSimulationModel()
+sim = SimulationContext(patient_graph, model)</p>
+<p># Run “What If” scenario
+result = sim.simulate_mutation(</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Mutation(</dt><dd><p>MutationType.MODIFY_HOUSING,
+{“status”: “stable”, “impact_score”: 0.8},
+description=”Housing becomes stable”</p>
+</dd>
+</dl>
+<p>)</p>
+</div></blockquote>
+<p>)</p>
+<p>print(f”Current risk: {result[‘baseline_risk’]:.2%}”)
+print(f”Predicted risk with stable housing: {result[‘modified_risk’]:.2%}”)
+print(f”Risk reduction: {abs(result[‘delta’]):.2%}”)</p>
+</dd>
+</dl>
+<p>Design Philosophy:
+- Simulations are non-destructive (original data never modified)
+- Multiple scenarios can be compared side-by-side
+- Results include explanations for interpretability
+- Suitable for clinical decision support and patient education</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.simulation.simulation_engine.SimulationContext.compare_scenarios">
+<span class="sig-name descname"><span class="pre">compare_scenarios</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenarios</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pacing.simulation.simulation_engine.Mutation" title="pacing.simulation.simulation_engine.Mutation"><span class="pre">Mutation</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/pacing/simulation/simulation_engine.html#SimulationContext.compare_scenarios"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.simulation.simulation_engine.SimulationContext.compare_scenarios" title="Link to this definition"></a></dt>
+<dd><p>Compare multiple alternative scenarios side-by-side.</p>
+<p class="rubric">Example</p>
+<dl class="simple">
+<dt>scenarios = {</dt><dd><p>“Scenario A: MAT Only”: [mat_mutation],
+“Scenario B: MAT + Housing”: [mat_mutation, housing_mutation],
+“Scenario C: MAT + Housing + Employment”: [mat_mutation, housing_mutation, job_mutation]</p>
+</dd>
+</dl>
+<p>}</p>
+<p>comparison = sim.compare_scenarios(scenarios)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scenarios</strong> – Dict mapping scenario names to mutation lists</p></li>
+<li><p><strong>options</strong> – Optional model configuration</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results for each scenario</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.simulation.simulation_engine.SimulationContext.get_simulation_history">
+<span class="sig-name descname"><span class="pre">get_simulation_history</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/pacing/simulation/simulation_engine.html#SimulationContext.get_simulation_history"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.simulation.simulation_engine.SimulationContext.get_simulation_history" title="Link to this definition"></a></dt>
+<dd><p>Get the history of all simulations run in this context.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of simulation results</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[Dict[str, Any]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.simulation.simulation_engine.SimulationContext.reset_baseline">
+<span class="sig-name descname"><span class="pre">reset_baseline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_baseline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../models/data_models.html#pacing.models.data_models.PatientGraph" title="pacing.models.data_models.PatientGraph"><span class="pre">PatientGraph</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../../_modules/pacing/simulation/simulation_engine.html#SimulationContext.reset_baseline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.simulation.simulation_engine.SimulationContext.reset_baseline" title="Link to this definition"></a></dt>
+<dd><p>Update the baseline graph (e.g., when patient data changes).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>new_baseline</strong> – The new baseline patient state</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.simulation.simulation_engine.SimulationContext.simulate_multiple_mutations">
+<span class="sig-name descname"><span class="pre">simulate_multiple_mutations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mutations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pacing.simulation.simulation_engine.Mutation" title="pacing.simulation.simulation_engine.Mutation"><span class="pre">Mutation</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/pacing/simulation/simulation_engine.html#SimulationContext.simulate_multiple_mutations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.simulation.simulation_engine.SimulationContext.simulate_multiple_mutations" title="Link to this definition"></a></dt>
+<dd><p>Simulate the combined impact of multiple mutations.</p>
+<p>This allows exploring complex scenarios like:
+“What if housing stabilizes AND patient starts MAT AND gets employed?”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mutations</strong> – List of mutations to apply together</p></li>
+<li><p><strong>options</strong> – Optional model configuration</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Simulation results with risk comparison</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.simulation.simulation_engine.SimulationContext.simulate_mutation">
+<span class="sig-name descname"><span class="pre">simulate_mutation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mutation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pacing.simulation.simulation_engine.Mutation" title="pacing.simulation.simulation_engine.Mutation"><span class="pre">Mutation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/pacing/simulation/simulation_engine.html#SimulationContext.simulate_mutation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.simulation.simulation_engine.SimulationContext.simulate_mutation" title="Link to this definition"></a></dt>
+<dd><p>Simulate the impact of a single mutation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mutation</strong> – The hypothetical change to apply</p></li>
+<li><p><strong>options</strong> – Optional model configuration</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Simulation results with risk comparison</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pacing.simulation.simulation_engine.create_employment_mutation">
+<span class="sig-prename descclassname"><span class="pre">pacing.simulation.simulation_engine.</span></span><span class="sig-name descname"><span class="pre">create_employment_mutation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">employed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pacing.simulation.simulation_engine.Mutation" title="pacing.simulation.simulation_engine.Mutation"><span class="pre">Mutation</span></a></span></span><a class="reference internal" href="../../../_modules/pacing/simulation/simulation_engine.html#create_employment_mutation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.simulation.simulation_engine.create_employment_mutation" title="Link to this definition"></a></dt>
+<dd><p>Create a mutation representing employment status change.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mutation</span> <span class="o">=</span> <span class="n">create_employment_mutation</span><span class="p">(</span><span class="n">employed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mutation</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span>
+<span class="go">&#39;employed&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mutation</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;impact_score&#39;</span><span class="p">]</span>
+<span class="go">0.6</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mutation</span> <span class="o">=</span> <span class="n">create_employment_mutation</span><span class="p">(</span><span class="n">employed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mutation</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span>
+<span class="go">&#39;unemployed&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mutation</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;impact_score&#39;</span><span class="p">]</span>
+<span class="go">-0.6</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pacing.simulation.simulation_engine.create_mat_intervention_mutation">
+<span class="sig-prename descclassname"><span class="pre">pacing.simulation.simulation_engine.</span></span><span class="sig-name descname"><span class="pre">create_mat_intervention_mutation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">medication</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'buprenorphine'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pacing.simulation.simulation_engine.Mutation" title="pacing.simulation.simulation_engine.Mutation"><span class="pre">Mutation</span></a></span></span><a class="reference internal" href="../../../_modules/pacing/simulation/simulation_engine.html#create_mat_intervention_mutation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.simulation.simulation_engine.create_mat_intervention_mutation" title="Link to this definition"></a></dt>
+<dd><p>Create a mutation for starting medication-assisted treatment (MAT).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pacing.simulation.simulation_engine.create_stable_housing_mutation">
+<span class="sig-prename descclassname"><span class="pre">pacing.simulation.simulation_engine.</span></span><span class="sig-name descname"><span class="pre">create_stable_housing_mutation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pacing.simulation.simulation_engine.Mutation" title="pacing.simulation.simulation_engine.Mutation"><span class="pre">Mutation</span></a></span></span><a class="reference internal" href="../../../_modules/pacing/simulation/simulation_engine.html#create_stable_housing_mutation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.simulation.simulation_engine.create_stable_housing_mutation" title="Link to this definition"></a></dt>
+<dd><p>Create a mutation representing stable housing.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mutation</span> <span class="o">=</span> <span class="n">create_stable_housing_mutation</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mutation</span><span class="o">.</span><span class="n">mutation_type</span>
+<span class="go">&lt;MutationType.MODIFY_HOUSING: &#39;modify_housing&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mutation</span><span class="o">.</span><span class="n">description</span>
+<span class="go">&#39;Stable Housing&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mutation</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span>
+<span class="go">&#39;stable&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../platform.html" class="btn btn-neutral float-left" title="pacing.platform" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

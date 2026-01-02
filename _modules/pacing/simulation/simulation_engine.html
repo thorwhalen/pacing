@@ -1,0 +1,542 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pacing.simulation.simulation_engine &mdash; pacing 0.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=47de8214"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            pacing
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing.html">pacing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/core/agent_interfaces.html">pacing.core.agent_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/core/audio_interfaces.html">pacing.core.audio_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/core/model_interfaces.html">pacing.core.model_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/core/session_interfaces.html">pacing.core.session_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/core/transcription_interfaces.html">pacing.core.transcription_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/impl/agents/uncertainty_auditor.html">pacing.impl.agents.uncertainty_auditor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/impl/defaults/mock_audio.html">pacing.impl.defaults.mock_audio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/impl/defaults/mock_risk_model.html">pacing.impl.defaults.mock_risk_model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/impl/defaults/mock_transcriber.html">pacing.impl.defaults.mock_transcriber</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/models/data_models.html">pacing.models.data_models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/platform.html">pacing.platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/simulation/simulation_engine.html">pacing.simulation.simulation_engine</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pacing</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pacing.simulation.simulation_engine</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pacing.simulation.simulation_engine</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Simulation engine for What-If analysis in PACING.</span>
+
+<span class="sd">This module enables clinicians to explore hypothetical scenarios and understand</span>
+<span class="sd">how changes in a patient&#39;s circumstances might affect relapse risk.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pacing.core.model_interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">ISimulationModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pacing.models.data_models</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">PatientGraph</span><span class="p">,</span> <span class="n">Event</span><span class="p">,</span> <span class="n">Intervention</span><span class="p">,</span> <span class="n">SubstanceUse</span><span class="p">,</span>
+    <span class="n">EventType</span><span class="p">,</span> <span class="n">InterventionType</span><span class="p">,</span> <span class="n">SubstanceUseStatus</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="MutationType">
+<a class="viewcode-back" href="../../../module_docs/pacing/simulation/simulation_engine.html#pacing.MutationType">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MutationType</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Types of mutations that can be applied to a patient graph.&quot;&quot;&quot;</span>
+    <span class="n">ADD_EVENT</span> <span class="o">=</span> <span class="s2">&quot;add_event&quot;</span>
+    <span class="n">REMOVE_EVENT</span> <span class="o">=</span> <span class="s2">&quot;remove_event&quot;</span>
+    <span class="n">MODIFY_EVENT</span> <span class="o">=</span> <span class="s2">&quot;modify_event&quot;</span>
+    <span class="n">ADD_INTERVENTION</span> <span class="o">=</span> <span class="s2">&quot;add_intervention&quot;</span>
+    <span class="n">REMOVE_INTERVENTION</span> <span class="o">=</span> <span class="s2">&quot;remove_intervention&quot;</span>
+    <span class="n">MODIFY_INTERVENTION</span> <span class="o">=</span> <span class="s2">&quot;modify_intervention&quot;</span>
+    <span class="n">ADD_SUBSTANCE_USE</span> <span class="o">=</span> <span class="s2">&quot;add_substance_use&quot;</span>
+    <span class="n">MODIFY_HOUSING</span> <span class="o">=</span> <span class="s2">&quot;modify_housing&quot;</span>
+    <span class="n">MODIFY_EMPLOYMENT</span> <span class="o">=</span> <span class="s2">&quot;modify_employment&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="Mutation">
+<a class="viewcode-back" href="../../../module_docs/pacing/simulation/simulation_engine.html#pacing.Mutation">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Mutation</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A modification to apply to a patient graph for simulation.</span>
+
+<span class="sd">    Mutations represent &quot;What If&quot; questions:</span>
+<span class="sd">    - What if housing became stable?</span>
+<span class="sd">    - What if the patient started medication-assisted treatment?</span>
+<span class="sd">    - What if the patient experienced a traumatic event?</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">mutation_type</span><span class="p">:</span> <span class="n">MutationType</span><span class="p">,</span>
+        <span class="n">parameters</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+        <span class="n">description</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a mutation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            mutation_type: Type of mutation to apply</span>
+<span class="sd">            parameters: Parameters specific to this mutation type</span>
+<span class="sd">            description: Human-readable description (e.g., &quot;Stable housing&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mutation_type</span> <span class="o">=</span> <span class="n">mutation_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">description</span> <span class="ow">or</span> <span class="nb">str</span><span class="p">(</span><span class="n">mutation_type</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Mutation.apply">
+<a class="viewcode-back" href="../../../module_docs/pacing/simulation/simulation_engine.html#pacing.Mutation.apply">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">:</span> <span class="n">PatientGraph</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PatientGraph</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply this mutation to a patient graph.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            graph: The graph to modify</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            PatientGraph: A new graph with the mutation applied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Create a deep copy to avoid modifying the original</span>
+        <span class="n">modified</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mutation_type</span> <span class="o">==</span> <span class="n">MutationType</span><span class="o">.</span><span class="n">ADD_EVENT</span><span class="p">:</span>
+            <span class="n">event</span> <span class="o">=</span> <span class="n">Event</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
+            <span class="n">modified</span><span class="o">.</span><span class="n">events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">mutation_type</span> <span class="o">==</span> <span class="n">MutationType</span><span class="o">.</span><span class="n">REMOVE_EVENT</span><span class="p">:</span>
+            <span class="n">event_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;event_id&quot;</span><span class="p">)</span>
+            <span class="n">modified</span><span class="o">.</span><span class="n">events</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">modified</span><span class="o">.</span><span class="n">events</span> <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">event_id</span> <span class="o">!=</span> <span class="n">event_id</span><span class="p">]</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">mutation_type</span> <span class="o">==</span> <span class="n">MutationType</span><span class="o">.</span><span class="n">MODIFY_EVENT</span><span class="p">:</span>
+            <span class="n">event_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;event_id&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">modified</span><span class="o">.</span><span class="n">events</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">event_id</span> <span class="o">==</span> <span class="n">event_id</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                        <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s2">&quot;event_id&quot;</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+                            <span class="nb">setattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">mutation_type</span> <span class="o">==</span> <span class="n">MutationType</span><span class="o">.</span><span class="n">ADD_INTERVENTION</span><span class="p">:</span>
+            <span class="n">intervention</span> <span class="o">=</span> <span class="n">Intervention</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
+            <span class="n">modified</span><span class="o">.</span><span class="n">interventions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">intervention</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">mutation_type</span> <span class="o">==</span> <span class="n">MutationType</span><span class="o">.</span><span class="n">REMOVE_INTERVENTION</span><span class="p">:</span>
+            <span class="n">intervention_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;intervention_id&quot;</span><span class="p">)</span>
+            <span class="n">modified</span><span class="o">.</span><span class="n">interventions</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">modified</span><span class="o">.</span><span class="n">interventions</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">intervention_id</span> <span class="o">!=</span> <span class="n">intervention_id</span>
+            <span class="p">]</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">mutation_type</span> <span class="o">==</span> <span class="n">MutationType</span><span class="o">.</span><span class="n">MODIFY_HOUSING</span><span class="p">:</span>
+            <span class="c1"># Add housing stability as a positive life event</span>
+            <span class="n">housing_event</span> <span class="o">=</span> <span class="n">Event</span><span class="p">(</span>
+                <span class="n">event_id</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;sim_housing_</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">event_type</span><span class="o">=</span><span class="n">EventType</span><span class="o">.</span><span class="n">HOUSING_CHANGE</span><span class="p">,</span>
+                <span class="n">description</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;description&quot;</span><span class="p">,</span> <span class="s2">&quot;Housing stabilized&quot;</span><span class="p">),</span>
+                <span class="n">date</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span>
+                <span class="n">impact_score</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;impact_score&quot;</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">)</span>  <span class="c1"># Positive impact</span>
+            <span class="p">)</span>
+            <span class="n">modified</span><span class="o">.</span><span class="n">events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">housing_event</span><span class="p">)</span>
+            <span class="n">modified</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;simulated_housing_status&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;stable&quot;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">mutation_type</span> <span class="o">==</span> <span class="n">MutationType</span><span class="o">.</span><span class="n">MODIFY_EMPLOYMENT</span><span class="p">:</span>
+            <span class="c1"># Add employment change as a life event</span>
+            <span class="n">employment_event</span> <span class="o">=</span> <span class="n">Event</span><span class="p">(</span>
+                <span class="n">event_id</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;sim_employment_</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">event_type</span><span class="o">=</span><span class="n">EventType</span><span class="o">.</span><span class="n">JOB_CHANGE</span><span class="p">,</span>
+                <span class="n">description</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;description&quot;</span><span class="p">,</span> <span class="s2">&quot;Employment status changed&quot;</span><span class="p">),</span>
+                <span class="n">date</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span>
+                <span class="n">impact_score</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;impact_score&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">modified</span><span class="o">.</span><span class="n">events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">employment_event</span><span class="p">)</span>
+            <span class="n">modified</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;simulated_employment_status&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;employed&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">modified</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="SimulationContext">
+<a class="viewcode-back" href="../../../module_docs/pacing/simulation/simulation_engine.html#pacing.SimulationContext">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SimulationContext</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Context for running What-If simulations on patient data.</span>
+
+<span class="sd">    The SimulationContext:</span>
+<span class="sd">    1. Takes a baseline patient graph (current state)</span>
+<span class="sd">    2. Applies hypothetical mutations (e.g., &quot;What if housing stable?&quot;)</span>
+<span class="sd">    3. Runs risk models on both baseline and modified graphs</span>
+<span class="sd">    4. Compares the results to show the impact of the hypothetical change</span>
+
+<span class="sd">    Example Usage:</span>
+<span class="sd">        # Load patient data</span>
+<span class="sd">        patient_graph = load_patient_data(patient_id)</span>
+
+<span class="sd">        # Create simulation context</span>
+<span class="sd">        model = MockSimulationModel()</span>
+<span class="sd">        sim = SimulationContext(patient_graph, model)</span>
+
+<span class="sd">        # Run &quot;What If&quot; scenario</span>
+<span class="sd">        result = sim.simulate_mutation(</span>
+<span class="sd">            Mutation(</span>
+<span class="sd">                MutationType.MODIFY_HOUSING,</span>
+<span class="sd">                {&quot;status&quot;: &quot;stable&quot;, &quot;impact_score&quot;: 0.8},</span>
+<span class="sd">                description=&quot;Housing becomes stable&quot;</span>
+<span class="sd">            )</span>
+<span class="sd">        )</span>
+
+<span class="sd">        print(f&quot;Current risk: {result[&#39;baseline_risk&#39;]:.2%}&quot;)</span>
+<span class="sd">        print(f&quot;Predicted risk with stable housing: {result[&#39;modified_risk&#39;]:.2%}&quot;)</span>
+<span class="sd">        print(f&quot;Risk reduction: {abs(result[&#39;delta&#39;]):.2%}&quot;)</span>
+
+<span class="sd">    Design Philosophy:</span>
+<span class="sd">    - Simulations are non-destructive (original data never modified)</span>
+<span class="sd">    - Multiple scenarios can be compared side-by-side</span>
+<span class="sd">    - Results include explanations for interpretability</span>
+<span class="sd">    - Suitable for clinical decision support and patient education</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">baseline_graph</span><span class="p">:</span> <span class="n">PatientGraph</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">ISimulationModel</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the simulation context.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            baseline_graph: The current/actual patient state</span>
+<span class="sd">            model: Risk model that supports simulation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">baseline_graph</span> <span class="o">=</span> <span class="n">baseline_graph</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">simulation_history</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="SimulationContext.simulate_mutation">
+<a class="viewcode-back" href="../../../module_docs/pacing/simulation/simulation_engine.html#pacing.SimulationContext.simulate_mutation">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">simulate_mutation</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">mutation</span><span class="p">:</span> <span class="n">Mutation</span><span class="p">,</span>
+        <span class="n">options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Simulate the impact of a single mutation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            mutation: The hypothetical change to apply</span>
+<span class="sd">            options: Optional model configuration</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: Simulation results with risk comparison</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Apply mutation to create hypothetical scenario</span>
+        <span class="n">modified_graph</span> <span class="o">=</span> <span class="n">mutation</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">baseline_graph</span><span class="p">)</span>
+
+        <span class="c1"># Calculate risk delta</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">calculate_risk_delta</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">baseline_graph</span><span class="p">,</span>
+            <span class="n">modified_graph</span><span class="p">,</span>
+            <span class="n">options</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Add metadata</span>
+        <span class="n">result</span><span class="p">[</span><span class="s2">&quot;mutation&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">mutation</span><span class="o">.</span><span class="n">mutation_type</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">mutation</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+            <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="n">mutation</span><span class="o">.</span><span class="n">parameters</span>
+        <span class="p">}</span>
+        <span class="n">result</span><span class="p">[</span><span class="s2">&quot;timestamp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+
+        <span class="c1"># Store in history</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">simulation_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="SimulationContext.simulate_multiple_mutations">
+<a class="viewcode-back" href="../../../module_docs/pacing/simulation/simulation_engine.html#pacing.SimulationContext.simulate_multiple_mutations">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">simulate_multiple_mutations</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">mutations</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Mutation</span><span class="p">],</span>
+        <span class="n">options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Simulate the combined impact of multiple mutations.</span>
+
+<span class="sd">        This allows exploring complex scenarios like:</span>
+<span class="sd">        &quot;What if housing stabilizes AND patient starts MAT AND gets employed?&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            mutations: List of mutations to apply together</span>
+<span class="sd">            options: Optional model configuration</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: Simulation results with risk comparison</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Apply all mutations sequentially</span>
+        <span class="n">modified_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">baseline_graph</span>
+        <span class="k">for</span> <span class="n">mutation</span> <span class="ow">in</span> <span class="n">mutations</span><span class="p">:</span>
+            <span class="n">modified_graph</span> <span class="o">=</span> <span class="n">mutation</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">modified_graph</span><span class="p">)</span>
+
+        <span class="c1"># Calculate risk delta</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">calculate_risk_delta</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">baseline_graph</span><span class="p">,</span>
+            <span class="n">modified_graph</span><span class="p">,</span>
+            <span class="n">options</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Add metadata</span>
+        <span class="n">result</span><span class="p">[</span><span class="s2">&quot;mutations&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">mutation_type</span><span class="p">,</span>
+                <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+                <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">parameters</span>
+            <span class="p">}</span>
+            <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">mutations</span>
+        <span class="p">]</span>
+        <span class="n">result</span><span class="p">[</span><span class="s2">&quot;timestamp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+
+        <span class="c1"># Store in history</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">simulation_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="SimulationContext.compare_scenarios">
+<a class="viewcode-back" href="../../../module_docs/pacing/simulation/simulation_engine.html#pacing.SimulationContext.compare_scenarios">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compare_scenarios</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">scenarios</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Mutation</span><span class="p">]],</span>
+        <span class="n">options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compare multiple alternative scenarios side-by-side.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            scenarios = {</span>
+<span class="sd">                &quot;Scenario A: MAT Only&quot;: [mat_mutation],</span>
+<span class="sd">                &quot;Scenario B: MAT + Housing&quot;: [mat_mutation, housing_mutation],</span>
+<span class="sd">                &quot;Scenario C: MAT + Housing + Employment&quot;: [mat_mutation, housing_mutation, job_mutation]</span>
+<span class="sd">            }</span>
+
+<span class="sd">            comparison = sim.compare_scenarios(scenarios)</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            scenarios: Dict mapping scenario names to mutation lists</span>
+<span class="sd">            options: Optional model configuration</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: Results for each scenario</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">scenario_name</span><span class="p">,</span> <span class="n">mutations</span> <span class="ow">in</span> <span class="n">scenarios</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulate_multiple_mutations</span><span class="p">(</span><span class="n">mutations</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+            <span class="n">result</span><span class="p">[</span><span class="s2">&quot;scenario_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scenario_name</span>
+            <span class="n">results</span><span class="p">[</span><span class="n">scenario_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span>
+
+        <span class="c1"># Sort scenarios by predicted risk (best to worst)</span>
+        <span class="n">sorted_scenarios</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+            <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;modified_risk&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;scenarios&quot;</span><span class="p">:</span> <span class="n">results</span><span class="p">,</span>
+            <span class="s2">&quot;ranked&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">sorted_scenarios</span><span class="p">],</span>
+            <span class="s2">&quot;best_scenario&quot;</span><span class="p">:</span> <span class="n">sorted_scenarios</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">sorted_scenarios</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="SimulationContext.get_simulation_history">
+<a class="viewcode-back" href="../../../module_docs/pacing/simulation/simulation_engine.html#pacing.SimulationContext.get_simulation_history">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_simulation_history</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the history of all simulations run in this context.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Dict[str, Any]]: List of simulation results</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulation_history</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="SimulationContext.reset_baseline">
+<a class="viewcode-back" href="../../../module_docs/pacing/simulation/simulation_engine.html#pacing.SimulationContext.reset_baseline">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reset_baseline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_baseline</span><span class="p">:</span> <span class="n">PatientGraph</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update the baseline graph (e.g., when patient data changes).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            new_baseline: The new baseline patient state</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">baseline_graph</span> <span class="o">=</span> <span class="n">new_baseline</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">simulation_history</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Clear history since baseline changed</span></div>
+</div>
+
+
+
+<span class="c1"># Convenience functions for common What-If scenarios</span>
+
+<div class="viewcode-block" id="create_stable_housing_mutation">
+<a class="viewcode-back" href="../../../module_docs/pacing/simulation/simulation_engine.html#pacing.create_stable_housing_mutation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_stable_housing_mutation</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Mutation</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a mutation representing stable housing.</span>
+
+<span class="sd">    &gt;&gt;&gt; mutation = create_stable_housing_mutation()</span>
+<span class="sd">    &gt;&gt;&gt; mutation.mutation_type</span>
+<span class="sd">    &lt;MutationType.MODIFY_HOUSING: &#39;modify_housing&#39;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; mutation.description</span>
+<span class="sd">    &#39;Stable Housing&#39;</span>
+<span class="sd">    &gt;&gt;&gt; mutation.parameters[&#39;status&#39;]</span>
+<span class="sd">    &#39;stable&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Mutation</span><span class="p">(</span>
+        <span class="n">MutationType</span><span class="o">.</span><span class="n">MODIFY_HOUSING</span><span class="p">,</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;stable&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Housing became stable (shelter or permanent residence)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;impact_score&quot;</span><span class="p">:</span> <span class="mf">0.7</span>
+        <span class="p">},</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Stable Housing&quot;</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="create_employment_mutation">
+<a class="viewcode-back" href="../../../module_docs/pacing/simulation/simulation_engine.html#pacing.create_employment_mutation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_employment_mutation</span><span class="p">(</span><span class="n">employed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mutation</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a mutation representing employment status change.</span>
+
+<span class="sd">    &gt;&gt;&gt; mutation = create_employment_mutation(employed=True)</span>
+<span class="sd">    &gt;&gt;&gt; mutation.parameters[&#39;status&#39;]</span>
+<span class="sd">    &#39;employed&#39;</span>
+<span class="sd">    &gt;&gt;&gt; mutation.parameters[&#39;impact_score&#39;]</span>
+<span class="sd">    0.6</span>
+
+<span class="sd">    &gt;&gt;&gt; mutation = create_employment_mutation(employed=False)</span>
+<span class="sd">    &gt;&gt;&gt; mutation.parameters[&#39;status&#39;]</span>
+<span class="sd">    &#39;unemployed&#39;</span>
+<span class="sd">    &gt;&gt;&gt; mutation.parameters[&#39;impact_score&#39;]</span>
+<span class="sd">    -0.6</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Mutation</span><span class="p">(</span>
+        <span class="n">MutationType</span><span class="o">.</span><span class="n">MODIFY_EMPLOYMENT</span><span class="p">,</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;employed&quot;</span> <span class="k">if</span> <span class="n">employed</span> <span class="k">else</span> <span class="s2">&quot;unemployed&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Patient </span><span class="si">{</span><span class="s1">&#39;gained&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">employed</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;lost&#39;</span><span class="si">}</span><span class="s2"> employment&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;impact_score&quot;</span><span class="p">:</span> <span class="mf">0.6</span> <span class="k">if</span> <span class="n">employed</span> <span class="k">else</span> <span class="o">-</span><span class="mf">0.6</span>
+        <span class="p">},</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Employed&quot;</span> <span class="k">if</span> <span class="n">employed</span> <span class="k">else</span> <span class="s2">&quot;Unemployed&quot;</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="create_mat_intervention_mutation">
+<a class="viewcode-back" href="../../../module_docs/pacing/simulation/simulation_engine.html#pacing.create_mat_intervention_mutation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_mat_intervention_mutation</span><span class="p">(</span>
+    <span class="n">medication</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;buprenorphine&quot;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mutation</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a mutation for starting medication-assisted treatment (MAT).&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Mutation</span><span class="p">(</span>
+        <span class="n">MutationType</span><span class="o">.</span><span class="n">ADD_INTERVENTION</span><span class="p">,</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;intervention_id&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;sim_mat_</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;intervention_type&quot;</span><span class="p">:</span> <span class="n">InterventionType</span><span class="o">.</span><span class="n">MEDICATION</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Medication-Assisted Treatment (</span><span class="si">{</span><span class="n">medication</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;start_date&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span>
+            <span class="s2">&quot;effectiveness_score&quot;</span><span class="p">:</span> <span class="mf">0.75</span>
+        <span class="p">},</span>
+        <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Start MAT (</span><span class="si">{</span><span class="n">medication</span><span class="si">}</span><span class="s2">)&quot;</span>
+    <span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

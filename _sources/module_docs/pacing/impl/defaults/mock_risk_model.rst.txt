@@ -1,0 +1,4 @@
+pacing.impl.defaults.mock_risk_model
+====================================
+.. automodule:: pacing.impl.defaults.mock_risk_model
+   :members:

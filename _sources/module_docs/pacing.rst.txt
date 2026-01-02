@@ -1,0 +1,4 @@
+pacing
+======
+.. automodule:: pacing
+   :members:

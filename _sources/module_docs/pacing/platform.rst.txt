@@ -1,0 +1,4 @@
+pacing.platform
+===============
+.. automodule:: pacing.platform
+   :members:

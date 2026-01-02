@@ -1,0 +1,567 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pacing.platform &mdash; pacing 0.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=47de8214"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            pacing
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/pacing.html">pacing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/pacing/core/agent_interfaces.html">pacing.core.agent_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/pacing/core/audio_interfaces.html">pacing.core.audio_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/pacing/core/model_interfaces.html">pacing.core.model_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/pacing/core/session_interfaces.html">pacing.core.session_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/pacing/core/transcription_interfaces.html">pacing.core.transcription_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/pacing/impl/agents/uncertainty_auditor.html">pacing.impl.agents.uncertainty_auditor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/pacing/impl/defaults/mock_audio.html">pacing.impl.defaults.mock_audio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/pacing/impl/defaults/mock_risk_model.html">pacing.impl.defaults.mock_risk_model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/pacing/impl/defaults/mock_transcriber.html">pacing.impl.defaults.mock_transcriber</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/pacing/models/data_models.html">pacing.models.data_models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/pacing/platform.html">pacing.platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/pacing/simulation/simulation_engine.html">pacing.simulation.simulation_engine</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pacing</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pacing.platform</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pacing.platform</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Main PACING platform orchestrator.</span>
+
+<span class="sd">This module provides the primary entry point for initializing and configuring</span>
+<span class="sd">the PACING platform with dependency injection.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pacing.core.audio_interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">IAudioProvider</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pacing.core.transcription_interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">ITranscriber</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pacing.core.agent_interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">ISidecarAgent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pacing.core.model_interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">IRiskModel</span><span class="p">,</span> <span class="n">ISimulationModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pacing.core.session_interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">ISessionStream</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pacing.models.data_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">SessionMetadata</span><span class="p">,</span> <span class="n">PatientGraph</span><span class="p">,</span> <span class="n">TranscriptionResult</span>
+
+
+<div class="viewcode-block" id="OperatingMode">
+<a class="viewcode-back" href="../../module_docs/pacing/platform.html#pacing.OperatingMode">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">OperatingMode</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Operating mode for the platform.</span>
+
+<span class="sd">    DEV_MODE: Persists raw data (audio, transcripts) for debugging and auditing</span>
+<span class="sd">    PROD_MODE: Ephemeral raw data, only structured extractions are retained</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">DEV_MODE</span> <span class="o">=</span> <span class="s2">&quot;dev&quot;</span>
+    <span class="n">PROD_MODE</span> <span class="o">=</span> <span class="s2">&quot;prod&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="BasicSessionStream">
+<a class="viewcode-back" href="../../module_docs/pacing/platform.html#pacing.BasicSessionStream">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BasicSessionStream</span><span class="p">(</span><span class="n">ISessionStream</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Basic implementation of the session stream orchestrator.</span>
+
+<span class="sd">    This implementation coordinates audio capture, transcription, and agent</span>
+<span class="sd">    processing for a live clinical session.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operating_mode</span><span class="p">:</span> <span class="n">OperatingMode</span> <span class="o">=</span> <span class="n">OperatingMode</span><span class="o">.</span><span class="n">PROD_MODE</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the session stream.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            operating_mode: DEV_MODE or PROD_MODE (affects data retention)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">operating_mode</span> <span class="o">=</span> <span class="n">operating_mode</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_agents</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ISidecarAgent</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_active</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_current_session</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SessionMetadata</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_audio_provider</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">IAudioProvider</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_transcriber</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ITranscriber</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_transcription_buffer</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">TranscriptionResult</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="BasicSessionStream.register_agent">
+<a class="viewcode-back" href="../../module_docs/pacing/platform.html#pacing.BasicSessionStream.register_agent">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">register_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">:</span> <span class="n">ISidecarAgent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Register a sidecar agent.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">agent</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_agents</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_agents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[SessionStream] Registered agent: </span><span class="si">{</span><span class="n">agent</span><span class="o">.</span><span class="n">get_agent_name</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BasicSessionStream.unregister_agent">
+<a class="viewcode-back" href="../../module_docs/pacing/platform.html#pacing.BasicSessionStream.unregister_agent">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">unregister_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">:</span> <span class="n">ISidecarAgent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Unregister a sidecar agent.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_agents</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_agents</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[SessionStream] Unregistered agent: </span><span class="si">{</span><span class="n">agent</span><span class="o">.</span><span class="n">get_agent_name</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BasicSessionStream.start_session">
+<a class="viewcode-back" href="../../module_docs/pacing/platform.html#pacing.BasicSessionStream.start_session">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">start_session</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">session_metadata</span><span class="p">:</span> <span class="n">SessionMetadata</span><span class="p">,</span>
+        <span class="n">audio_provider</span><span class="p">:</span> <span class="n">IAudioProvider</span><span class="p">,</span>
+        <span class="n">transcriber</span><span class="p">:</span> <span class="n">ITranscriber</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Start a new clinical session.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            session_metadata: Session information</span>
+<span class="sd">            audio_provider: Source of audio data</span>
+<span class="sd">            transcriber: Speech-to-text engine</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_active</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;A session is already active. Stop it before starting a new one.&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_current_session</span> <span class="o">=</span> <span class="n">session_metadata</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_audio_provider</span> <span class="o">=</span> <span class="n">audio_provider</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_transcriber</span> <span class="o">=</span> <span class="n">transcriber</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_active</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_transcription_buffer</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Notify all agents</span>
+        <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_agents</span><span class="p">:</span>
+            <span class="n">agent</span><span class="o">.</span><span class="n">on_session_start</span><span class="p">(</span>
+                <span class="n">session_metadata</span><span class="o">.</span><span class="n">session_id</span><span class="p">,</span>
+                <span class="n">session_metadata</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
+            <span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[SessionStream] Session started: </span><span class="si">{</span><span class="n">session_metadata</span><span class="o">.</span><span class="n">session_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Start audio capture</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_audio_provider</span><span class="o">.</span><span class="n">start_stream</span><span class="p">()</span>
+
+        <span class="c1"># Begin processing audio asynchronously</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_audio_stream</span><span class="p">()</span></div>
+
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_process_audio_stream</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Process audio stream and distribute transcriptions to agents.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_audio_provider</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transcriber</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">sample_rate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_audio_provider</span><span class="o">.</span><span class="n">get_sample_rate</span><span class="p">()</span>
+
+        <span class="k">async</span> <span class="k">for</span> <span class="n">audio_chunk</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_audio_provider</span><span class="o">.</span><span class="n">get_audio_chunks_async</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_active</span><span class="p">:</span>
+                <span class="k">break</span>
+
+            <span class="c1"># Transcribe the audio chunk</span>
+            <span class="n">transcription</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transcriber</span><span class="o">.</span><span class="n">transcribe_chunk</span><span class="p">(</span>
+                <span class="n">audio_chunk</span><span class="p">,</span>
+                <span class="n">sample_rate</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Store in buffer (if DEV_MODE, otherwise ephemeral)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">operating_mode</span> <span class="o">==</span> <span class="n">OperatingMode</span><span class="o">.</span><span class="n">DEV_MODE</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_transcription_buffer</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">transcription</span><span class="p">)</span>
+
+            <span class="c1"># Distribute to all agents</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_broadcast_transcription</span><span class="p">(</span><span class="n">transcription</span><span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_broadcast_transcription</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transcription</span><span class="p">:</span> <span class="n">TranscriptionResult</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Broadcast a transcription to all registered agents.&quot;&quot;&quot;</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_session</span><span class="p">:</span>
+            <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;session_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_session</span><span class="o">.</span><span class="n">session_id</span><span class="p">,</span>
+                <span class="s2">&quot;patient_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_session</span><span class="o">.</span><span class="n">patient_id</span><span class="p">,</span>
+                <span class="s2">&quot;clinician_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_session</span><span class="o">.</span><span class="n">clinician_id</span>
+            <span class="p">}</span>
+
+        <span class="c1"># Process agents in parallel</span>
+        <span class="n">tasks</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">agent</span><span class="o">.</span><span class="n">on_transcription_update</span><span class="p">(</span><span class="n">transcription</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_agents</span>
+        <span class="p">]</span>
+        <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">tasks</span><span class="p">,</span> <span class="n">return_exceptions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<div class="viewcode-block" id="BasicSessionStream.stop_session">
+<a class="viewcode-back" href="../../module_docs/pacing/platform.html#pacing.BasicSessionStream.stop_session">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">stop_session</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stop the current session.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_active</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_active</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># Stop audio capture</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_audio_provider</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_audio_provider</span><span class="o">.</span><span class="n">stop_stream</span><span class="p">()</span>
+
+        <span class="c1"># Notify all agents</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_session</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_agents</span><span class="p">:</span>
+                <span class="n">agent</span><span class="o">.</span><span class="n">on_session_end</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_current_session</span><span class="o">.</span><span class="n">session_id</span><span class="p">)</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[SessionStream] Session ended: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_current_session</span><span class="o">.</span><span class="n">session_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Clear ephemeral data in PROD mode</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">operating_mode</span> <span class="o">==</span> <span class="n">OperatingMode</span><span class="o">.</span><span class="n">PROD_MODE</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_transcription_buffer</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[SessionStream] Ephemeral data cleared (PROD_MODE)&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_current_session</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_audio_provider</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_transcriber</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="BasicSessionStream.get_transcription_stream">
+<a class="viewcode-back" href="../../module_docs/pacing/platform.html#pacing.BasicSessionStream.get_transcription_stream">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_transcription_stream</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get transcription stream (async generator).&quot;&quot;&quot;</span>
+        <span class="c1"># This is a simplified implementation</span>
+        <span class="c1"># In production, use asyncio.Queue for better flow control</span>
+        <span class="k">for</span> <span class="n">transcription</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transcription_buffer</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">transcription</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_active</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if session is active.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_active</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">registered_agents</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">ISidecarAgent</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get registered agents.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_agents</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="PacingPlatform">
+<a class="viewcode-back" href="../../module_docs/pacing/platform.html#pacing.PacingPlatform">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PacingPlatform</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Main PACING platform class.</span>
+
+<span class="sd">    This is the primary interface for initializing and configuring the PACING</span>
+<span class="sd">    system. It provides dependency injection for all major components:</span>
+<span class="sd">    - Audio providers</span>
+<span class="sd">    - Transcribers</span>
+<span class="sd">    - Sidecar agents</span>
+<span class="sd">    - Risk models</span>
+<span class="sd">    - Operating mode (DEV/PROD)</span>
+
+<span class="sd">    Example Usage:</span>
+<span class="sd">        # Initialize platform in DEV mode</span>
+<span class="sd">        platform = PacingPlatform(operating_mode=OperatingMode.DEV_MODE)</span>
+
+<span class="sd">        # Inject custom components</span>
+<span class="sd">        platform.set_transcriber(DeepgramTranscriber(api_key=...))</span>
+<span class="sd">        platform.set_risk_model(MyBayesianNetwork())</span>
+
+<span class="sd">        # Register agents</span>
+<span class="sd">        platform.register_agent(UncertaintyAuditor(confidence_threshold=0.70))</span>
+<span class="sd">        platform.register_agent(GuideAgent())</span>
+<span class="sd">        platform.register_agent(ScribeAgent())</span>
+
+<span class="sd">        # Start a session</span>
+<span class="sd">        session = SessionMetadata(</span>
+<span class="sd">            session_id=&quot;session_001&quot;,</span>
+<span class="sd">            patient_id=&quot;patient_123&quot;,</span>
+<span class="sd">            clinician_id=&quot;clinician_456&quot;,</span>
+<span class="sd">            start_time=datetime.now()</span>
+<span class="sd">        )</span>
+
+<span class="sd">        audio = MyAudioProvider()</span>
+<span class="sd">        await platform.start_live_session(session, audio)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">operating_mode</span><span class="p">:</span> <span class="n">OperatingMode</span> <span class="o">=</span> <span class="n">OperatingMode</span><span class="o">.</span><span class="n">PROD_MODE</span><span class="p">,</span>
+        <span class="n">transcriber</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ITranscriber</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">risk_model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">IRiskModel</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the PACING platform.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            operating_mode: DEV_MODE (persist raw data) or PROD_MODE (ephemeral)</span>
+<span class="sd">            transcriber: Optional transcriber (defaults to MockTranscriber)</span>
+<span class="sd">            risk_model: Optional risk model (defaults to MockBayesianModel)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">operating_mode</span> <span class="o">=</span> <span class="n">operating_mode</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session_stream</span> <span class="o">=</span> <span class="n">BasicSessionStream</span><span class="p">(</span><span class="n">operating_mode</span><span class="p">)</span>
+
+        <span class="c1"># Default implementations (can be overridden via dependency injection)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_transcriber</span> <span class="o">=</span> <span class="n">transcriber</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_risk_model</span> <span class="o">=</span> <span class="n">risk_model</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[PacingPlatform] Initialized in </span><span class="si">{</span><span class="n">operating_mode</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"> mode&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Privacy reminder</span>
+        <span class="k">if</span> <span class="n">operating_mode</span> <span class="o">==</span> <span class="n">OperatingMode</span><span class="o">.</span><span class="n">PROD_MODE</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[PacingPlatform] PROD_MODE: Raw audio/transcripts will be ephemeral&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[PacingPlatform] DEV_MODE: Raw audio/transcripts will be persisted&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PacingPlatform.set_transcriber">
+<a class="viewcode-back" href="../../module_docs/pacing/platform.html#pacing.PacingPlatform.set_transcriber">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_transcriber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transcriber</span><span class="p">:</span> <span class="n">ITranscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Inject a custom transcriber.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            transcriber: Transcriber implementation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_transcriber</span> <span class="o">=</span> <span class="n">transcriber</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[PacingPlatform] Transcriber set: </span><span class="si">{</span><span class="n">transcriber</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PacingPlatform.set_risk_model">
+<a class="viewcode-back" href="../../module_docs/pacing/platform.html#pacing.PacingPlatform.set_risk_model">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_risk_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">IRiskModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Inject a custom risk model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            model: Risk model implementation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_risk_model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[PacingPlatform] Risk model set: </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PacingPlatform.register_agent">
+<a class="viewcode-back" href="../../module_docs/pacing/platform.html#pacing.PacingPlatform.register_agent">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">register_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">:</span> <span class="n">ISidecarAgent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Register a sidecar agent.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            agent: Sidecar agent implementation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session_stream</span><span class="o">.</span><span class="n">register_agent</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PacingPlatform.unregister_agent">
+<a class="viewcode-back" href="../../module_docs/pacing/platform.html#pacing.PacingPlatform.unregister_agent">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">unregister_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">:</span> <span class="n">ISidecarAgent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Unregister a sidecar agent.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            agent: Sidecar agent to remove</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session_stream</span><span class="o">.</span><span class="n">unregister_agent</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PacingPlatform.start_live_session">
+<a class="viewcode-back" href="../../module_docs/pacing/platform.html#pacing.PacingPlatform.start_live_session">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">start_live_session</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">session_metadata</span><span class="p">:</span> <span class="n">SessionMetadata</span><span class="p">,</span>
+        <span class="n">audio_provider</span><span class="p">:</span> <span class="n">IAudioProvider</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Start a live clinical session.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            session_metadata: Session information</span>
+<span class="sd">            audio_provider: Audio source</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If transcriber not configured</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transcriber</span><span class="p">:</span>
+            <span class="c1"># Use default mock transcriber</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pacing.impl.defaults.mock_transcriber</span><span class="w"> </span><span class="kn">import</span> <span class="n">MockTranscriber</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_transcriber</span> <span class="o">=</span> <span class="n">MockTranscriber</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[PacingPlatform] Using default MockTranscriber&quot;</span><span class="p">)</span>
+
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">session_stream</span><span class="o">.</span><span class="n">start_session</span><span class="p">(</span>
+            <span class="n">session_metadata</span><span class="p">,</span>
+            <span class="n">audio_provider</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_transcriber</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PacingPlatform.stop_live_session">
+<a class="viewcode-back" href="../../module_docs/pacing/platform.html#pacing.PacingPlatform.stop_live_session">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">stop_live_session</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stop the current live session.&quot;&quot;&quot;</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">session_stream</span><span class="o">.</span><span class="n">stop_session</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="PacingPlatform.calculate_risk">
+<a class="viewcode-back" href="../../module_docs/pacing/platform.html#pacing.PacingPlatform.calculate_risk">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_risk</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">patient_graph</span><span class="p">:</span> <span class="n">PatientGraph</span><span class="p">,</span>
+        <span class="n">options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate relapse risk for a patient (Longitudinal Mode).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            patient_graph: Patient clinical history</span>
+<span class="sd">            options: Optional model configuration</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            RiskReport: Risk assessment</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If risk model not configured</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_risk_model</span><span class="p">:</span>
+            <span class="c1"># Use default mock model</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pacing.impl.defaults.mock_risk_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">MockBayesianModel</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_risk_model</span> <span class="o">=</span> <span class="n">MockBayesianModel</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[PacingPlatform] Using default MockBayesianModel&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_risk_model</span><span class="o">.</span><span class="n">calculate_risk</span><span class="p">(</span><span class="n">patient_graph</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PacingPlatform.get_simulation_context">
+<a class="viewcode-back" href="../../module_docs/pacing/platform.html#pacing.PacingPlatform.get_simulation_context">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_simulation_context</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">patient_graph</span><span class="p">:</span> <span class="n">PatientGraph</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a simulation context for What-If analysis.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            patient_graph: Patient clinical history</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            SimulationContext: Context for running simulations</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If risk model doesn&#39;t support simulation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_risk_model</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pacing.impl.defaults.mock_risk_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">MockSimulationModel</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_risk_model</span> <span class="o">=</span> <span class="n">MockSimulationModel</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[PacingPlatform] Using default MockSimulationModel&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_risk_model</span><span class="p">,</span> <span class="n">ISimulationModel</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Risk model </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_risk_model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> &quot;</span>
+                <span class="s2">&quot;does not support simulation. Use a model that implements ISimulationModel.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pacing.simulation.simulation_engine</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimulationContext</span>
+        <span class="k">return</span> <span class="n">SimulationContext</span><span class="p">(</span><span class="n">patient_graph</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_risk_model</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PacingPlatform.get_platform_status">
+<a class="viewcode-back" href="../../module_docs/pacing/platform.html#pacing.PacingPlatform.get_platform_status">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_platform_status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get current platform status.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: Platform configuration and status</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;operating_mode&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">operating_mode</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="s2">&quot;session_active&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">session_stream</span><span class="o">.</span><span class="n">is_active</span><span class="p">,</span>
+            <span class="s2">&quot;transcriber&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transcriber</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transcriber</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;risk_model&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_risk_model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_risk_model</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;registered_agents&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">agent</span><span class="o">.</span><span class="n">get_agent_name</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">session_stream</span><span class="o">.</span><span class="n">registered_agents</span>
+            <span class="p">]</span>
+        <span class="p">}</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

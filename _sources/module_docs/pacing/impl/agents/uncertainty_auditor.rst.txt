@@ -1,0 +1,4 @@
+pacing.impl.agents.uncertainty_auditor
+======================================
+.. automodule:: pacing.impl.agents.uncertainty_auditor
+   :members:

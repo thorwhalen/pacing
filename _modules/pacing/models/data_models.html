@@ -1,0 +1,426 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pacing.models.data_models &mdash; pacing 0.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=47de8214"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            pacing
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing.html">pacing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/core/agent_interfaces.html">pacing.core.agent_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/core/audio_interfaces.html">pacing.core.audio_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/core/model_interfaces.html">pacing.core.model_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/core/session_interfaces.html">pacing.core.session_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/core/transcription_interfaces.html">pacing.core.transcription_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/impl/agents/uncertainty_auditor.html">pacing.impl.agents.uncertainty_auditor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/impl/defaults/mock_audio.html">pacing.impl.defaults.mock_audio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/impl/defaults/mock_risk_model.html">pacing.impl.defaults.mock_risk_model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/impl/defaults/mock_transcriber.html">pacing.impl.defaults.mock_transcriber</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/models/data_models.html">pacing.models.data_models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/platform.html">pacing.platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/simulation/simulation_engine.html">pacing.simulation.simulation_engine</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pacing</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pacing.models.data_models</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pacing.models.data_models</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Core data models for the PACING platform.</span>
+
+<span class="sd">These Pydantic models define the structure of data flowing through the system,</span>
+<span class="sd">ensuring type safety and validation at runtime.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">field_validator</span>
+
+
+<div class="viewcode-block" id="ConfidenceLevel">
+<a class="viewcode-back" href="../../../module_docs/pacing/models/data_models.html#pacing.ConfidenceLevel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ConfidenceLevel</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transcription confidence levels.&quot;&quot;&quot;</span>
+    <span class="n">HIGH</span> <span class="o">=</span> <span class="s2">&quot;high&quot;</span>
+    <span class="n">MEDIUM</span> <span class="o">=</span> <span class="s2">&quot;medium&quot;</span>
+    <span class="n">LOW</span> <span class="o">=</span> <span class="s2">&quot;low&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="TranscriptionResult">
+<a class="viewcode-back" href="../../../module_docs/pacing/models/data_models.html#pacing.TranscriptionResult">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TranscriptionResult</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Result from a transcription operation.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        text: The transcribed text</span>
+<span class="sd">        timestamp: When this transcription was generated</span>
+<span class="sd">        confidence_score: Acoustic confidence (0.0-1.0)</span>
+<span class="sd">        speaker_id: Optional speaker identification</span>
+<span class="sd">        is_partial: Whether this is a partial (streaming) result</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">text</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">timestamp</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
+    <span class="n">confidence_score</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">speaker_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">is_partial</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">confidence_level</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ConfidenceLevel</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Categorize confidence score into levels.</span>
+
+<span class="sd">        &gt;&gt;&gt; from datetime import datetime</span>
+<span class="sd">        &gt;&gt;&gt; t1 = TranscriptionResult(text=&quot;hello&quot;, confidence_score=0.95)</span>
+<span class="sd">        &gt;&gt;&gt; t1.confidence_level</span>
+<span class="sd">        &lt;ConfidenceLevel.HIGH: &#39;high&#39;&gt;</span>
+
+<span class="sd">        &gt;&gt;&gt; t2 = TranscriptionResult(text=&quot;world&quot;, confidence_score=0.75)</span>
+<span class="sd">        &gt;&gt;&gt; t2.confidence_level</span>
+<span class="sd">        &lt;ConfidenceLevel.MEDIUM: &#39;medium&#39;&gt;</span>
+
+<span class="sd">        &gt;&gt;&gt; t3 = TranscriptionResult(text=&quot;test&quot;, confidence_score=0.5)</span>
+<span class="sd">        &gt;&gt;&gt; t3.confidence_level</span>
+<span class="sd">        &lt;ConfidenceLevel.LOW: &#39;low&#39;&gt;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">confidence_score</span> <span class="o">&gt;=</span> <span class="mf">0.85</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ConfidenceLevel</span><span class="o">.</span><span class="n">HIGH</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">confidence_score</span> <span class="o">&gt;=</span> <span class="mf">0.70</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ConfidenceLevel</span><span class="o">.</span><span class="n">MEDIUM</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ConfidenceLevel</span><span class="o">.</span><span class="n">LOW</span></div>
+
+
+
+<div class="viewcode-block" id="EventType">
+<a class="viewcode-back" href="../../../module_docs/pacing/models/data_models.html#pacing.EventType">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EventType</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Types of life events tracked in the patient graph.&quot;&quot;&quot;</span>
+    <span class="n">JOB_CHANGE</span> <span class="o">=</span> <span class="s2">&quot;job_change&quot;</span>
+    <span class="n">HOUSING_CHANGE</span> <span class="o">=</span> <span class="s2">&quot;housing_change&quot;</span>
+    <span class="n">RELATIONSHIP_CHANGE</span> <span class="o">=</span> <span class="s2">&quot;relationship_change&quot;</span>
+    <span class="n">TRAUMA</span> <span class="o">=</span> <span class="s2">&quot;trauma&quot;</span>
+    <span class="n">LEGAL_EVENT</span> <span class="o">=</span> <span class="s2">&quot;legal_event&quot;</span>
+    <span class="n">MEDICAL_EVENT</span> <span class="o">=</span> <span class="s2">&quot;medical_event&quot;</span>
+    <span class="n">OTHER</span> <span class="o">=</span> <span class="s2">&quot;other&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="Event">
+<a class="viewcode-back" href="../../../module_docs/pacing/models/data_models.html#pacing.Event">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Event</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A life event in the patient&#39;s history.</span>
+
+<span class="sd">    Events represent significant occurrences that may impact relapse risk.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">event_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">event_type</span><span class="p">:</span> <span class="n">EventType</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">date</span><span class="p">:</span> <span class="n">datetime</span>
+    <span class="n">impact_score</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">ge</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                                          <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Estimated impact on recovery (-1=very negative, 1=very positive)&quot;</span><span class="p">)</span>
+    <span class="n">metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="SubstanceType">
+<a class="viewcode-back" href="../../../module_docs/pacing/models/data_models.html#pacing.SubstanceType">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SubstanceType</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Types of substances tracked.&quot;&quot;&quot;</span>
+    <span class="n">ALCOHOL</span> <span class="o">=</span> <span class="s2">&quot;alcohol&quot;</span>
+    <span class="n">OPIOIDS</span> <span class="o">=</span> <span class="s2">&quot;opioids&quot;</span>
+    <span class="n">STIMULANTS</span> <span class="o">=</span> <span class="s2">&quot;stimulants&quot;</span>
+    <span class="n">CANNABIS</span> <span class="o">=</span> <span class="s2">&quot;cannabis&quot;</span>
+    <span class="n">BENZODIAZEPINES</span> <span class="o">=</span> <span class="s2">&quot;benzodiazepines&quot;</span>
+    <span class="n">OTHER</span> <span class="o">=</span> <span class="s2">&quot;other&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="SubstanceUseStatus">
+<a class="viewcode-back" href="../../../module_docs/pacing/models/data_models.html#pacing.SubstanceUseStatus">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SubstanceUseStatus</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Status of substance use.&quot;&quot;&quot;</span>
+    <span class="n">ACTIVE_USE</span> <span class="o">=</span> <span class="s2">&quot;active_use&quot;</span>
+    <span class="n">RELAPSE</span> <span class="o">=</span> <span class="s2">&quot;relapse&quot;</span>
+    <span class="n">REMISSION</span> <span class="o">=</span> <span class="s2">&quot;remission&quot;</span>
+    <span class="n">RECOVERY</span> <span class="o">=</span> <span class="s2">&quot;recovery&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="SubstanceUse">
+<a class="viewcode-back" href="../../../module_docs/pacing/models/data_models.html#pacing.SubstanceUse">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SubstanceUse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A substance use event or status change.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">use_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">substance_type</span><span class="p">:</span> <span class="n">SubstanceType</span>
+    <span class="n">status</span><span class="p">:</span> <span class="n">SubstanceUseStatus</span>
+    <span class="n">date</span><span class="p">:</span> <span class="n">datetime</span>
+    <span class="n">severity</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">notes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="InterventionType">
+<a class="viewcode-back" href="../../../module_docs/pacing/models/data_models.html#pacing.InterventionType">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">InterventionType</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Types of clinical interventions.&quot;&quot;&quot;</span>
+    <span class="n">MEDICATION</span> <span class="o">=</span> <span class="s2">&quot;medication&quot;</span>
+    <span class="n">THERAPY</span> <span class="o">=</span> <span class="s2">&quot;therapy&quot;</span>
+    <span class="n">SUPPORT_GROUP</span> <span class="o">=</span> <span class="s2">&quot;support_group&quot;</span>
+    <span class="n">HOSPITALIZATION</span> <span class="o">=</span> <span class="s2">&quot;hospitalization&quot;</span>
+    <span class="n">OTHER</span> <span class="o">=</span> <span class="s2">&quot;other&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="Intervention">
+<a class="viewcode-back" href="../../../module_docs/pacing/models/data_models.html#pacing.Intervention">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Intervention</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A clinical intervention in the patient&#39;s treatment plan.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">intervention_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">intervention_type</span><span class="p">:</span> <span class="n">InterventionType</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">start_date</span><span class="p">:</span> <span class="n">datetime</span>
+    <span class="n">end_date</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">effectiveness_score</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="GraphEdge">
+<a class="viewcode-back" href="../../../module_docs/pacing/models/data_models.html#pacing.GraphEdge">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GraphEdge</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An edge connecting nodes in the patient graph.</span>
+
+<span class="sd">    Edges can represent temporal or causal relationships.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">source_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">target_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">relationship_type</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># e.g., &quot;leads_to&quot;, &quot;causes&quot;, &quot;precedes&quot;</span>
+    <span class="n">weight</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span></div>
+
+
+
+<div class="viewcode-block" id="PatientGraph">
+<a class="viewcode-back" href="../../../module_docs/pacing/models/data_models.html#pacing.PatientGraph">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PatientGraph</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A structured representation of a patient&#39;s clinical history.</span>
+
+<span class="sd">    This graph contains nodes (events, substance use, interventions) and edges</span>
+<span class="sd">    (temporal/causal relationships) that are used for longitudinal reasoning.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">patient_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">events</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Event</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">substance_use_records</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">SubstanceUse</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">interventions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Intervention</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">edges</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">GraphEdge</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PatientGraph.get_all_node_ids">
+<a class="viewcode-back" href="../../../module_docs/pacing/models/data_models.html#pacing.PatientGraph.get_all_node_ids">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_all_node_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all node IDs in the graph.</span>
+
+<span class="sd">        &gt;&gt;&gt; from datetime import datetime</span>
+<span class="sd">        &gt;&gt;&gt; graph = PatientGraph(patient_id=&quot;p123&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; graph.get_all_node_ids()</span>
+<span class="sd">        []</span>
+
+<span class="sd">        &gt;&gt;&gt; graph.events.append(Event(</span>
+<span class="sd">        ...     event_id=&quot;e1&quot;, event_type=EventType.JOB_CHANGE,</span>
+<span class="sd">        ...     description=&quot;test&quot;, date=datetime.now()</span>
+<span class="sd">        ... ))</span>
+<span class="sd">        &gt;&gt;&gt; &quot;e1&quot; in graph.get_all_node_ids()</span>
+<span class="sd">        True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">event_id</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">]</span> <span class="o">+</span>
+            <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">use_id</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">substance_use_records</span><span class="p">]</span> <span class="o">+</span>
+            <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">intervention_id</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">interventions</span><span class="p">]</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="RiskFactor">
+<a class="viewcode-back" href="../../../module_docs/pacing/models/data_models.html#pacing.RiskFactor">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RiskFactor</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A contributing factor to relapse risk.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">factor_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">contribution</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                               <span class="n">description</span><span class="o">=</span><span class="s2">&quot;How much this factor contributes to overall risk (negative values = protective)&quot;</span><span class="p">)</span>
+    <span class="n">evidence</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">,</span>
+                               <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Supporting evidence from patient data&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="RiskReport">
+<a class="viewcode-back" href="../../../module_docs/pacing/models/data_models.html#pacing.RiskReport">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RiskReport</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Output from a risk assessment model.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        patient_id: Patient identifier</span>
+<span class="sd">        risk_score: Overall relapse risk probability (0.0-1.0)</span>
+<span class="sd">        risk_factors: Contributing factors ranked by importance</span>
+<span class="sd">        timestamp: When this assessment was generated</span>
+<span class="sd">        model_version: Identifier for the model that generated this report</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">patient_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">risk_score</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">risk_factors</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">RiskFactor</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">timestamp</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
+    <span class="n">model_version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span>
+    <span class="n">confidence_interval</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="ReviewQueueItem">
+<a class="viewcode-back" href="../../../module_docs/pacing/models/data_models.html#pacing.ReviewQueueItem">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ReviewQueueItem</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An item flagged for human review.</span>
+
+<span class="sd">    Used by the Auditor agent to track low-confidence transcription segments</span>
+<span class="sd">    that require verification.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">item_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">transcription</span><span class="p">:</span> <span class="n">TranscriptionResult</span>
+    <span class="n">flagged_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
+    <span class="n">reason</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">priority</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;1=lowest, 5=highest&quot;</span><span class="p">)</span>
+    <span class="n">reviewed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">reviewer_notes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="ExtractedEntity">
+<a class="viewcode-back" href="../../../module_docs/pacing/models/data_models.html#pacing.ExtractedEntity">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ExtractedEntity</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A structured entity extracted from transcription by the Scribe agent.</span>
+
+<span class="sd">    Examples: medications mentioned, life events discussed, substance use reported.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">entity_type</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># &quot;medication&quot;, &quot;life_event&quot;, &quot;substance_use&quot;, etc.</span>
+    <span class="n">value</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">confidence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">source_text</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># Original text from which this was extracted</span>
+    <span class="n">timestamp</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
+    <span class="n">metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="SessionMetadata">
+<a class="viewcode-back" href="../../../module_docs/pacing/models/data_models.html#pacing.SessionMetadata">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SessionMetadata</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Metadata for a clinical session.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">session_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">patient_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">clinician_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">start_time</span><span class="p">:</span> <span class="n">datetime</span>
+    <span class="n">end_time</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">session_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;counseling&quot;</span>  <span class="c1"># counseling, intake, follow-up, etc.</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

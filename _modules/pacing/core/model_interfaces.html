@@ -1,0 +1,279 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pacing.core.model_interfaces &mdash; pacing 0.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=47de8214"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            pacing
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing.html">pacing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/core/agent_interfaces.html">pacing.core.agent_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/core/audio_interfaces.html">pacing.core.audio_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/core/model_interfaces.html">pacing.core.model_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/core/session_interfaces.html">pacing.core.session_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/core/transcription_interfaces.html">pacing.core.transcription_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/impl/agents/uncertainty_auditor.html">pacing.impl.agents.uncertainty_auditor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/impl/defaults/mock_audio.html">pacing.impl.defaults.mock_audio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/impl/defaults/mock_risk_model.html">pacing.impl.defaults.mock_risk_model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/impl/defaults/mock_transcriber.html">pacing.impl.defaults.mock_transcriber</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/models/data_models.html">pacing.models.data_models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/platform.html">pacing.platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/pacing/simulation/simulation_engine.html">pacing.simulation.simulation_engine</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pacing</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pacing.core.model_interfaces</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pacing.core.model_interfaces</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Risk model interfaces for the PACING platform.</span>
+
+<span class="sd">These interfaces define how probabilistic models assess relapse risk based on</span>
+<span class="sd">patient data. Models can range from simple rule-based systems to complex</span>
+<span class="sd">Bayesian networks or machine learning models.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pacing.models.data_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">PatientGraph</span><span class="p">,</span> <span class="n">RiskReport</span>
+
+
+<div class="viewcode-block" id="IRiskModel">
+<a class="viewcode-back" href="../../../module_docs/pacing/core/model_interfaces.html#pacing.core.model_interfaces.IRiskModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">IRiskModel</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract interface for relapse risk assessment models.</span>
+
+<span class="sd">    Risk models analyze a patient&#39;s clinical history (represented as a PatientGraph)</span>
+<span class="sd">    and produce a RiskReport with:</span>
+<span class="sd">    - Overall risk score (0.0 to 1.0)</span>
+<span class="sd">    - Contributing risk factors ranked by importance</span>
+<span class="sd">    - Optional confidence intervals</span>
+
+<span class="sd">    Design Philosophy:</span>
+<span class="sd">    - Models should be stateless (pure functions of input data)</span>
+<span class="sd">    - They should explain their reasoning (list contributing factors)</span>
+<span class="sd">    - They should be versionable (model_version in RiskReport)</span>
+<span class="sd">    - They should be auditable (factors include evidence)</span>
+
+<span class="sd">    Implementation Patterns:</span>
+<span class="sd">    - Rule-based: Simple heuristics for demonstration/baseline</span>
+<span class="sd">    - Bayesian Network: Probabilistic graphical models (pgmpy, PyMC)</span>
+<span class="sd">    - Machine Learning: Trained models (scikit-learn, PyTorch)</span>
+<span class="sd">    - Ensemble: Combine multiple models</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="IRiskModel.calculate_risk">
+<a class="viewcode-back" href="../../../module_docs/pacing/core/model_interfaces.html#pacing.core.model_interfaces.IRiskModel.calculate_risk">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_risk</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">patient_data</span><span class="p">:</span> <span class="n">PatientGraph</span><span class="p">,</span>
+        <span class="n">options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RiskReport</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate relapse risk for a patient.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            patient_data: The patient&#39;s clinical history as a graph</span>
+<span class="sd">            options: Optional configuration (e.g., time horizon, focus areas)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            RiskReport: Risk assessment with score and contributing factors</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            model = MyBayesianModel()</span>
+<span class="sd">            report = model.calculate_risk(patient_graph)</span>
+<span class="sd">            print(f&quot;Risk: {report.risk_score:.2%}&quot;)</span>
+<span class="sd">            for factor in report.risk_factors:</span>
+<span class="sd">                print(f&quot;  - {factor.factor_name}: {factor.contribution:.2%}&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="IRiskModel.get_model_version">
+<a class="viewcode-back" href="../../../module_docs/pacing/core/model_interfaces.html#pacing.core.model_interfaces.IRiskModel.get_model_version">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_model_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the version identifier for this model.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: Version string (e.g., &quot;bayesian-v1.2&quot;, &quot;ml-rf-20231201&quot;)</span>
+
+<span class="sd">        Notes:</span>
+<span class="sd">            - Version should change when model logic or parameters change</span>
+<span class="sd">            - Used for auditability and reproducibility</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;unknown&quot;</span></div>
+
+
+<div class="viewcode-block" id="IRiskModel.get_model_metadata">
+<a class="viewcode-back" href="../../../module_docs/pacing/core/model_interfaces.html#pacing.core.model_interfaces.IRiskModel.get_model_metadata">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_model_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get metadata about this model.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: Model information (type, training data, features, etc.)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+            <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_model_version</span><span class="p">(),</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;unknown&quot;</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="IRiskModel.validate_input">
+<a class="viewcode-back" href="../../../module_docs/pacing/core/model_interfaces.html#pacing.core.model_interfaces.IRiskModel.validate_input">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patient_data</span><span class="p">:</span> <span class="n">PatientGraph</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate that the patient data is sufficient for this model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            patient_data: Patient graph to validate</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if data is valid</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If data is invalid (with explanation)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">patient_data</span><span class="o">.</span><span class="n">patient_id</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Patient ID is required&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ISimulationModel">
+<a class="viewcode-back" href="../../../module_docs/pacing/core/model_interfaces.html#pacing.core.model_interfaces.ISimulationModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ISimulationModel</span><span class="p">(</span><span class="n">IRiskModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extended interface for models that support What-If simulation.</span>
+
+<span class="sd">    Simulation models can handle hypothetical modifications to patient data</span>
+<span class="sd">    and compare the resulting risk to a baseline.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ISimulationModel.calculate_risk_delta">
+<a class="viewcode-back" href="../../../module_docs/pacing/core/model_interfaces.html#pacing.core.model_interfaces.ISimulationModel.calculate_risk_delta">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_risk_delta</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">baseline</span><span class="p">:</span> <span class="n">PatientGraph</span><span class="p">,</span>
+        <span class="n">modified</span><span class="p">:</span> <span class="n">PatientGraph</span><span class="p">,</span>
+        <span class="n">options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the change in risk between baseline and modified scenarios.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            baseline: The current/actual patient state</span>
+<span class="sd">            modified: The hypothetical patient state (e.g., &quot;What if housing stable?&quot;)</span>
+<span class="sd">            options: Optional configuration</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: Contains &#39;baseline_risk&#39;, &#39;modified_risk&#39;, &#39;delta&#39;, and &#39;explanation&#39;</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            baseline_graph = load_patient_graph(patient_id)</span>
+<span class="sd">            modified_graph = apply_intervention(baseline_graph, &quot;stable_housing&quot;)</span>
+
+<span class="sd">            delta = model.calculate_risk_delta(baseline_graph, modified_graph)</span>
+<span class="sd">            print(f&quot;Risk reduction: {delta[&#39;delta&#39;]:.2%}&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

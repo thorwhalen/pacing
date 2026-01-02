@@ -1,0 +1,381 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pacing.platform &mdash; pacing 0.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=47de8214"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="pacing.simulation.simulation_engine" href="simulation/simulation_engine.html" />
+    <link rel="prev" title="pacing.models.data_models" href="models/data_models.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            pacing
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../pacing.html">pacing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core/agent_interfaces.html">pacing.core.agent_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core/audio_interfaces.html">pacing.core.audio_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core/model_interfaces.html">pacing.core.model_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core/session_interfaces.html">pacing.core.session_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core/transcription_interfaces.html">pacing.core.transcription_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="impl/agents/uncertainty_auditor.html">pacing.impl.agents.uncertainty_auditor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="impl/defaults/mock_audio.html">pacing.impl.defaults.mock_audio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="impl/defaults/mock_risk_model.html">pacing.impl.defaults.mock_risk_model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="impl/defaults/mock_transcriber.html">pacing.impl.defaults.mock_transcriber</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/data_models.html">pacing.models.data_models</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pacing.platform</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.platform.BasicSessionStream"><code class="docutils literal notranslate"><span class="pre">BasicSessionStream</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.platform.BasicSessionStream.get_transcription_stream"><code class="docutils literal notranslate"><span class="pre">BasicSessionStream.get_transcription_stream()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.platform.BasicSessionStream.is_active"><code class="docutils literal notranslate"><span class="pre">BasicSessionStream.is_active</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.platform.BasicSessionStream.register_agent"><code class="docutils literal notranslate"><span class="pre">BasicSessionStream.register_agent()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.platform.BasicSessionStream.registered_agents"><code class="docutils literal notranslate"><span class="pre">BasicSessionStream.registered_agents</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.platform.BasicSessionStream.start_session"><code class="docutils literal notranslate"><span class="pre">BasicSessionStream.start_session()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.platform.BasicSessionStream.stop_session"><code class="docutils literal notranslate"><span class="pre">BasicSessionStream.stop_session()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.platform.BasicSessionStream.unregister_agent"><code class="docutils literal notranslate"><span class="pre">BasicSessionStream.unregister_agent()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.platform.OperatingMode"><code class="docutils literal notranslate"><span class="pre">OperatingMode</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.platform.PacingPlatform"><code class="docutils literal notranslate"><span class="pre">PacingPlatform</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.platform.PacingPlatform.calculate_risk"><code class="docutils literal notranslate"><span class="pre">PacingPlatform.calculate_risk()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.platform.PacingPlatform.get_platform_status"><code class="docutils literal notranslate"><span class="pre">PacingPlatform.get_platform_status()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.platform.PacingPlatform.get_simulation_context"><code class="docutils literal notranslate"><span class="pre">PacingPlatform.get_simulation_context()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.platform.PacingPlatform.register_agent"><code class="docutils literal notranslate"><span class="pre">PacingPlatform.register_agent()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.platform.PacingPlatform.set_risk_model"><code class="docutils literal notranslate"><span class="pre">PacingPlatform.set_risk_model()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.platform.PacingPlatform.set_transcriber"><code class="docutils literal notranslate"><span class="pre">PacingPlatform.set_transcriber()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.platform.PacingPlatform.start_live_session"><code class="docutils literal notranslate"><span class="pre">PacingPlatform.start_live_session()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.platform.PacingPlatform.stop_live_session"><code class="docutils literal notranslate"><span class="pre">PacingPlatform.stop_live_session()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.platform.PacingPlatform.unregister_agent"><code class="docutils literal notranslate"><span class="pre">PacingPlatform.unregister_agent()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="simulation/simulation_engine.html">pacing.simulation.simulation_engine</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pacing</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">pacing.platform</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/pacing/platform.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-pacing.platform">
+<span id="pacing-platform"></span><h1>pacing.platform<a class="headerlink" href="#module-pacing.platform" title="Link to this heading"></a></h1>
+<p>Main PACING platform orchestrator.</p>
+<p>This module provides the primary entry point for initializing and configuring
+the PACING platform with dependency injection.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.platform.BasicSessionStream">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.platform.</span></span><span class="sig-name descname"><span class="pre">BasicSessionStream</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operating_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pacing.platform.OperatingMode" title="pacing.platform.OperatingMode"><span class="pre">OperatingMode</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">OperatingMode.PROD_MODE</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pacing/platform.html#BasicSessionStream"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.platform.BasicSessionStream" title="Link to this definition"></a></dt>
+<dd><p>Basic implementation of the session stream orchestrator.</p>
+<p>This implementation coordinates audio capture, transcription, and agent
+processing for a live clinical session.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.platform.BasicSessionStream.get_transcription_stream">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_transcription_stream</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pacing/platform.html#BasicSessionStream.get_transcription_stream"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.platform.BasicSessionStream.get_transcription_stream" title="Link to this definition"></a></dt>
+<dd><p>Get transcription stream (async generator).</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pacing.platform.BasicSessionStream.is_active">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_active</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#pacing.platform.BasicSessionStream.is_active" title="Link to this definition"></a></dt>
+<dd><p>Check if session is active.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.platform.BasicSessionStream.register_agent">
+<span class="sig-name descname"><span class="pre">register_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="core/agent_interfaces.html#pacing.core.agent_interfaces.ISidecarAgent" title="pacing.core.agent_interfaces.ISidecarAgent"><span class="pre">ISidecarAgent</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/pacing/platform.html#BasicSessionStream.register_agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.platform.BasicSessionStream.register_agent" title="Link to this definition"></a></dt>
+<dd><p>Register a sidecar agent.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pacing.platform.BasicSessionStream.registered_agents">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">registered_agents</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="core/agent_interfaces.html#pacing.core.agent_interfaces.ISidecarAgent" title="pacing.core.agent_interfaces.ISidecarAgent"><span class="pre">ISidecarAgent</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pacing.platform.BasicSessionStream.registered_agents" title="Link to this definition"></a></dt>
+<dd><p>Get registered agents.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.platform.BasicSessionStream.start_session">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">start_session</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session_metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="models/data_models.html#pacing.models.data_models.SessionMetadata" title="pacing.models.data_models.SessionMetadata"><span class="pre">SessionMetadata</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">audio_provider</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="core/audio_interfaces.html#pacing.core.audio_interfaces.IAudioProvider" title="pacing.core.audio_interfaces.IAudioProvider"><span class="pre">IAudioProvider</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">transcriber</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="core/transcription_interfaces.html#pacing.core.transcription_interfaces.ITranscriber" title="pacing.core.transcription_interfaces.ITranscriber"><span class="pre">ITranscriber</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/pacing/platform.html#BasicSessionStream.start_session"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.platform.BasicSessionStream.start_session" title="Link to this definition"></a></dt>
+<dd><p>Start a new clinical session.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>session_metadata</strong> – Session information</p></li>
+<li><p><strong>audio_provider</strong> – Source of audio data</p></li>
+<li><p><strong>transcriber</strong> – Speech-to-text engine</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.platform.BasicSessionStream.stop_session">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">stop_session</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/pacing/platform.html#BasicSessionStream.stop_session"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.platform.BasicSessionStream.stop_session" title="Link to this definition"></a></dt>
+<dd><p>Stop the current session.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.platform.BasicSessionStream.unregister_agent">
+<span class="sig-name descname"><span class="pre">unregister_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="core/agent_interfaces.html#pacing.core.agent_interfaces.ISidecarAgent" title="pacing.core.agent_interfaces.ISidecarAgent"><span class="pre">ISidecarAgent</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/pacing/platform.html#BasicSessionStream.unregister_agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.platform.BasicSessionStream.unregister_agent" title="Link to this definition"></a></dt>
+<dd><p>Unregister a sidecar agent.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.platform.OperatingMode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.platform.</span></span><span class="sig-name descname"><span class="pre">OperatingMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pacing/platform.html#OperatingMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.platform.OperatingMode" title="Link to this definition"></a></dt>
+<dd><p>Operating mode for the platform.</p>
+<p>DEV_MODE: Persists raw data (audio, transcripts) for debugging and auditing
+PROD_MODE: Ephemeral raw data, only structured extractions are retained</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.platform.PacingPlatform">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.platform.</span></span><span class="sig-name descname"><span class="pre">PacingPlatform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operating_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pacing.platform.OperatingMode" title="pacing.platform.OperatingMode"><span class="pre">OperatingMode</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">OperatingMode.PROD_MODE</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transcriber</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="core/transcription_interfaces.html#pacing.core.transcription_interfaces.ITranscriber" title="pacing.core.transcription_interfaces.ITranscriber"><span class="pre">ITranscriber</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">risk_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="core/model_interfaces.html#pacing.core.model_interfaces.IRiskModel" title="pacing.core.model_interfaces.IRiskModel"><span class="pre">IRiskModel</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pacing/platform.html#PacingPlatform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.platform.PacingPlatform" title="Link to this definition"></a></dt>
+<dd><p>Main PACING platform class.</p>
+<p>This is the primary interface for initializing and configuring the PACING
+system. It provides dependency injection for all major components:
+- Audio providers
+- Transcribers
+- Sidecar agents
+- Risk models
+- Operating mode (DEV/PROD)</p>
+<dl>
+<dt>Example Usage:</dt><dd><p># Initialize platform in DEV mode
+platform = PacingPlatform(operating_mode=OperatingMode.DEV_MODE)</p>
+<p># Inject custom components
+platform.set_transcriber(DeepgramTranscriber(api_key=…))
+platform.set_risk_model(MyBayesianNetwork())</p>
+<p># Register agents
+platform.register_agent(UncertaintyAuditor(confidence_threshold=0.70))
+platform.register_agent(GuideAgent())
+platform.register_agent(ScribeAgent())</p>
+<p># Start a session
+session = SessionMetadata(</p>
+<blockquote>
+<div><p>session_id=”session_001”,
+patient_id=”patient_123”,
+clinician_id=”clinician_456”,
+start_time=datetime.now()</p>
+</div></blockquote>
+<p>)</p>
+<p>audio = MyAudioProvider()
+await platform.start_live_session(session, audio)</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.platform.PacingPlatform.calculate_risk">
+<span class="sig-name descname"><span class="pre">calculate_risk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patient_graph</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="models/data_models.html#pacing.models.data_models.PatientGraph" title="pacing.models.data_models.PatientGraph"><span class="pre">PatientGraph</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pacing/platform.html#PacingPlatform.calculate_risk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.platform.PacingPlatform.calculate_risk" title="Link to this definition"></a></dt>
+<dd><p>Calculate relapse risk for a patient (Longitudinal Mode).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>patient_graph</strong> – Patient clinical history</p></li>
+<li><p><strong>options</strong> – Optional model configuration</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Risk assessment</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../pacing.html#pacing.RiskReport" title="pacing.RiskReport">RiskReport</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If risk model not configured</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.platform.PacingPlatform.get_platform_status">
+<span class="sig-name descname"><span class="pre">get_platform_status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../../_modules/pacing/platform.html#PacingPlatform.get_platform_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.platform.PacingPlatform.get_platform_status" title="Link to this definition"></a></dt>
+<dd><p>Get current platform status.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Platform configuration and status</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.platform.PacingPlatform.get_simulation_context">
+<span class="sig-name descname"><span class="pre">get_simulation_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patient_graph</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="models/data_models.html#pacing.models.data_models.PatientGraph" title="pacing.models.data_models.PatientGraph"><span class="pre">PatientGraph</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pacing/platform.html#PacingPlatform.get_simulation_context"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.platform.PacingPlatform.get_simulation_context" title="Link to this definition"></a></dt>
+<dd><p>Create a simulation context for What-If analysis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>patient_graph</strong> – Patient clinical history</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Context for running simulations</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../pacing.html#pacing.SimulationContext" title="pacing.SimulationContext">SimulationContext</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If risk model doesn’t support simulation</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.platform.PacingPlatform.register_agent">
+<span class="sig-name descname"><span class="pre">register_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="core/agent_interfaces.html#pacing.core.agent_interfaces.ISidecarAgent" title="pacing.core.agent_interfaces.ISidecarAgent"><span class="pre">ISidecarAgent</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/pacing/platform.html#PacingPlatform.register_agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.platform.PacingPlatform.register_agent" title="Link to this definition"></a></dt>
+<dd><p>Register a sidecar agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>agent</strong> – Sidecar agent implementation</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.platform.PacingPlatform.set_risk_model">
+<span class="sig-name descname"><span class="pre">set_risk_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="core/model_interfaces.html#pacing.core.model_interfaces.IRiskModel" title="pacing.core.model_interfaces.IRiskModel"><span class="pre">IRiskModel</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/pacing/platform.html#PacingPlatform.set_risk_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.platform.PacingPlatform.set_risk_model" title="Link to this definition"></a></dt>
+<dd><p>Inject a custom risk model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>model</strong> – Risk model implementation</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.platform.PacingPlatform.set_transcriber">
+<span class="sig-name descname"><span class="pre">set_transcriber</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcriber</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="core/transcription_interfaces.html#pacing.core.transcription_interfaces.ITranscriber" title="pacing.core.transcription_interfaces.ITranscriber"><span class="pre">ITranscriber</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/pacing/platform.html#PacingPlatform.set_transcriber"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.platform.PacingPlatform.set_transcriber" title="Link to this definition"></a></dt>
+<dd><p>Inject a custom transcriber.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>transcriber</strong> – Transcriber implementation</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.platform.PacingPlatform.start_live_session">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">start_live_session</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session_metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="models/data_models.html#pacing.models.data_models.SessionMetadata" title="pacing.models.data_models.SessionMetadata"><span class="pre">SessionMetadata</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">audio_provider</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="core/audio_interfaces.html#pacing.core.audio_interfaces.IAudioProvider" title="pacing.core.audio_interfaces.IAudioProvider"><span class="pre">IAudioProvider</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/pacing/platform.html#PacingPlatform.start_live_session"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.platform.PacingPlatform.start_live_session" title="Link to this definition"></a></dt>
+<dd><p>Start a live clinical session.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>session_metadata</strong> – Session information</p></li>
+<li><p><strong>audio_provider</strong> – Audio source</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If transcriber not configured</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.platform.PacingPlatform.stop_live_session">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">stop_live_session</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/pacing/platform.html#PacingPlatform.stop_live_session"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.platform.PacingPlatform.stop_live_session" title="Link to this definition"></a></dt>
+<dd><p>Stop the current live session.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.platform.PacingPlatform.unregister_agent">
+<span class="sig-name descname"><span class="pre">unregister_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="core/agent_interfaces.html#pacing.core.agent_interfaces.ISidecarAgent" title="pacing.core.agent_interfaces.ISidecarAgent"><span class="pre">ISidecarAgent</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/pacing/platform.html#PacingPlatform.unregister_agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.platform.PacingPlatform.unregister_agent" title="Link to this definition"></a></dt>
+<dd><p>Unregister a sidecar agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>agent</strong> – Sidecar agent to remove</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="models/data_models.html" class="btn btn-neutral float-left" title="pacing.models.data_models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="simulation/simulation_engine.html" class="btn btn-neutral float-right" title="pacing.simulation.simulation_engine" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

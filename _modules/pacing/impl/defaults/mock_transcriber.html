@@ -1,0 +1,339 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pacing.impl.defaults.mock_transcriber &mdash; pacing 0.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=47de8214"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            pacing
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../module_docs/pacing.html">pacing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../module_docs/pacing/core/agent_interfaces.html">pacing.core.agent_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../module_docs/pacing/core/audio_interfaces.html">pacing.core.audio_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../module_docs/pacing/core/model_interfaces.html">pacing.core.model_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../module_docs/pacing/core/session_interfaces.html">pacing.core.session_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../module_docs/pacing/core/transcription_interfaces.html">pacing.core.transcription_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../module_docs/pacing/impl/agents/uncertainty_auditor.html">pacing.impl.agents.uncertainty_auditor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../module_docs/pacing/impl/defaults/mock_audio.html">pacing.impl.defaults.mock_audio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../module_docs/pacing/impl/defaults/mock_risk_model.html">pacing.impl.defaults.mock_risk_model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../module_docs/pacing/impl/defaults/mock_transcriber.html">pacing.impl.defaults.mock_transcriber</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../module_docs/pacing/models/data_models.html">pacing.models.data_models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../module_docs/pacing/platform.html">pacing.platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../module_docs/pacing/simulation/simulation_engine.html">pacing.simulation.simulation_engine</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">pacing</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pacing.impl.defaults.mock_transcriber</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pacing.impl.defaults.mock_transcriber</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Mock transcriber for testing and demonstration.</span>
+
+<span class="sd">This implementation returns pre-scripted text with simulated latency and</span>
+<span class="sd">confidence scores, without requiring actual speech-to-text services.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pacing.core.transcription_interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">ITranscriber</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pacing.models.data_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">TranscriptionResult</span>
+
+
+<div class="viewcode-block" id="MockTranscriber">
+<a class="viewcode-back" href="../../../../module_docs/pacing/impl/defaults/mock_transcriber.html#pacing.MockTranscriber">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MockTranscriber</span><span class="p">(</span><span class="n">ITranscriber</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mock transcriber that yields pre-scripted text.</span>
+
+<span class="sd">    This implementation simulates a real transcription service by:</span>
+<span class="sd">    - Returning text from a pre-defined script</span>
+<span class="sd">    - Adding realistic latency (processing delay)</span>
+<span class="sd">    - Generating plausible confidence scores</span>
+<span class="sd">    - Supporting partial (streaming) results</span>
+
+<span class="sd">    Useful for:</span>
+<span class="sd">    - Testing the platform without API costs</span>
+<span class="sd">    - Creating reproducible demonstrations</span>
+<span class="sd">    - Development and CI/CD</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">script</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">latency_ms</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">50.0</span><span class="p">,</span>
+        <span class="n">base_confidence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.85</span><span class="p">,</span>
+        <span class="n">confidence_variance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.10</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the mock transcriber.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            script: List of text strings to return in sequence</span>
+<span class="sd">                   If None, uses a default demonstration script</span>
+<span class="sd">            latency_ms: Simulated processing latency in milliseconds</span>
+<span class="sd">            base_confidence: Base confidence score (0.0-1.0)</span>
+<span class="sd">            confidence_variance: Random variance in confidence (+/-)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">script</span> <span class="o">=</span> <span class="n">script</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_script</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">latency_ms</span> <span class="o">=</span> <span class="n">latency_ms</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_confidence</span> <span class="o">=</span> <span class="n">base_confidence</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">confidence_variance</span> <span class="o">=</span> <span class="n">confidence_variance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_script_index</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_default_script</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Default demonstration script for a counseling session.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[str]: Pre-scripted conversation segments</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="s2">&quot;Hi, how have you been doing this week?&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;I&#39;ve been okay, but I had a really tough day on Tuesday.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;What happened on Tuesday?&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;I lost my job. They said it was due to budget cuts.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;I&#39;m sorry to hear that. That must be very stressful.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Yeah, it&#39;s been hard. I almost relapsed that night.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;But you didn&#39;t?&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;No, I called my sponsor instead.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;That&#39;s really good. You used your support system.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;I&#39;m still taking my buprenorphine every day.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;How long have you been on that now?&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;About six months.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;And it&#39;s been helping?&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Yeah, definitely. I haven&#39;t had any cravings in weeks.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;That&#39;s excellent progress.&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+
+<div class="viewcode-block" id="MockTranscriber.transcribe_chunk">
+<a class="viewcode-back" href="../../../../module_docs/pacing/impl/defaults/mock_transcriber.html#pacing.MockTranscriber.transcribe_chunk">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">transcribe_chunk</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">audio_chunk</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">sample_rate</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">is_final</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TranscriptionResult</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Simulate transcription of an audio chunk.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            audio_chunk: Audio samples (ignored in mock)</span>
+<span class="sd">            sample_rate: Sample rate (ignored in mock)</span>
+<span class="sd">            is_final: Whether this is the final chunk</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            TranscriptionResult: Mock transcription with confidence score</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Simulate processing latency</span>
+        <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">latency_ms</span> <span class="o">/</span> <span class="mf">1000.0</span><span class="p">)</span>
+
+        <span class="c1"># Get next text from script</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_script_index</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">script</span><span class="p">):</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">script</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_script_index</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_script_index</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Script exhausted, return empty</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="c1"># Generate confidence score with variance</span>
+        <span class="n">confidence</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_confidence</span> <span class="o">+</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span>
+            <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">confidence_variance</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">confidence_variance</span>
+        <span class="p">)</span>
+        <span class="n">confidence</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">confidence</span><span class="p">))</span>  <span class="c1"># Clamp to [0, 1]</span>
+
+        <span class="c1"># Occasionally generate low confidence to trigger auditor</span>
+        <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.15</span><span class="p">:</span>  <span class="c1"># 15% chance</span>
+            <span class="n">confidence</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.50</span><span class="p">,</span> <span class="mf">0.70</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">TranscriptionResult</span><span class="p">(</span>
+            <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span>
+            <span class="n">timestamp</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span>
+            <span class="n">confidence_score</span><span class="o">=</span><span class="n">confidence</span><span class="p">,</span>
+            <span class="n">is_partial</span><span class="o">=</span><span class="ow">not</span> <span class="n">is_final</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MockTranscriber.supports_speaker_diarization">
+<a class="viewcode-back" href="../../../../module_docs/pacing/impl/defaults/mock_transcriber.html#pacing.MockTranscriber.supports_speaker_diarization">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">supports_speaker_diarization</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Mock transcriber does not support speaker diarization.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="MockTranscriber.get_model_info">
+<a class="viewcode-back" href="../../../../module_docs/pacing/impl/defaults/mock_transcriber.html#pacing.MockTranscriber.get_model_info">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_model_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get mock model information.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;MockTranscriber&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;language&quot;</span><span class="p">:</span> <span class="s2">&quot;en-US&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;scripted&quot;</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="MockTranscriber.reset_script">
+<a class="viewcode-back" href="../../../../module_docs/pacing/impl/defaults/mock_transcriber.html#pacing.MockTranscriber.reset_script">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reset_script</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reset the script index to start from the beginning.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_script_index</span> <span class="o">=</span> <span class="mi">0</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="AdaptiveConfidenceTranscriber">
+<a class="viewcode-back" href="../../../../module_docs/pacing/impl/defaults/mock_transcriber.html#pacing.AdaptiveConfidenceTranscriber">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AdaptiveConfidenceTranscriber</span><span class="p">(</span><span class="n">MockTranscriber</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mock transcriber that adjusts confidence based on text characteristics.</span>
+
+<span class="sd">    This variant simulates more realistic confidence scores by:</span>
+<span class="sd">    - Lowering confidence for longer utterances (harder to transcribe)</span>
+<span class="sd">    - Lowering confidence for utterances with medical/technical terms</span>
+<span class="sd">    - Lowering confidence for utterances with negations (tricky)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">DIFFICULT_TERMS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;buprenorphine&quot;</span><span class="p">,</span> <span class="s2">&quot;naloxone&quot;</span><span class="p">,</span> <span class="s2">&quot;methadone&quot;</span><span class="p">,</span> <span class="s2">&quot;suboxone&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;opioid&quot;</span><span class="p">,</span> <span class="s2">&quot;benzodiazepine&quot;</span><span class="p">,</span> <span class="s2">&quot;relapse&quot;</span><span class="p">,</span> <span class="s2">&quot;withdrawal&quot;</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="AdaptiveConfidenceTranscriber.transcribe_chunk">
+<a class="viewcode-back" href="../../../../module_docs/pacing/impl/defaults/mock_transcriber.html#pacing.AdaptiveConfidenceTranscriber.transcribe_chunk">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">transcribe_chunk</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">audio_chunk</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">sample_rate</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">is_final</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TranscriptionResult</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Transcribe with adaptive confidence.&quot;&quot;&quot;</span>
+        <span class="c1"># Get base result</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">transcribe_chunk</span><span class="p">(</span><span class="n">audio_chunk</span><span class="p">,</span> <span class="n">sample_rate</span><span class="p">,</span> <span class="n">is_final</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="o">.</span><span class="n">text</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">result</span>
+
+        <span class="c1"># Adjust confidence based on text characteristics</span>
+        <span class="n">confidence</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">confidence_score</span>
+
+        <span class="c1"># Penalty for length</span>
+        <span class="n">word_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">word_count</span> <span class="o">&gt;</span> <span class="mi">15</span><span class="p">:</span>
+            <span class="n">confidence</span> <span class="o">*=</span> <span class="mf">0.90</span>
+
+        <span class="c1"># Penalty for difficult terms</span>
+        <span class="n">text_lower</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">term</span> <span class="ow">in</span> <span class="n">text_lower</span> <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">DIFFICULT_TERMS</span><span class="p">):</span>
+            <span class="n">confidence</span> <span class="o">*=</span> <span class="mf">0.85</span>
+
+        <span class="c1"># Penalty for negations (often misheard)</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">neg</span> <span class="ow">in</span> <span class="n">text_lower</span> <span class="k">for</span> <span class="n">neg</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;not&quot;</span><span class="p">,</span> <span class="s2">&quot;no&quot;</span><span class="p">,</span> <span class="s2">&quot;never&quot;</span><span class="p">,</span> <span class="s2">&quot;didn&#39;t&quot;</span><span class="p">]):</span>
+            <span class="n">confidence</span> <span class="o">*=</span> <span class="mf">0.90</span>
+
+        <span class="n">confidence</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.40</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">confidence</span><span class="p">))</span>
+
+        <span class="c1"># Create new result with adjusted confidence</span>
+        <span class="k">return</span> <span class="n">TranscriptionResult</span><span class="p">(</span>
+            <span class="n">text</span><span class="o">=</span><span class="n">result</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
+            <span class="n">timestamp</span><span class="o">=</span><span class="n">result</span><span class="o">.</span><span class="n">timestamp</span><span class="p">,</span>
+            <span class="n">confidence_score</span><span class="o">=</span><span class="n">confidence</span><span class="p">,</span>
+            <span class="n">speaker_id</span><span class="o">=</span><span class="n">result</span><span class="o">.</span><span class="n">speaker_id</span><span class="p">,</span>
+            <span class="n">is_partial</span><span class="o">=</span><span class="n">result</span><span class="o">.</span><span class="n">is_partial</span>
+        <span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   module_docs/pacing
+   module_docs/pacing/core/agent_interfaces
+   module_docs/pacing/core/audio_interfaces
+   module_docs/pacing/core/model_interfaces
+   module_docs/pacing/core/session_interfaces
+   module_docs/pacing/core/transcription_interfaces
+   module_docs/pacing/impl/agents/uncertainty_auditor
+   module_docs/pacing/impl/defaults/mock_audio
+   module_docs/pacing/impl/defaults/mock_risk_model
+   module_docs/pacing/impl/defaults/mock_transcriber
+   module_docs/pacing/models/data_models
+   module_docs/pacing/platform
+   module_docs/pacing/simulation/simulation_engine

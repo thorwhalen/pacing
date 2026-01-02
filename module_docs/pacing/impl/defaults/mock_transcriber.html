@@ -1,0 +1,212 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pacing.impl.defaults.mock_transcriber &mdash; pacing 0.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=47de8214"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="pacing.models.data_models" href="../../models/data_models.html" />
+    <link rel="prev" title="pacing.impl.defaults.mock_risk_model" href="mock_risk_model.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            pacing
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../pacing.html">pacing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../core/agent_interfaces.html">pacing.core.agent_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../core/audio_interfaces.html">pacing.core.audio_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../core/model_interfaces.html">pacing.core.model_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../core/session_interfaces.html">pacing.core.session_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../core/transcription_interfaces.html">pacing.core.transcription_interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../agents/uncertainty_auditor.html">pacing.impl.agents.uncertainty_auditor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mock_audio.html">pacing.impl.defaults.mock_audio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mock_risk_model.html">pacing.impl.defaults.mock_risk_model</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pacing.impl.defaults.mock_transcriber</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.impl.defaults.mock_transcriber.AdaptiveConfidenceTranscriber"><code class="docutils literal notranslate"><span class="pre">AdaptiveConfidenceTranscriber</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.impl.defaults.mock_transcriber.AdaptiveConfidenceTranscriber.transcribe_chunk"><code class="docutils literal notranslate"><span class="pre">AdaptiveConfidenceTranscriber.transcribe_chunk()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pacing.impl.defaults.mock_transcriber.MockTranscriber"><code class="docutils literal notranslate"><span class="pre">MockTranscriber</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.impl.defaults.mock_transcriber.MockTranscriber.get_model_info"><code class="docutils literal notranslate"><span class="pre">MockTranscriber.get_model_info()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.impl.defaults.mock_transcriber.MockTranscriber.reset_script"><code class="docutils literal notranslate"><span class="pre">MockTranscriber.reset_script()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.impl.defaults.mock_transcriber.MockTranscriber.supports_speaker_diarization"><code class="docutils literal notranslate"><span class="pre">MockTranscriber.supports_speaker_diarization()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pacing.impl.defaults.mock_transcriber.MockTranscriber.transcribe_chunk"><code class="docutils literal notranslate"><span class="pre">MockTranscriber.transcribe_chunk()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/data_models.html">pacing.models.data_models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../platform.html">pacing.platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../simulation/simulation_engine.html">pacing.simulation.simulation_engine</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">pacing</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">pacing.impl.defaults.mock_transcriber</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/module_docs/pacing/impl/defaults/mock_transcriber.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-pacing.impl.defaults.mock_transcriber">
+<span id="pacing-impl-defaults-mock-transcriber"></span><h1>pacing.impl.defaults.mock_transcriber<a class="headerlink" href="#module-pacing.impl.defaults.mock_transcriber" title="Link to this heading"></a></h1>
+<p>Mock transcriber for testing and demonstration.</p>
+<p>This implementation returns pre-scripted text with simulated latency and
+confidence scores, without requiring actual speech-to-text services.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.impl.defaults.mock_transcriber.AdaptiveConfidenceTranscriber">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.impl.defaults.mock_transcriber.</span></span><span class="sig-name descname"><span class="pre">AdaptiveConfidenceTranscriber</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">script</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latency_ms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_confidence</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.85</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence_variance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/pacing/impl/defaults/mock_transcriber.html#AdaptiveConfidenceTranscriber"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.impl.defaults.mock_transcriber.AdaptiveConfidenceTranscriber" title="Link to this definition"></a></dt>
+<dd><p>Mock transcriber that adjusts confidence based on text characteristics.</p>
+<p>This variant simulates more realistic confidence scores by:
+- Lowering confidence for longer utterances (harder to transcribe)
+- Lowering confidence for utterances with medical/technical terms
+- Lowering confidence for utterances with negations (tricky)</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.impl.defaults.mock_transcriber.AdaptiveConfidenceTranscriber.transcribe_chunk">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">transcribe_chunk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">audio_chunk</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_final</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../../models/data_models.html#pacing.models.data_models.TranscriptionResult" title="pacing.models.data_models.TranscriptionResult"><span class="pre">TranscriptionResult</span></a></span></span><a class="reference internal" href="../../../../_modules/pacing/impl/defaults/mock_transcriber.html#AdaptiveConfidenceTranscriber.transcribe_chunk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.impl.defaults.mock_transcriber.AdaptiveConfidenceTranscriber.transcribe_chunk" title="Link to this definition"></a></dt>
+<dd><p>Transcribe with adaptive confidence.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacing.impl.defaults.mock_transcriber.MockTranscriber">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.impl.defaults.mock_transcriber.</span></span><span class="sig-name descname"><span class="pre">MockTranscriber</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">script</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latency_ms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_confidence</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.85</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence_variance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/pacing/impl/defaults/mock_transcriber.html#MockTranscriber"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.impl.defaults.mock_transcriber.MockTranscriber" title="Link to this definition"></a></dt>
+<dd><p>Mock transcriber that yields pre-scripted text.</p>
+<p>This implementation simulates a real transcription service by:
+- Returning text from a pre-defined script
+- Adding realistic latency (processing delay)
+- Generating plausible confidence scores
+- Supporting partial (streaming) results</p>
+<p>Useful for:
+- Testing the platform without API costs
+- Creating reproducible demonstrations
+- Development and CI/CD</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.impl.defaults.mock_transcriber.MockTranscriber.get_model_info">
+<span class="sig-name descname"><span class="pre">get_model_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../../../../_modules/pacing/impl/defaults/mock_transcriber.html#MockTranscriber.get_model_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.impl.defaults.mock_transcriber.MockTranscriber.get_model_info" title="Link to this definition"></a></dt>
+<dd><p>Get mock model information.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.impl.defaults.mock_transcriber.MockTranscriber.reset_script">
+<span class="sig-name descname"><span class="pre">reset_script</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../../../_modules/pacing/impl/defaults/mock_transcriber.html#MockTranscriber.reset_script"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.impl.defaults.mock_transcriber.MockTranscriber.reset_script" title="Link to this definition"></a></dt>
+<dd><p>Reset the script index to start from the beginning.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.impl.defaults.mock_transcriber.MockTranscriber.supports_speaker_diarization">
+<span class="sig-name descname"><span class="pre">supports_speaker_diarization</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../../../_modules/pacing/impl/defaults/mock_transcriber.html#MockTranscriber.supports_speaker_diarization"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.impl.defaults.mock_transcriber.MockTranscriber.supports_speaker_diarization" title="Link to this definition"></a></dt>
+<dd><p>Mock transcriber does not support speaker diarization.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacing.impl.defaults.mock_transcriber.MockTranscriber.transcribe_chunk">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">transcribe_chunk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">audio_chunk</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_final</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../../models/data_models.html#pacing.models.data_models.TranscriptionResult" title="pacing.models.data_models.TranscriptionResult"><span class="pre">TranscriptionResult</span></a></span></span><a class="reference internal" href="../../../../_modules/pacing/impl/defaults/mock_transcriber.html#MockTranscriber.transcribe_chunk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.impl.defaults.mock_transcriber.MockTranscriber.transcribe_chunk" title="Link to this definition"></a></dt>
+<dd><p>Simulate transcription of an audio chunk.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>audio_chunk</strong> – Audio samples (ignored in mock)</p></li>
+<li><p><strong>sample_rate</strong> – Sample rate (ignored in mock)</p></li>
+<li><p><strong>is_final</strong> – Whether this is the final chunk</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Mock transcription with confidence score</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../../pacing.html#pacing.TranscriptionResult" title="pacing.TranscriptionResult">TranscriptionResult</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="mock_risk_model.html" class="btn btn-neutral float-left" title="pacing.impl.defaults.mock_risk_model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../models/data_models.html" class="btn btn-neutral float-right" title="pacing.models.data_models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

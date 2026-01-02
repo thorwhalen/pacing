@@ -1,0 +1,4 @@
+pacing.simulation.simulation_engine
+===================================
+.. automodule:: pacing.simulation.simulation_engine
+   :members:
