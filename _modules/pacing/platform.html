@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pacing.platform &mdash; pacing 0.0.3 documentation</title>
+  <title>pacing.platform &mdash; pacing 0.0.7 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=47de8214"></script>
+      <script src="../../_static/documentation_options.js?v=bbaf98b3"></script>
       <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -115,6 +115,7 @@
 <span class="sd">    DEV_MODE: Persists raw data (audio, transcripts) for debugging and auditing</span>
 <span class="sd">    PROD_MODE: Ephemeral raw data, only structured extractions are retained</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">DEV_MODE</span> <span class="o">=</span> <span class="s2">&quot;dev&quot;</span>
     <span class="n">PROD_MODE</span> <span class="o">=</span> <span class="s2">&quot;prod&quot;</span></div>
 
@@ -169,7 +170,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">session_metadata</span><span class="p">:</span> <span class="n">SessionMetadata</span><span class="p">,</span>
         <span class="n">audio_provider</span><span class="p">:</span> <span class="n">IAudioProvider</span><span class="p">,</span>
-        <span class="n">transcriber</span><span class="p">:</span> <span class="n">ITranscriber</span>
+        <span class="n">transcriber</span><span class="p">:</span> <span class="n">ITranscriber</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Start a new clinical session.</span>
@@ -180,7 +181,9 @@
 <span class="sd">            transcriber: Speech-to-text engine</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_active</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;A session is already active. Stop it before starting a new one.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;A session is already active. Stop it before starting a new one.&quot;</span>
+            <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_current_session</span> <span class="o">=</span> <span class="n">session_metadata</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_audio_provider</span> <span class="o">=</span> <span class="n">audio_provider</span>
@@ -191,8 +194,7 @@
         <span class="c1"># Notify all agents</span>
         <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_agents</span><span class="p">:</span>
             <span class="n">agent</span><span class="o">.</span><span class="n">on_session_start</span><span class="p">(</span>
-                <span class="n">session_metadata</span><span class="o">.</span><span class="n">session_id</span><span class="p">,</span>
-                <span class="n">session_metadata</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
+                <span class="n">session_metadata</span><span class="o">.</span><span class="n">session_id</span><span class="p">,</span> <span class="n">session_metadata</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
             <span class="p">)</span>
 
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[SessionStream] Session started: </span><span class="si">{</span><span class="n">session_metadata</span><span class="o">.</span><span class="n">session_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -217,8 +219,7 @@
 
             <span class="c1"># Transcribe the audio chunk</span>
             <span class="n">transcription</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transcriber</span><span class="o">.</span><span class="n">transcribe_chunk</span><span class="p">(</span>
-                <span class="n">audio_chunk</span><span class="p">,</span>
-                <span class="n">sample_rate</span>
+                <span class="n">audio_chunk</span><span class="p">,</span> <span class="n">sample_rate</span>
             <span class="p">)</span>
 
             <span class="c1"># Store in buffer (if DEV_MODE, otherwise ephemeral)</span>
@@ -228,14 +229,16 @@
             <span class="c1"># Distribute to all agents</span>
             <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_broadcast_transcription</span><span class="p">(</span><span class="n">transcription</span><span class="p">)</span>
 
-    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_broadcast_transcription</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transcription</span><span class="p">:</span> <span class="n">TranscriptionResult</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_broadcast_transcription</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">transcription</span><span class="p">:</span> <span class="n">TranscriptionResult</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Broadcast a transcription to all registered agents.&quot;&quot;&quot;</span>
         <span class="n">context</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_session</span><span class="p">:</span>
             <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="s2">&quot;session_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_session</span><span class="o">.</span><span class="n">session_id</span><span class="p">,</span>
                 <span class="s2">&quot;patient_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_session</span><span class="o">.</span><span class="n">patient_id</span><span class="p">,</span>
-                <span class="s2">&quot;clinician_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_session</span><span class="o">.</span><span class="n">clinician_id</span>
+                <span class="s2">&quot;clinician_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_session</span><span class="o">.</span><span class="n">clinician_id</span><span class="p">,</span>
             <span class="p">}</span>
 
         <span class="c1"># Process agents in parallel</span>
@@ -340,7 +343,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">operating_mode</span><span class="p">:</span> <span class="n">OperatingMode</span> <span class="o">=</span> <span class="n">OperatingMode</span><span class="o">.</span><span class="n">PROD_MODE</span><span class="p">,</span>
         <span class="n">transcriber</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ITranscriber</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">risk_model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">IRiskModel</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">risk_model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">IRiskModel</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize the PACING platform.</span>
@@ -418,9 +421,7 @@
 <div class="viewcode-block" id="PacingPlatform.start_live_session">
 <a class="viewcode-back" href="../../module_docs/pacing/platform.html#pacing.PacingPlatform.start_live_session">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">start_live_session</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">session_metadata</span><span class="p">:</span> <span class="n">SessionMetadata</span><span class="p">,</span>
-        <span class="n">audio_provider</span><span class="p">:</span> <span class="n">IAudioProvider</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">session_metadata</span><span class="p">:</span> <span class="n">SessionMetadata</span><span class="p">,</span> <span class="n">audio_provider</span><span class="p">:</span> <span class="n">IAudioProvider</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Start a live clinical session.</span>
@@ -435,13 +436,12 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transcriber</span><span class="p">:</span>
             <span class="c1"># Use default mock transcriber</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">pacing.impl.defaults.mock_transcriber</span><span class="w"> </span><span class="kn">import</span> <span class="n">MockTranscriber</span>
+
             <span class="bp">self</span><span class="o">.</span><span class="n">_transcriber</span> <span class="o">=</span> <span class="n">MockTranscriber</span><span class="p">()</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[PacingPlatform] Using default MockTranscriber&quot;</span><span class="p">)</span>
 
         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">session_stream</span><span class="o">.</span><span class="n">start_session</span><span class="p">(</span>
-            <span class="n">session_metadata</span><span class="p">,</span>
-            <span class="n">audio_provider</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_transcriber</span>
+            <span class="n">session_metadata</span><span class="p">,</span> <span class="n">audio_provider</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transcriber</span>
         <span class="p">)</span></div>
 
 
@@ -455,9 +455,7 @@
 <div class="viewcode-block" id="PacingPlatform.calculate_risk">
 <a class="viewcode-back" href="../../module_docs/pacing/platform.html#pacing.PacingPlatform.calculate_risk">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">calculate_risk</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">patient_graph</span><span class="p">:</span> <span class="n">PatientGraph</span><span class="p">,</span>
-        <span class="n">options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">patient_graph</span><span class="p">:</span> <span class="n">PatientGraph</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate relapse risk for a patient (Longitudinal Mode).</span>
@@ -475,6 +473,7 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_risk_model</span><span class="p">:</span>
             <span class="c1"># Use default mock model</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">pacing.impl.defaults.mock_risk_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">MockBayesianModel</span>
+
             <span class="bp">self</span><span class="o">.</span><span class="n">_risk_model</span> <span class="o">=</span> <span class="n">MockBayesianModel</span><span class="p">()</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[PacingPlatform] Using default MockBayesianModel&quot;</span><span class="p">)</span>
 
@@ -483,10 +482,7 @@
 
 <div class="viewcode-block" id="PacingPlatform.get_simulation_context">
 <a class="viewcode-back" href="../../module_docs/pacing/platform.html#pacing.PacingPlatform.get_simulation_context">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_simulation_context</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">patient_graph</span><span class="p">:</span> <span class="n">PatientGraph</span>
-    <span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_simulation_context</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patient_graph</span><span class="p">:</span> <span class="n">PatientGraph</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a simulation context for What-If analysis.</span>
 
@@ -501,6 +497,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_risk_model</span><span class="p">:</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">pacing.impl.defaults.mock_risk_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">MockSimulationModel</span>
+
             <span class="bp">self</span><span class="o">.</span><span class="n">_risk_model</span> <span class="o">=</span> <span class="n">MockSimulationModel</span><span class="p">()</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[PacingPlatform] Using default MockSimulationModel&quot;</span><span class="p">)</span>
 
@@ -511,6 +508,7 @@
             <span class="p">)</span>
 
         <span class="kn">from</span><span class="w"> </span><span class="nn">pacing.simulation.simulation_engine</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimulationContext</span>
+
         <span class="k">return</span> <span class="n">SimulationContext</span><span class="p">(</span><span class="n">patient_graph</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_risk_model</span><span class="p">)</span></div>
 
 
@@ -526,12 +524,16 @@
         <span class="k">return</span> <span class="p">{</span>
             <span class="s2">&quot;operating_mode&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">operating_mode</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
             <span class="s2">&quot;session_active&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">session_stream</span><span class="o">.</span><span class="n">is_active</span><span class="p">,</span>
-            <span class="s2">&quot;transcriber&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transcriber</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transcriber</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="s2">&quot;risk_model&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_risk_model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_risk_model</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;transcriber&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transcriber</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transcriber</span>
+            <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;risk_model&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_risk_model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_risk_model</span>
+            <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
             <span class="s2">&quot;registered_agents&quot;</span><span class="p">:</span> <span class="p">[</span>
                 <span class="n">agent</span><span class="o">.</span><span class="n">get_agent_name</span><span class="p">()</span>
                 <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">session_stream</span><span class="o">.</span><span class="n">registered_agents</span>
-            <span class="p">]</span>
+            <span class="p">],</span>
         <span class="p">}</span></div>
 </div>
 

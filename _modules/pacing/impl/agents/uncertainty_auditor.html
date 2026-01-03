@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pacing.impl.agents.uncertainty_auditor &mdash; pacing 0.0.3 documentation</title>
+  <title>pacing.impl.agents.uncertainty_auditor &mdash; pacing 0.0.7 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=47de8214"></script>
+      <script src="../../../../_static/documentation_options.js?v=bbaf98b3"></script>
       <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -131,7 +131,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">confidence_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.70</span><span class="p">,</span>
         <span class="n">max_queue_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
-        <span class="n">auto_flag_medical_terms</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">auto_flag_medical_terms</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize the Uncertainty Auditor.</span>
@@ -155,17 +155,25 @@
 
         <span class="c1"># Medical terms that should be flagged even with decent confidence</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">medical_terms</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;buprenorphine&quot;</span><span class="p">,</span> <span class="s2">&quot;naloxone&quot;</span><span class="p">,</span> <span class="s2">&quot;methadone&quot;</span><span class="p">,</span> <span class="s2">&quot;suboxone&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;opioid&quot;</span><span class="p">,</span> <span class="s2">&quot;benzodiazepine&quot;</span><span class="p">,</span> <span class="s2">&quot;fentanyl&quot;</span><span class="p">,</span> <span class="s2">&quot;morphine&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;mg&quot;</span><span class="p">,</span> <span class="s2">&quot;milligram&quot;</span><span class="p">,</span> <span class="s2">&quot;dose&quot;</span><span class="p">,</span> <span class="s2">&quot;dosage&quot;</span><span class="p">,</span> <span class="s2">&quot;prescription&quot;</span>
+            <span class="s2">&quot;buprenorphine&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;naloxone&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;methadone&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;suboxone&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;opioid&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;benzodiazepine&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;fentanyl&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;morphine&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;mg&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;milligram&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;dose&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;dosage&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;prescription&quot;</span><span class="p">,</span>
         <span class="p">}</span>
 
 <div class="viewcode-block" id="UncertaintyAuditor.on_transcription_update">
 <a class="viewcode-back" href="../../../../module_docs/pacing/impl/agents/uncertainty_auditor.html#pacing.UncertaintyAuditor.on_transcription_update">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">on_transcription_update</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">transcription</span><span class="p">:</span> <span class="n">TranscriptionResult</span><span class="p">,</span>
-        <span class="n">context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">transcription</span><span class="p">:</span> <span class="n">TranscriptionResult</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Process a transcription and flag if confidence is low.</span>
@@ -216,7 +224,7 @@
         <span class="n">transcription</span><span class="p">:</span> <span class="n">TranscriptionResult</span><span class="p">,</span>
         <span class="n">reason</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">priority</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-        <span class="n">context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add an item to the review queue.</span>
@@ -231,7 +239,7 @@
             <span class="n">item_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()),</span>
             <span class="n">transcription</span><span class="o">=</span><span class="n">transcription</span><span class="p">,</span>
             <span class="n">reason</span><span class="o">=</span><span class="n">reason</span><span class="p">,</span>
-            <span class="n">priority</span><span class="o">=</span><span class="n">priority</span>
+            <span class="n">priority</span><span class="o">=</span><span class="n">priority</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">review_queue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
@@ -249,7 +257,7 @@
 
         <span class="c1"># Log for demonstration</span>
         <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;[UncertaintyAuditor] Flagged: </span><span class="se">\&quot;</span><span class="si">{</span><span class="n">transcription</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2"> &quot;</span>
+            <span class="sa">f</span><span class="s1">&#39;[UncertaintyAuditor] Flagged: &quot;</span><span class="si">{</span><span class="n">transcription</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s1">&quot; &#39;</span>
             <span class="sa">f</span><span class="s2">&quot;[Priority: </span><span class="si">{</span><span class="n">priority</span><span class="si">}</span><span class="s2">, Reason: </span><span class="si">{</span><span class="n">reason</span><span class="si">}</span><span class="s2">]&quot;</span>
         <span class="p">)</span>
 
@@ -281,7 +289,7 @@
         <span class="nb">print</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;[UncertaintyAuditor] Session ended: </span><span class="si">{</span><span class="n">session_id</span><span class="si">}</span><span class="s2">. &quot;</span>
             <span class="sa">f</span><span class="s2">&quot;Processed </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">total_transcriptions_processed</span><span class="si">}</span><span class="s2"> transcriptions, &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;flagged </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">total_flagged</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">total_flagged</span><span class="o">/</span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">total_transcriptions_processed</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%).&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;flagged </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">total_flagged</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">total_flagged</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">total_transcriptions_processed</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%).&quot;</span>
         <span class="p">)</span>
 
         <span class="c1"># Reset counters for next session</span>
@@ -308,7 +316,7 @@
             <span class="s2">&quot;review_queue_size&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">review_queue</span><span class="p">),</span>
             <span class="s2">&quot;total_processed&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_transcriptions_processed</span><span class="p">,</span>
             <span class="s2">&quot;total_flagged&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_flagged</span><span class="p">,</span>
-            <span class="s2">&quot;current_session&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_session_id</span>
+            <span class="s2">&quot;current_session&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_session_id</span><span class="p">,</span>
         <span class="p">}</span></div>
 
 
@@ -338,11 +346,7 @@
 
 <div class="viewcode-block" id="UncertaintyAuditor.mark_reviewed">
 <a class="viewcode-back" href="../../../../module_docs/pacing/impl/agents/uncertainty_auditor.html#pacing.UncertaintyAuditor.mark_reviewed">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">mark_reviewed</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">item_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">reviewer_notes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">mark_reviewed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">reviewer_notes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Mark an item as reviewed.</span>
 
@@ -407,8 +411,8 @@
                 <span class="s2">&quot;transcriptions_flagged&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_flagged</span><span class="p">,</span>
                 <span class="s2">&quot;flagging_rate&quot;</span><span class="p">:</span> <span class="p">(</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">total_flagged</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_transcriptions_processed</span><span class="p">)</span>
-                <span class="p">)</span>
-            <span class="p">}</span>
+                <span class="p">),</span>
+            <span class="p">},</span>
         <span class="p">}</span></div>
 </div>
 

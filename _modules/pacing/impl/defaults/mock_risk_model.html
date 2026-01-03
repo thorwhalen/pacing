@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pacing.impl.defaults.mock_risk_model &mdash; pacing 0.0.3 documentation</title>
+  <title>pacing.impl.defaults.mock_risk_model &mdash; pacing 0.0.7 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=47de8214"></script>
+      <script src="../../../../_static/documentation_options.js?v=bbaf98b3"></script>
       <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -98,8 +98,11 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pacing.core.model_interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">IRiskModel</span><span class="p">,</span> <span class="n">ISimulationModel</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pacing.models.data_models</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">PatientGraph</span><span class="p">,</span> <span class="n">RiskReport</span><span class="p">,</span> <span class="n">RiskFactor</span><span class="p">,</span>
-    <span class="n">SubstanceUseStatus</span><span class="p">,</span> <span class="n">EventType</span>
+    <span class="n">PatientGraph</span><span class="p">,</span>
+    <span class="n">RiskReport</span><span class="p">,</span>
+    <span class="n">RiskFactor</span><span class="p">,</span>
+    <span class="n">SubstanceUseStatus</span><span class="p">,</span>
+    <span class="n">EventType</span><span class="p">,</span>
 <span class="p">)</span>
 
 
@@ -136,9 +139,7 @@
 <div class="viewcode-block" id="MockBayesianModel.calculate_risk">
 <a class="viewcode-back" href="../../../../module_docs/pacing/impl/defaults/mock_risk_model.html#pacing.MockBayesianModel.calculate_risk">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">calculate_risk</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">patient_data</span><span class="p">:</span> <span class="n">PatientGraph</span><span class="p">,</span>
-        <span class="n">options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">patient_data</span><span class="p">:</span> <span class="n">PatientGraph</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RiskReport</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate risk using simple heuristics.</span>
@@ -159,41 +160,51 @@
         <span class="n">recent_use</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_recent_substance_use</span><span class="p">(</span><span class="n">patient_data</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">recent_use</span><span class="p">:</span>
             <span class="n">risk_score</span> <span class="o">+=</span> <span class="mf">0.25</span>
-            <span class="n">factors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">RiskFactor</span><span class="p">(</span>
-                <span class="n">factor_name</span><span class="o">=</span><span class="s2">&quot;Recent Substance Use&quot;</span><span class="p">,</span>
-                <span class="n">contribution</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span>
-                <span class="n">evidence</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Active use or relapse in past 30 days&quot;</span><span class="p">]</span>
-            <span class="p">))</span>
+            <span class="n">factors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">RiskFactor</span><span class="p">(</span>
+                    <span class="n">factor_name</span><span class="o">=</span><span class="s2">&quot;Recent Substance Use&quot;</span><span class="p">,</span>
+                    <span class="n">contribution</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span>
+                    <span class="n">evidence</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Active use or relapse in past 30 days&quot;</span><span class="p">],</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
 
         <span class="c1"># Factor 2: Negative life events</span>
         <span class="n">negative_events</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_negative_events</span><span class="p">(</span><span class="n">patient_data</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">negative_events</span><span class="p">:</span>
             <span class="n">risk_score</span> <span class="o">+=</span> <span class="mf">0.15</span>
-            <span class="n">factors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">RiskFactor</span><span class="p">(</span>
-                <span class="n">factor_name</span><span class="o">=</span><span class="s2">&quot;Recent Negative Life Events&quot;</span><span class="p">,</span>
-                <span class="n">contribution</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span>
-                <span class="n">evidence</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">negative_events</span><span class="p">)</span><span class="si">}</span><span class="s2"> stressful events in past 90 days&quot;</span><span class="p">]</span>
-            <span class="p">))</span>
+            <span class="n">factors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">RiskFactor</span><span class="p">(</span>
+                    <span class="n">factor_name</span><span class="o">=</span><span class="s2">&quot;Recent Negative Life Events&quot;</span><span class="p">,</span>
+                    <span class="n">contribution</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span>
+                    <span class="n">evidence</span><span class="o">=</span><span class="p">[</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">negative_events</span><span class="p">)</span><span class="si">}</span><span class="s2"> stressful events in past 90 days&quot;</span>
+                    <span class="p">],</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
 
         <span class="c1"># Factor 3: Active interventions (protective)</span>
         <span class="n">active_interventions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_active_interventions</span><span class="p">(</span><span class="n">patient_data</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">active_interventions</span><span class="p">:</span>
             <span class="n">risk_score</span> <span class="o">-=</span> <span class="mf">0.20</span>
-            <span class="n">factors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">RiskFactor</span><span class="p">(</span>
-                <span class="n">factor_name</span><span class="o">=</span><span class="s2">&quot;Active Treatment&quot;</span><span class="p">,</span>
-                <span class="n">contribution</span><span class="o">=-</span><span class="mf">0.20</span><span class="p">,</span>  <span class="c1"># Negative = protective</span>
-                <span class="n">evidence</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">active_interventions</span><span class="p">)</span><span class="si">}</span><span class="s2"> active interventions&quot;</span><span class="p">]</span>
-            <span class="p">))</span>
+            <span class="n">factors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">RiskFactor</span><span class="p">(</span>
+                    <span class="n">factor_name</span><span class="o">=</span><span class="s2">&quot;Active Treatment&quot;</span><span class="p">,</span>
+                    <span class="n">contribution</span><span class="o">=-</span><span class="mf">0.20</span><span class="p">,</span>  <span class="c1"># Negative = protective</span>
+                    <span class="n">evidence</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">active_interventions</span><span class="p">)</span><span class="si">}</span><span class="s2"> active interventions&quot;</span><span class="p">],</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
 
         <span class="c1"># Factor 4: Sobriety duration (protective)</span>
         <span class="n">days_sober</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_sobriety_days</span><span class="p">(</span><span class="n">patient_data</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">days_sober</span> <span class="o">&gt;</span> <span class="mi">180</span><span class="p">:</span>  <span class="c1"># 6+ months</span>
             <span class="n">risk_score</span> <span class="o">-=</span> <span class="mf">0.15</span>
-            <span class="n">factors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">RiskFactor</span><span class="p">(</span>
-                <span class="n">factor_name</span><span class="o">=</span><span class="s2">&quot;Extended Sobriety&quot;</span><span class="p">,</span>
-                <span class="n">contribution</span><span class="o">=-</span><span class="mf">0.15</span><span class="p">,</span>
-                <span class="n">evidence</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">days_sober</span><span class="si">}</span><span class="s2"> days since last use&quot;</span><span class="p">]</span>
-            <span class="p">))</span>
+            <span class="n">factors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">RiskFactor</span><span class="p">(</span>
+                    <span class="n">factor_name</span><span class="o">=</span><span class="s2">&quot;Extended Sobriety&quot;</span><span class="p">,</span>
+                    <span class="n">contribution</span><span class="o">=-</span><span class="mf">0.15</span><span class="p">,</span>
+                    <span class="n">evidence</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">days_sober</span><span class="si">}</span><span class="s2"> days since last use&quot;</span><span class="p">],</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
 
         <span class="c1"># Clamp risk to valid range</span>
         <span class="n">risk_score</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">risk_score</span><span class="p">))</span>
@@ -205,7 +216,7 @@
             <span class="n">patient_id</span><span class="o">=</span><span class="n">patient_data</span><span class="o">.</span><span class="n">patient_id</span><span class="p">,</span>
             <span class="n">risk_score</span><span class="o">=</span><span class="n">risk_score</span><span class="p">,</span>
             <span class="n">risk_factors</span><span class="o">=</span><span class="n">factors</span><span class="p">,</span>
-            <span class="n">model_version</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_model_version</span><span class="p">()</span>
+            <span class="n">model_version</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_model_version</span><span class="p">(),</span>
         <span class="p">)</span></div>
 
 
@@ -214,7 +225,10 @@
         <span class="n">cutoff</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">patient_data</span><span class="o">.</span><span class="n">substance_use_records</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">record</span><span class="o">.</span><span class="n">date</span> <span class="o">&gt;=</span> <span class="n">cutoff</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">record</span><span class="o">.</span><span class="n">status</span> <span class="ow">in</span> <span class="p">[</span><span class="n">SubstanceUseStatus</span><span class="o">.</span><span class="n">ACTIVE_USE</span><span class="p">,</span> <span class="n">SubstanceUseStatus</span><span class="o">.</span><span class="n">RELAPSE</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">record</span><span class="o">.</span><span class="n">status</span> <span class="ow">in</span> <span class="p">[</span>
+                    <span class="n">SubstanceUseStatus</span><span class="o">.</span><span class="n">ACTIVE_USE</span><span class="p">,</span>
+                    <span class="n">SubstanceUseStatus</span><span class="o">.</span><span class="n">RELAPSE</span><span class="p">,</span>
+                <span class="p">]:</span>
                     <span class="k">return</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="kc">False</span>
 
@@ -249,12 +263,12 @@
             <span class="k">return</span> <span class="mi">999</span>  <span class="c1"># No record = assume long sobriety</span>
 
         <span class="c1"># Find most recent use</span>
-        <span class="n">recent_use</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
-            <span class="n">patient_data</span><span class="o">.</span><span class="n">substance_use_records</span><span class="p">,</span>
-            <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">r</span><span class="o">.</span><span class="n">date</span>
-        <span class="p">)</span>
+        <span class="n">recent_use</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">patient_data</span><span class="o">.</span><span class="n">substance_use_records</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">r</span><span class="o">.</span><span class="n">date</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">recent_use</span><span class="o">.</span><span class="n">status</span> <span class="ow">in</span> <span class="p">[</span><span class="n">SubstanceUseStatus</span><span class="o">.</span><span class="n">RECOVERY</span><span class="p">,</span> <span class="n">SubstanceUseStatus</span><span class="o">.</span><span class="n">REMISSION</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">recent_use</span><span class="o">.</span><span class="n">status</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="n">SubstanceUseStatus</span><span class="o">.</span><span class="n">RECOVERY</span><span class="p">,</span>
+            <span class="n">SubstanceUseStatus</span><span class="o">.</span><span class="n">REMISSION</span><span class="p">,</span>
+        <span class="p">]:</span>
             <span class="k">return</span> <span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">recent_use</span><span class="o">.</span><span class="n">date</span><span class="p">)</span><span class="o">.</span><span class="n">days</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">0</span>  <span class="c1"># Active use</span>
@@ -278,8 +292,8 @@
                 <span class="s2">&quot;recent_substance_use&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;negative_life_events&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;active_interventions&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;sobriety_duration&quot;</span>
-            <span class="p">]</span>
+                <span class="s2">&quot;sobriety_duration&quot;</span><span class="p">,</span>
+            <span class="p">],</span>
         <span class="p">}</span></div>
 </div>
 
@@ -300,7 +314,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">baseline</span><span class="p">:</span> <span class="n">PatientGraph</span><span class="p">,</span>
         <span class="n">modified</span><span class="p">:</span> <span class="n">PatientGraph</span><span class="p">,</span>
-        <span class="n">options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate risk change between baseline and modified scenarios.</span>
@@ -338,10 +352,14 @@
             <span class="s2">&quot;delta_percent&quot;</span><span class="p">:</span> <span class="n">delta</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span>
             <span class="s2">&quot;explanation&quot;</span><span class="p">:</span> <span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;Risk </span><span class="si">{</span><span class="s1">&#39;increased&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">delta</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;decreased&#39;</span><span class="si">}</span><span class="s2"> by </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">. &quot;</span>
-                <span class="o">+</span> <span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">changed_factors</span><span class="p">)</span> <span class="k">if</span> <span class="n">changed_factors</span> <span class="k">else</span> <span class="s2">&quot;Factor contributions changed.&quot;</span><span class="p">)</span>
+                <span class="o">+</span> <span class="p">(</span>
+                    <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">changed_factors</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">changed_factors</span>
+                    <span class="k">else</span> <span class="s2">&quot;Factor contributions changed.&quot;</span>
+                <span class="p">)</span>
             <span class="p">),</span>
             <span class="s2">&quot;baseline_report&quot;</span><span class="p">:</span> <span class="n">baseline_report</span><span class="p">,</span>
-            <span class="s2">&quot;modified_report&quot;</span><span class="p">:</span> <span class="n">modified_report</span>
+            <span class="s2">&quot;modified_report&quot;</span><span class="p">:</span> <span class="n">modified_report</span><span class="p">,</span>
         <span class="p">}</span></div>
 </div>
 
