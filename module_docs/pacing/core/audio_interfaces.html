@@ -6,18 +6,18 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pacing.core.audio_interfaces &mdash; pacing 0.0.7 documentation</title>
+  <title>pacing.core.audio_interfaces &mdash; pacing 0.0.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=bbaf98b3"></script>
-      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/documentation_options.js?v=53b53b71"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../../_static/copybutton.js?v=f281be69"></script>
@@ -106,7 +106,7 @@
 Implementations can range from microphone input to file playback to network streams.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pacing.core.audio_interfaces.IAudioProvider">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.core.audio_interfaces.</span></span><span class="sig-name descname"><span class="pre">IAudioProvider</span></span><a class="reference internal" href="../../../_modules/pacing/core/audio_interfaces.html#IAudioProvider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.core.audio_interfaces.IAudioProvider" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pacing.core.audio_interfaces.</span></span><span class="sig-name descname"><span class="pre">IAudioProvider</span></span><a class="reference internal" href="../../../_modules/pacing/core/audio_interfaces.html#IAudioProvider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.core.audio_interfaces.IAudioProvider" title="Link to this definition"></a></dt>
 <dd><p>Abstract interface for audio input sources.</p>
 <p>This interface allows the system to be agnostic to the audio source,
 enabling different implementations for:
@@ -120,7 +120,7 @@ enabling different implementations for:
 3. Handling audio device configuration</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pacing.core.audio_interfaces.IAudioProvider.get_audio_chunks">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_audio_chunks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/pacing/core/audio_interfaces.html#IAudioProvider.get_audio_chunks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.core.audio_interfaces.IAudioProvider.get_audio_chunks" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_audio_chunks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/pacing/core/audio_interfaces.html#IAudioProvider.get_audio_chunks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.core.audio_interfaces.IAudioProvider.get_audio_chunks" title="Link to this definition"></a></dt>
 <dd><p>Yield audio data chunks as they become available.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Yields<span class="colon">:</span></dt>
@@ -137,7 +137,7 @@ enabling different implementations for:
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pacing.core.audio_interfaces.IAudioProvider.get_audio_chunks_async">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_audio_chunks_async</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">AsyncIterator</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/pacing/core/audio_interfaces.html#IAudioProvider.get_audio_chunks_async"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.core.audio_interfaces.IAudioProvider.get_audio_chunks_async" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_audio_chunks_async</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">AsyncIterator</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/pacing/core/audio_interfaces.html#IAudioProvider.get_audio_chunks_async"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.core.audio_interfaces.IAudioProvider.get_audio_chunks_async" title="Link to this definition"></a></dt>
 <dd><p>Asynchronously yield audio data chunks.</p>
 <p>This is the preferred method for real-time streaming applications.</p>
 <dl class="field-list simple">
@@ -154,7 +154,7 @@ enabling different implementations for:
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pacing.core.audio_interfaces.IAudioProvider.get_sample_rate">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_sample_rate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../../../_modules/pacing/core/audio_interfaces.html#IAudioProvider.get_sample_rate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.core.audio_interfaces.IAudioProvider.get_sample_rate" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_sample_rate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../../../_modules/pacing/core/audio_interfaces.html#IAudioProvider.get_sample_rate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.core.audio_interfaces.IAudioProvider.get_sample_rate" title="Link to this definition"></a></dt>
 <dd><p>Get the audio sample rate in Hz.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -168,7 +168,7 @@ enabling different implementations for:
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pacing.core.audio_interfaces.IAudioProvider.is_streaming">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_streaming</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#pacing.core.audio_interfaces.IAudioProvider.is_streaming" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">is_streaming</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pacing.core.audio_interfaces.IAudioProvider.is_streaming" title="Link to this definition"></a></dt>
 <dd><p>Check if audio is currently being streamed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -182,7 +182,7 @@ enabling different implementations for:
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pacing.core.audio_interfaces.IAudioProvider.start_stream">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">start_stream</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../../_modules/pacing/core/audio_interfaces.html#IAudioProvider.start_stream"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.core.audio_interfaces.IAudioProvider.start_stream" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">start_stream</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../../_modules/pacing/core/audio_interfaces.html#IAudioProvider.start_stream"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.core.audio_interfaces.IAudioProvider.start_stream" title="Link to this definition"></a></dt>
 <dd><p>Initialize and start the audio stream.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
@@ -196,7 +196,7 @@ enabling different implementations for:
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pacing.core.audio_interfaces.IAudioProvider.stop_stream">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">stop_stream</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../../_modules/pacing/core/audio_interfaces.html#IAudioProvider.stop_stream"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.core.audio_interfaces.IAudioProvider.stop_stream" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">stop_stream</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../../_modules/pacing/core/audio_interfaces.html#IAudioProvider.stop_stream"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.core.audio_interfaces.IAudioProvider.stop_stream" title="Link to this definition"></a></dt>
 <dd><p>Stop the audio stream and release resources.</p>
 <p>This method should be idempotent (safe to call multiple times).</p>
 </dd></dl>

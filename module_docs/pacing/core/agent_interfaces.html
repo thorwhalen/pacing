@@ -6,18 +6,18 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pacing.core.agent_interfaces &mdash; pacing 0.0.7 documentation</title>
+  <title>pacing.core.agent_interfaces &mdash; pacing 0.0.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=bbaf98b3"></script>
-      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/documentation_options.js?v=53b53b71"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../../_static/copybutton.js?v=f281be69"></script>
@@ -110,7 +110,7 @@
 and perform specialized tasks (guidance, auditing, scribe extraction, etc.).</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pacing.core.agent_interfaces.IScribeAgent">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.core.agent_interfaces.</span></span><span class="sig-name descname"><span class="pre">IScribeAgent</span></span><a class="reference internal" href="../../../_modules/pacing/core/agent_interfaces.html#IScribeAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.core.agent_interfaces.IScribeAgent" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pacing.core.agent_interfaces.</span></span><span class="sig-name descname"><span class="pre">IScribeAgent</span></span><a class="reference internal" href="../../../_modules/pacing/core/agent_interfaces.html#IScribeAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.core.agent_interfaces.IScribeAgent" title="Link to this definition"></a></dt>
 <dd><p>Specialized interface for scribe agents that extract structured entities.</p>
 <p>Scribe agents parse transcriptions to identify and extract:
 - Medications mentioned
@@ -126,7 +126,7 @@ and perform specialized tasks (guidance, auditing, scribe extraction, etc.).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pacing.core.agent_interfaces.IScribeAgent.get_extracted_entities">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_extracted_entities</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../models/data_models.html#pacing.models.data_models.ExtractedEntity" title="pacing.models.data_models.ExtractedEntity"><span class="pre">ExtractedEntity</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/pacing/core/agent_interfaces.html#IScribeAgent.get_extracted_entities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.core.agent_interfaces.IScribeAgent.get_extracted_entities" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_extracted_entities</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../models/data_models.html#pacing.models.data_models.ExtractedEntity" title="pacing.models.data_models.ExtractedEntity"><span class="pre">ExtractedEntity</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/pacing/core/agent_interfaces.html#IScribeAgent.get_extracted_entities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.core.agent_interfaces.IScribeAgent.get_extracted_entities" title="Link to this definition"></a></dt>
 <dd><p>Retrieve all entities extracted so far in this session.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -147,7 +147,7 @@ and perform specialized tasks (guidance, auditing, scribe extraction, etc.).</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="pacing.core.agent_interfaces.ISidecarAgent">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacing.core.agent_interfaces.</span></span><span class="sig-name descname"><span class="pre">ISidecarAgent</span></span><a class="reference internal" href="../../../_modules/pacing/core/agent_interfaces.html#ISidecarAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.core.agent_interfaces.ISidecarAgent" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pacing.core.agent_interfaces.</span></span><span class="sig-name descname"><span class="pre">ISidecarAgent</span></span><a class="reference internal" href="../../../_modules/pacing/core/agent_interfaces.html#ISidecarAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.core.agent_interfaces.ISidecarAgent" title="Link to this definition"></a></dt>
 <dd><p>Abstract interface for sidecar agents.</p>
 <p>Sidecar agents are independent processes that observe the transcription stream
 and perform specialized analysis in real-time. Examples include:</p>
@@ -166,7 +166,7 @@ and perform specialized analysis in real-time. Examples include:</p>
 - Extracted data (entities) is retained; raw transcriptions may be ephemeral</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pacing.core.agent_interfaces.ISidecarAgent.get_agent_name">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_agent_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../../_modules/pacing/core/agent_interfaces.html#ISidecarAgent.get_agent_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.core.agent_interfaces.ISidecarAgent.get_agent_name" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_agent_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../../_modules/pacing/core/agent_interfaces.html#ISidecarAgent.get_agent_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.core.agent_interfaces.ISidecarAgent.get_agent_name" title="Link to this definition"></a></dt>
 <dd><p>Get the name of this agent.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -221,7 +221,7 @@ and perform specialized analysis in real-time. Examples include:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pacing.core.agent_interfaces.ISidecarAgent.on_transcription_update">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_transcription_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcription</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../models/data_models.html#pacing.models.data_models.TranscriptionResult" title="pacing.models.data_models.TranscriptionResult"><span class="pre">TranscriptionResult</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../../_modules/pacing/core/agent_interfaces.html#ISidecarAgent.on_transcription_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.core.agent_interfaces.ISidecarAgent.on_transcription_update" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">on_transcription_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcription</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../models/data_models.html#pacing.models.data_models.TranscriptionResult" title="pacing.models.data_models.TranscriptionResult"><span class="pre">TranscriptionResult</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../../_modules/pacing/core/agent_interfaces.html#ISidecarAgent.on_transcription_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacing.core.agent_interfaces.ISidecarAgent.on_transcription_update" title="Link to this definition"></a></dt>
 <dd><p>Process a new transcription update.</p>
 <p>This is the main callback that agents implement. It is called whenever
 a new transcription (partial or final) becomes available.</p>
